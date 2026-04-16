@@ -246,7 +246,7 @@ p {
 
 #node-image {
   width: 100%;
-  aspect-ratio: 16 / 9;
+  height: 200px;
   border-radius: 4px 4px 0 0;
   overflow: hidden;
 }
@@ -283,6 +283,7 @@ p {
 .panel--node {
   border-top: none;
   border-radius: 0 0 4px 4px;
+  background: #ffffff;
 }
 
 /* ── NODE ────────────────────────────────── */
@@ -303,9 +304,9 @@ p {
 .choice-btn {
   width: 100%;
   text-align: left;
-  background: var(--surface2);
-  color: var(--text);
-  border: 1px solid var(--border2);
+  background: #1e2030;
+  color: #e8eaf0;
+  border: 1px solid #1e2030;
   border-radius: 3px;
   padding: 0.75rem 1rem;
   font-size: 0.95rem;
@@ -316,9 +317,9 @@ p {
 }
 
 .choice-btn:hover:not(:disabled) {
-  background: var(--accent-dim);
+  background: var(--accent);
   border-color: var(--accent);
-  color: #e8eeff;
+  color: #ffffff;
 }
 
 .choice-btn:disabled {
