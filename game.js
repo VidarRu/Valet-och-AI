@@ -27,6 +27,7 @@
       briefingTitle:    document.getElementById('briefing-title'),
       briefingText:     document.getElementById('briefing-text'),
       btnStart:         document.getElementById('btn-start'),
+      nodeImage:        document.getElementById('node-image'),
       scenarioLabel:    document.getElementById('scenario-label'),
       nodeText:         document.getElementById('node-text'),
       choices:          document.getElementById('choices'),
@@ -99,6 +100,22 @@
 
   function renderNode() {
     var scenario = scenarios[scenarioIndex];
+
+    el.nodeImage.innerHTML = '';
+    if (currentNode.image) {
+      var img = document.createElement('img');
+      img.src = currentNode.image;
+      img.alt = '';
+      el.nodeImage.appendChild(img);
+    } else {
+      var placeholder = document.createElement('div');
+      placeholder.className = 'node-image-placeholder';
+      var label = document.createElement('span');
+      label.textContent = scenario.title;
+      placeholder.appendChild(label);
+      el.nodeImage.appendChild(placeholder);
+    }
+
     el.scenarioLabel.textContent = scenario.title.toUpperCase();
     el.nodeText.textContent = currentNode.text;
     el.consequenceBox.classList.add('hidden');
