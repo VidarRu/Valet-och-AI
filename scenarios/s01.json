@@ -5,6 +5,7 @@
   "nodes": [
     {
       "id": "n1",
+      "image": null,
       "text": "En regional politiker från ett konkurrerande parti höll ett tal om invandring i förra veckan. AI-verktyget kan generera ett falskt citat — trovärdigt, i hennes röststil — som får henne att låta mer extrem än hon faktiskt är. Det kan spridas som en 'läckt inspelning'.",
       "choices": [
         {
@@ -29,6 +30,7 @@
     },
     {
       "id": "n2",
+      "image": null,
       "text": "En AI-genererad bild sprids i kanaler nära ditt nätverk — ett övertygande montage som visar en motståndarpolitiker på möte med kontroversiella utländska aktörer. Bilden är fabricerad. Ditt team frågar om du ska förstärka spridningen.",
       "choices": [
         {
@@ -53,6 +55,7 @@
     },
     {
       "id": "n3",
+      "image": null,
       "text": "En grävande journalist kontaktar dig. Hon skriver om koordinerad desinformation inför valet och har spårat en av dina kampanjaktiviteter till din digitala infrastruktur. Hon erbjuder dig möjlighet att kommentera innan publicering.",
       "choices": [
         {
@@ -77,6 +80,7 @@
     },
     {
       "id": "n4",
+      "image": null,
       "text": "Valet är om en vecka. Uppdragsgivaren kräver en slutoffensiv: en koordinerad AI-kampanj med tusentals falska kommentarer i sociala medier, alla skrivna för att verka organiska. Systemet är klart. Du behöver bara aktivera det.",
       "choices": [
         {

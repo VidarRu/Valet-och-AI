@@ -10,6 +10,7 @@
   "nodes": [
     {
       "id": "n1",
+      "image": null,
       "text": "Du öppnar meddelandet på en burner-laptop. Ingen signatur, ingen adress — bara ett uppdrag och ett löfte om mer pengar. Du kan fortfarande backa ur.",
       "choices": [
         {
@@ -28,6 +29,7 @@
     },
     {
       "id": "n2",
+      "image": null,
       "text": "Din första uppgift: bygg upp en digital närvaro. Du behöver en plattform, en identitet och en strategi. Verktygen är redo. Frågan är hur du väljer att använda dem.",
       "choices": [
         {
