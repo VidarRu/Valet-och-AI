@@ -1,0 +1,103 @@
+{
+  "id": "s01",
+  "title": "Operation Syntetisk Röst",
+  "setup": "Vecka ett. Du har tillgång till ett AI-verktyg som kan generera övertygande text, bilder och röstklipp. Det är dags att forma berättelsen inför valet.",
+  "nodes": [
+    {
+      "id": "n1",
+      "text": "En regional politiker från ett konkurrerande parti höll ett tal om invandring i förra veckan. AI-verktyget kan generera ett falskt citat — trovärdigt, i hennes röststil — som får henne att låta mer extrem än hon faktiskt är. Det kan spridas som en 'läckt inspelning'.",
+      "choices": [
+        {
+          "label": "Generera och sprid det falska citatet.",
+          "consequence": "Det sprids snabbt. Tusentals delningar på ett dygn. Men en journalist börjar gräva.",
+          "delta": { "credibility": -15, "followers": 25 },
+          "next": "n2"
+        },
+        {
+          "label": "Använd hennes verkliga citat, men klipp det ur kontext.",
+          "consequence": "Subtilare. Svårare att motbevisa. Fortfarande vilseledande — men du behåller plausibel förnekbarhet.",
+          "delta": { "credibility": -5, "followers": 15 },
+          "next": "n2"
+        },
+        {
+          "label": "Rapportera om hennes tal utan manipulation.",
+          "consequence": "Etiskt korrekt, men ger lite genomslag. Din uppdragsgivare hör av sig: 'Det räcker inte.'",
+          "delta": { "credibility": 10, "followers": -5 },
+          "next": "n2"
+        }
+      ]
+    },
+    {
+      "id": "n2",
+      "text": "En AI-genererad bild sprids i kanaler nära ditt nätverk — ett övertygande montage som visar en motståndarpolitiker på möte med kontroversiella utländska aktörer. Bilden är fabricerad. Ditt team frågar om du ska förstärka spridningen.",
+      "choices": [
+        {
+          "label": "Boosta spridningen via köpta konton i full skala.",
+          "consequence": "Bilden når hundratusentals. Tre faktakollar dömer snabbt ut den som falsk. Skadan är ändå gjord.",
+          "delta": { "credibility": -20, "followers": 30 },
+          "next": "n3"
+        },
+        {
+          "label": "Sprid den organiskt, utan att ta ansvar.",
+          "consequence": "Långsammare spridning, men svårare att spåra tillbaka till dig personligen.",
+          "delta": { "credibility": -10, "followers": 15 },
+          "next": "n3"
+        },
+        {
+          "label": "Avstå — för hög risk just nu.",
+          "consequence": "Du väljer försiktighet. Din trovärdighet hålls intakt, men du förlorar tempo.",
+          "delta": { "credibility": 5, "followers": -10 },
+          "next": "n3"
+        }
+      ]
+    },
+    {
+      "id": "n3",
+      "text": "En grävande journalist kontaktar dig. Hon skriver om koordinerad desinformation inför valet och har spårat en av dina kampanjaktiviteter till din digitala infrastruktur. Hon erbjuder dig möjlighet att kommentera innan publicering.",
+      "choices": [
+        {
+          "label": "Neka all kontakt och radera spåren omedelbart.",
+          "consequence": "Tystnaden tolkas som skuld. Artikeln publiceras utan din version. Det är inte din bästa dag.",
+          "delta": { "credibility": -15, "followers": 5 },
+          "next": "n4"
+        },
+        {
+          "label": "Ge en generisk kommentar om 'legitim kampanjkommunikation'.",
+          "consequence": "Tomma ord. Journalisten nöjer sig inte — men du vann lite tid.",
+          "delta": { "credibility": -5, "followers": 0 },
+          "next": "n4"
+        },
+        {
+          "label": "Erkänn begränsade delar, sätt in din egen kontext.",
+          "consequence": "En riskabel manöver. Men det ger dig viss kontroll över hur berättelsen landar.",
+          "delta": { "credibility": 10, "followers": -5 },
+          "next": "n4"
+        }
+      ]
+    },
+    {
+      "id": "n4",
+      "text": "Valet är om en vecka. Uppdragsgivaren kräver en slutoffensiv: en koordinerad AI-kampanj med tusentals falska kommentarer i sociala medier, alla skrivna för att verka organiska. Systemet är klart. Du behöver bara aktivera det.",
+      "choices": [
+        {
+          "label": "Aktivera kampanjen i full skala.",
+          "consequence": "Massiv räckvidd. Plattformen detekterar mönstret inom 18 timmar och stänger ned alla konton. Operativt kaos.",
+          "delta": { "credibility": -25, "followers": 40 },
+          "next": null
+        },
+        {
+          "label": "Kör en begränsad, pulserande version under detektionsgränsen.",
+          "consequence": "Effektivt nog för att märkas. Du undviker detektion — den här gången.",
+          "delta": { "credibility": -10, "followers": 20 },
+          "next": null
+        },
+        {
+          "label": "Vägra. Det är ett steg för långt.",
+          "consequence": "Du drar en gräns. Uppdragsgivaren är rasande och hotar med konsekvenser. Men du sover lite bättre.",
+          "delta": { "credibility": 20, "followers": -15 },
+          "next": null
+        }
+      ]
+    }
+  ]
+}
