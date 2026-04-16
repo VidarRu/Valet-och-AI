@@ -132,7 +132,7 @@ body {
 .screen {
   display: none;
   width: 100%;
-  max-width: 660px;
+  max-width: 680px;
   animation: fadeIn 0.3s ease;
 }
 
@@ -242,12 +242,55 @@ p {
   margin-bottom: 1.75rem;
 }
 
+/* ── NODE IMAGE ──────────────────────────── */
+
+#node-image {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  border-radius: 4px 4px 0 0;
+  overflow: hidden;
+}
+
+#node-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.node-image-placeholder {
+  width: 100%;
+  height: 100%;
+  background: var(--accent-dim);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.node-image-placeholder span {
+  font-family: var(--mono);
+  font-size: clamp(1rem, 4vw, 2rem);
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  color: var(--accent);
+  opacity: 0.45;
+  text-align: center;
+  padding: 1rem;
+  text-transform: uppercase;
+  line-height: 1.2;
+}
+
+.panel--node {
+  border-top: none;
+  border-radius: 0 0 4px 4px;
+}
+
 /* ── NODE ────────────────────────────────── */
 
 #node-text {
   font-size: 1.05rem;
   margin-bottom: 1.5rem;
-  color: #d0d2e4;
+  color: #1a1a1a;
 }
 
 #choices {
