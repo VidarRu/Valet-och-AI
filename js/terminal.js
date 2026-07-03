@@ -1,9 +1,16 @@
 // Terminal-overlay: mörkt läge som triggas av AI-genereringsval.
-// Typewriter-effekt skriver ut fejkade loggrader; därefter visas en knapp
-// tillbaka till flödet. All "kod" som visas är fiktiv och illustrativ.
+// Kontrasten mot det ljusa kortflödet är poängen — avsikten är mänsklig,
+// utförandet maskinellt. All "kod" som visas är fiktiv och illustrativ.
 
-const CHAR_DELAY_MS = 18;
-const LINE_DELAY_MS = 250;
+const CHAR_DELAY_MS = 16;
+const LINE_DELAY_MS = 300;
+
+function el(tag, className, text) {
+  const node = document.createElement(tag);
+  if (className) node.className = className;
+  if (text != null) node.textContent = text;
+  return node;
+}
 
 export function createTerminal({ overlay, engine }) {
   let cancelled = false;
@@ -13,16 +20,25 @@ export function createTerminal({ overlay, engine }) {
     overlay.replaceChildren();
     overlay.hidden = false;
 
-    const screen = document.createElement('pre');
-    screen.className = 'terminal-screen';
-    overlay.append(screen);
+    const win = el('div', 'terminal-window');
+
+    const chrome = el('div', 'terminal-chrome');
+    const dots = el('div', 'terminal-dots');
+    dots.append(el('span'), el('span'), el('span'));
+    chrome.append(dots, el('span', 'terminal-chrome-title', 'ai-konsol'));
+
+    const screen = el('pre', 'terminal-screen');
+    const text = el('span', 'terminal-text');
+    const cursor = el('span', 'terminal-cursor');
+    screen.append(text, cursor);
+
+    win.append(chrome, screen);
+    overlay.append(win, el('p', 'terminal-note', 'Simulering — alla verktyg och loggar är fiktiva.'));
 
     const lines = [`$ ${terminal.tool}`, ...terminal.lines];
-    typeLines(screen, lines).then(() => {
+    typeLines(text, lines).then(() => {
       if (cancelled) return;
-      const button = document.createElement('button');
-      button.className = 'terminal-done';
-      button.textContent = '▶ Tillbaka till flödet';
+      const button = el('button', 'terminal-done', '▶ Tillbaka till flödet');
       button.addEventListener('click', () => {
         hide();
         engine.terminalDone();
@@ -38,14 +54,14 @@ export function createTerminal({ overlay, engine }) {
     overlay.replaceChildren();
   }
 
-  async function typeLines(screen, lines) {
+  async function typeLines(target, lines) {
     for (const line of lines) {
       for (const char of line) {
         if (cancelled) return;
-        screen.textContent += char;
+        target.textContent += char;
         await sleep(CHAR_DELAY_MS);
       }
-      screen.textContent += '\n';
+      target.textContent += '\n';
       await sleep(LINE_DELAY_MS);
     }
   }
