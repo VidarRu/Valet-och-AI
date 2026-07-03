@@ -444,6 +444,18 @@ button {
   color: var(--paper);
 }
 
+.gameover-replay {
+  display: block;
+  width: 100%;
+  margin-top: 1.2rem;
+  background: var(--yellow);
+  color: var(--ink);
+  border-color: var(--yellow);
+  box-shadow: 4px 4px 0 #000;
+}
+
+.gameover-replay:hover { background: #f6bd5c; }
+
 /* ---------- Terminal-overlay (mörkt läge) ---------- */
 
 #terminal-overlay {

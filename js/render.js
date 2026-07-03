@@ -156,6 +156,9 @@ function renderFeedItem(item, engine, isLast, state) {
       for (const paragraph of item.closing ?? []) {
         card.append(el('p', 'gameover-text', paragraph));
       }
+      const replay = el('button', 'continue-button gameover-replay', 'Spela igen');
+      replay.addEventListener('click', () => window.location.reload());
+      card.append(replay);
       return card;
     }
     default:

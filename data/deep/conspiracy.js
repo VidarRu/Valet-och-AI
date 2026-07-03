@@ -98,11 +98,11 @@ export default {
             },
             {
               id: 'b',
-              label: 'SvärmSkribent: en dygnetruntström av "medlemmar" som delar egna "fynd" och hyllar varandra',
+              label: 'Frågefabriken: en dygnetruntström av "medlemmar" som delar egna "fynd" och hyllar varandra',
               feedback: 'Det självförsörjande kaninhålet. Genererade "medlemmar" som ständigt gör nya "upptäckter" och belönar varandra får det att kännas som en levande folkrörelse — och de troende härmar tonen och driver den vidare gratis. Diffust, billigt och nästan omöjligt att moderera bort.',
               effects: { followers: 1000, credibility: -6 },
               terminal: {
-                tool: 'svarmskribent --miljo=kaninhalet --lage=gemenskap --antal=2000',
+                tool: 'fragefabriken --miljo=kaninhalet --lage=gemenskap --antal=2000',
                 lines: [
                   '[sim] genererar 2 000 "medlemmar" med egna personligheter',
                   '[sim] låter dem dela "fynd" och bekräfta varandra',

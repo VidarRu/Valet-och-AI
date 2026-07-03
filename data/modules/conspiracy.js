@@ -90,11 +90,11 @@ export default {
             },
             {
               id: 'b',
-              label: 'SvärmSkribent: en jämn ström "oberoende medborgare" som var för sig "upptäcker" små anomalier och "bara undrar"',
+              label: 'Frågefabriken: en jämn ström "oberoende medborgare" som var för sig "upptäcker" små anomalier och "bara undrar"',
               feedback: 'Ingen enskild post går att slå ner — det är en atmosfär, inte ett påstående. När hundra olika människor oberoende "märker" samma sak känns det som att sanningen bubblar upp underifrån, fast det är en enda hand som rör om. Diffust och nästan omöjligt att moderera.',
               effects: { followers: 900, credibility: -5 },
               terminal: {
-                tool: 'svarmskribent --tema=valanomalier --ton=undrande --antal=1500',
+                tool: 'fragefabriken --amne=valet --ton=undrande --antal=1500',
                 lines: [
                   '[sim] genererar 1 500 "oroliga medborgare" i unika röster',
                   '[sim] sprider ut "upptäckter" över tid för organisk känsla',

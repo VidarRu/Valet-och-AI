@@ -98,11 +98,11 @@ export default {
             },
             {
               id: 'b',
-              label: 'SvärmSkribent: tusen "osäkra väljare" som var för sig suckar "i dagens läge kan man inte lita på nåt"',
+              label: 'Frågefabriken: tusen "osäkra väljare" som var för sig suckar "i dagens läge kan man inte lita på nåt"',
               feedback: 'Ingen förfalskning att avslöja — bara en atmosfär av trötthet och tvivel. När hela flödet rycker på axlarna och säger "vem vet nuförtiden" blir likgiltigheten normen, och en likgiltig väljare bryr sig inte om vad Berg sa. Svagare enskild träff, men osänkbart och exakt den känsla vi vill ha.',
               effects: { followers: 800, credibility: -5 },
               terminal: {
-                tool: 'svarmskribent --tema=kan-inte-lita-pa-nagot --ton=trott --antal=1000',
+                tool: 'fragefabriken --tema=kan-inte-lita-pa-nagot --ton=trott --antal=1000',
                 lines: [
                   '[sim] genererar 1 000 "uppgivna" röster i unika ordval',
                   '[sim] undviker att försvara Berg — odlar bara tvivel',

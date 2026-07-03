@@ -114,7 +114,12 @@ export default {
         {
           id: 'wrap',
           type: 'tutor',
-          text: 'Och där. Sista bomben ligger. Följartalet har aldrig varit högre — och känns det ändå inte bra? Bra. Håll fast vid det illamåendet. För nu ska jag säga något du inte väntat dig av mig: nästan allt vi gjort de senaste sex uppdragen fungerar. Men det fungerar också att VETA hur det görs. Det är därför du spelat det här — inte för att bli en av oss, utan för att aldrig mer bli lurad av en.',
+          text: 'Och där. Sista bomben ligger. Följartalet har aldrig varit högre — och känns det ändå inte bra? Bra. Håll fast vid det illamåendet.',
+        },
+        {
+          id: 'wrap2',
+          type: 'tutor',
+          text: 'För nu ska jag säga något du inte väntat dig av mig: nästan allt vi gjort de senaste sex uppdragen fungerar. Men det fungerar också att VETA hur det görs. Det är därför du spelat det här — inte för att bli en av oss, utan för att aldrig mer bli lurad av en.',
         },
       ],
     },

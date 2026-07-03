@@ -97,11 +97,11 @@ export default {
             },
             {
               id: 'b',
-              label: 'SvärmSkribent: tusen "vanliga läsare" som var och en "undrar" över finansieringen, i tusen ordval',
+              label: 'Ryktesväven: tusen "vanliga läsare" som var och en "undrar" över finansieringen, i tusen ordval',
               feedback: 'Inga bevis, bara atmosfär. När hundra olika röster ställer samma fråga känns frågan berättigad — det är sanningens illusion genom upprepning. Ingenting att motbevisa, allt att misstänka. Långsammare, men praktiskt taget osänkbart.',
               effects: { followers: 600, credibility: -6 },
               terminal: {
-                tool: 'svarmskribent --tema=vem-finansierar --ton=undrande --antal=1000',
+                tool: 'ryktesvaven --tema=vem-finansierar --ton=undrande --antal=1000',
                 lines: [
                   '[sim] genererar 1 000 "oberoende" undrande inlägg',
                   '[sim] slumpar stavfel och vardagligt tonläge',

@@ -98,11 +98,11 @@ export default {
             },
             {
               id: 'b',
-              label: 'SvärmSkribent: tusen "tidigare studenter och kollegor" som "minns" att Hane var partisk',
+              label: 'Ryktesväven: tusen "tidigare studenter och kollegor" som "minns" att Hane var partisk',
               feedback: 'Ingen förfalskning att avslöja — bara ett rykteshav. När hundra "kollegor" oberoende "minns" samma sak känns det som en etablerad sanning, fast det är ren fabrikation utan spår. Svagare enskild träff, men praktiskt taget osänkbart och redo på minuter.',
               effects: { followers: 700, credibility: -6 },
               terminal: {
-                tool: 'svarmskribent --tema=hane-partisk --ton=minns --antal=1000',
+                tool: 'ryktesvaven --tema=hane-partisk --ton=minns --antal=1000',
                 lines: [
                   '[sim] genererar 1 000 "vittnesmål" i unika röster',
                   '[sim] varierar påstådd relation: student, kollega, granne',
