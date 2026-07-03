@@ -17,17 +17,23 @@ const CREDIBILITY_MAX = 100;
 //   module-debrief – modulens debrief visas; väntar på nextModule()
 //   hub            – fördjupningsval visas; väntar på selectDeep()/finish()
 //   finished       – spelet avslutat
-export function createEngine({ core, deep = [], closing = [], hub = {} }) {
+//
+// Skeden (state.stage): 'prologue' → 'core' → 'deep'. Prologen är en
+// berättande ram (samma steg-maskineri som ett uppdrag) som spelas före det
+// första uppdraget; den har ingen badge och ingen debrief.
+export function createEngine({ core, deep = [], closing = [], hub = {}, prologue = null }) {
   const schemaErrors = validateModules([...core, ...deep]);
   if (schemaErrors.length > 0) {
     throw new Error('Ogiltig speldata:\n' + schemaErrors.join('\n'));
   }
 
+  const hasPrologue = prologue && Array.isArray(prologue.scenarios) && prologue.scenarios.length > 0;
+
   const state = {
     phase: 'playing',
-    stage: 'core',
+    stage: hasPrologue ? 'prologue' : 'core',
     coreIndex: 0,
-    current: core[0],
+    current: hasPrologue ? prologue : core[0],
     currentDeepId: null,
     scenarioIndex: 0,
     stepIndex: 0,
@@ -91,9 +97,23 @@ export function createEngine({ core, deep = [], closing = [], hub = {} }) {
       state.scenarioIndex += 1;
       state.stepIndex = 0;
       if (state.scenarioIndex >= state.current.scenarios.length) {
-        finishModule();
+        if (state.stage === 'prologue') {
+          startCore();
+        } else {
+          finishModule();
+        }
       }
     }
+  }
+
+  // Prologen är slut → in i det första kärnuppdraget.
+  function startCore() {
+    state.stage = 'core';
+    state.coreIndex = 0;
+    state.current = core[0];
+    resetPointer();
+    state.phase = 'playing';
+    pushMissionCard();
   }
 
   function finishModule() {
@@ -110,7 +130,14 @@ export function createEngine({ core, deep = [], closing = [], hub = {} }) {
   }
 
   function start() {
-    pushMissionCard();
+    if (state.stage === 'prologue') {
+      // Prologen öppnar med ett titelkort och drivs sedan som vanliga steg.
+      if (prologue.title || prologue.tagline) {
+        state.feed.push({ kind: 'title', title: prologue.title, tagline: prologue.tagline });
+      }
+    } else {
+      pushMissionCard();
+    }
     notify();
   }
 
@@ -121,6 +148,8 @@ export function createEngine({ core, deep = [], closing = [], hub = {} }) {
       stage: state.stage,
       title: module.title,
       client: module.client,
+      target: module.target ?? null,
+      stakes: module.stakes ?? null,
       badge: module.badge,
       moduleNumber: state.stage === 'core' ? state.coreIndex + 1 : null,
     });
@@ -171,7 +200,7 @@ export function createEngine({ core, deep = [], closing = [], hub = {} }) {
 
   function terminalDone() {
     if (state.phase !== 'terminal') return;
-    const { result, next } = state.pendingTerminal;
+    const { result, reactions, next } = state.pendingTerminal;
     state.pendingTerminal = null;
     state.feed.push({
       kind: 'post',
@@ -180,6 +209,17 @@ export function createEngine({ core, deep = [], closing = [], hub = {} }) {
       handle: result.handle,
       text: result.text,
     });
+    // Fler sociala medie-reaktioner: publikens svar på det som just publicerats.
+    // Dessa är "riktiga" röster (inte AI-genererade) och märks därför inte.
+    for (const reaction of reactions ?? []) {
+      state.feed.push({
+        kind: 'post',
+        reaction: true,
+        author: reaction.author,
+        handle: reaction.handle,
+        text: reaction.text,
+      });
+    }
     state.phase = 'playing';
     movePointer(next); // kan avsluta modulen → fasen blir 'module-debrief'
     notify();

@@ -12,6 +12,11 @@ export default {
     goal: 'Få väljare att känna att Vera Linds budget gör just deras kvarter farligt — personligt, konkret, i natt.',
     fee: '130 000 kr, med option på hela slutspurtens annonsbudget.',
   },
+  target: {
+    name: 'Vera Linds trygghetsbudget — och väljarnas magkänsla',
+    description: 'En nyanserad budgetprioritering: resurser flyttas från polisens övertid till fler socialarbetare och förebyggande arbete. Tråkig, långsiktig, svår att bli rädd för i sak. Måltavlan är egentligen inte budgeten utan känslan av trygghet i mottagarens eget kvarter.',
+  },
+  stakes: 'Trygghetsalliansen ligger efter och vet det som alla proffs vet: hopp får folk att nicka, rädsla får dem att gå och rösta. Ett hot mot "samhället" ignoreras, men ett hot mot din egen gata kortsluter eftertanken. Klientens enda väg tillbaka är att förvandla en abstrakt budgetrad till en personlig fara utanför just din dörr — och AI:ns gåva till rädslan är precision.',
   scenarios: [
     {
       id: 'sc',
@@ -59,6 +64,31 @@ export default {
           ],
         },
         {
+          id: 'nerve',
+          type: 'choice',
+          prompt: 'Rädsla är inte en enda känsla — den har olika nerver. Vilken trycker vi på för att den ska kännas personlig?',
+          options: [
+            {
+              id: 'a',
+              label: 'Hotet mot barnen — skolvägen, lekplatsen, "är det säkert när de går hem själva?"',
+              feedback: 'Den djupaste nerven av alla. Föräldrar räknar inte risker rationellt när det gäller barnen — de agerar. Ett hot mot ditt barns skolväg går förbi varje faktakoll rakt in i magen. Kraftfullast, och därför också det fulaste greppet i lådan.',
+              effects: { followers: 700, credibility: -9 },
+            },
+            {
+              id: 'b',
+              label: 'Hotet mot hemmet — inbrott, din egen dörr, "hur tryggt är ditt kvarter om två år?"',
+              feedback: 'Hemmet är den sista platsen man vill känna sig otrygg på. Ett hot mot din egen ytterdörr är konkret, privat och omöjligt att avfärda som "någon annanstans". Bred nog att träffa nästan alla, personlig nog att svida.',
+              effects: { followers: 500, credibility: -7 },
+            },
+            {
+              id: 'c',
+              label: 'Hotet mot de äldre — den ensamma mormodern på hållplatsen i mörkret',
+              feedback: 'Spelar på både rädsla och skuld. Ingen vill tänka sig sin gamla mamma otrygg och ensam, och bilden är hjärtskärande lätt att frammana. Något smalare räckvidd, men den känslomässiga träffytan är enorm — och svår att argumentera emot utan att verka kall.',
+              effects: { followers: 450, credibility: -6 },
+            },
+          ],
+        },
+        {
           id: 'methodsetup',
           type: 'tutor',
           text: 'Rätt. Nu behöver rädslan en bild — hjärnan tror på det den "ser". Och den ska kännas som mottagarens egen värld. Välj hur vi tillverkar mörkret.',
@@ -86,6 +116,18 @@ export default {
                   handle: '@tryggt_kvarter',
                   text: 'Så här kan din gata se ut om resurserna försvinner. Fråga dig själv vem du litar på med din trygghet. [bild: skymningsgata, tomma butiker, en trasig gatlykta]',
                 },
+                reactions: [
+                  {
+                    author: 'Familjen Sjö',
+                    handle: '@sjo_bjorkstad',
+                    text: 'Det där ÄR vår gata. Blev alldeles kall. Vill verkligen inte att det ska se ut så när barnen går hem från träningen. Nu är jag orolig på riktigt. 😰',
+                  },
+                  {
+                    author: 'Micke',
+                    handle: '@micke_pendlare',
+                    text: 'Vänta… varför fick JAG en bild på exakt mitt kvarter? Hur vet de var jag bor? Det här är inte en vanlig annons, det är AI-genererat och riktat mot mig personligen. Creepy och ganska sjukt faktiskt.',
+                  },
+                ],
               },
             },
             {
@@ -106,6 +148,18 @@ export default {
                   handle: '@trygghet_nu',
                   text: 'Ingen ska behöva vänta här ensam i mörkret. Trygghet är inte förhandlingsbar. Din röst avgör. [bild: öde busshållplats, en ensam siluett]',
                 },
+                reactions: [
+                  {
+                    author: 'Lena',
+                    handle: '@lena_rostar',
+                    text: 'Den här bilden gör ont i hjärtat. Tänker på min mamma som åker buss sent. Ingen ska behöva känna sig otrygg. Delar. 🕯️',
+                  },
+                  {
+                    author: 'Nadia Holm',
+                    handle: '@nadiaholm',
+                    text: 'Påminnelse: den här bilden är inte ett foto. Den är AI-genererad, föreställer ingen verklig plats och kopplas till en budget som faktiskt satsar MER på förebyggande trygghetsarbete. Känslan är äkta — men den är designad åt er.',
+                  },
+                ],
               },
             },
           ],
@@ -122,8 +176,8 @@ export default {
     summary:
       'Känslotaktik kringgår eftertanken genom att gå rakt på magen — och av alla känslor är rädsla den mest pålitliga mobiliseraren, eftersom den känns som självförsvar snarare än politik. AI:ns bidrag är dubbelt: syntetiska bilder gör hotet visuellt och konkret ("din gata i mörker"), och mikrotargeting gör det personligt — samma budskap skräddarsytt så att varje mottagare känner att faran gäller just hen. Ett hot mot "samhället" avfärdas; ett hot mot din port gör dig kall om magen. Motgiftet är att märka när något är designat för att skrämma innan du hunnit tänka: fråga vad du faktiskt VET, inte bara vad du känner.',
     realWorld: [
-      'I ett nederländskt val spreds omkring 400 AI-genererade syntetiska bilder riktade mot politiska motståndare — bildbevisets känslomässiga kraft utan verklighetens förankring.',
-      'I en argentinsk presidentkampanj användes påkostat AI-genererat bildmaterial för att måla upp känslostarka, nästan filmiska scenarier av vad en motståndares seger skulle innebära.',
+      'Inför ett nederländskt val spreds omkring 400 AI-genererade syntetiska bilder riktade mot politiska motståndare — ofta hotfulla motiv av "främmande" folkmassor och otrygghet. Bildbevisets känslomässiga kraft, utan verklighetens förankring.',
+      'I den argentinska presidentvalskampanjen 2023 (Sergio Massa mot Javier Milei) användes påkostat AI-genererat bildmaterial av båda läger — bland annat nästan filmiska affischer och scenarier — för att måla upp känslostarka bilder av vad en motståndares seger skulle innebära. Valet kom att kallas ett av de första "AI-valen".',
     ],
   },
 };

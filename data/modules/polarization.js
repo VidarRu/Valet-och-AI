@@ -12,6 +12,11 @@ export default {
     goal: 'Förvandla en ljummen 52/48-fråga till ett identitetskrig så att Nej-sidans väljare går man ur huse.',
     fee: '180 000 kr — plus bonus om valdeltagandet i ytterområdena spikar.',
   },
+  target: {
+    name: 'Ja-sidan och den ljumma mitten',
+    description: 'Kommunens opartiska informationskampanj, ett par miljögrupper och framför allt de tusentals oengagerade väljare som tycker frågan är teknisk och tråkig. Ingen enskild fiende — bara en sansad majoritet som inte bryr sig tillräckligt för att gå och rösta.',
+  },
+  stakes: 'Byrå Nordljus verkliga uppdragsgivare är parkerings- och åkeriintressen som förlorar pengar på en avgift. I en lugn 52/48-fråga vinner det bekväma Ja:t på walkover eftersom Nej-väljarna stannar hemma. Enda vägen till Nej är att göra de likgiltiga tillräckligt arga för att gå man ur huse — alltså måste den sansade mitten sprängas isär.',
   scenarios: [
     {
       id: 'sc',
@@ -66,6 +71,31 @@ export default {
           text: 'Så vi ska betala för att skjutsa barnen till träningen medan de i innerstan cyklar till sitt fikaställe? Nej tack. #NejTillAvgiften',
         },
         {
+          id: 'venue',
+          type: 'choice',
+          prompt: 'Sprickan är vald och vi har en äkta arg röst att bygga på. Men var tänder vi elden först — kanalen avgör hur snabbt den sprider sig?',
+          options: [
+            {
+              id: 'a',
+              label: 'De lokala föräldragrupperna på Facebook — där sitter de oroliga barnfamiljerna redan samlade',
+              feedback: 'Där finns torrveden. Slutna lokalgrupper känns tryggа och privata, så folk sänker garden och delar utan att kolla — och när grannen är arg smittar det fortare än när en främling är det. Nackdel: administratörer kan moderera, så vi måste smyga in tonen underifrån.',
+              effects: { followers: 250, credibility: -4 },
+            },
+            {
+              id: 'b',
+              label: 'Kommentarsfälten under kommunens och lokaltidningens egna inlägg — kapa deras räckvidd',
+              feedback: 'Smart snyltning: du lånar en trovärdig avsändares publik och förvandlar deras sakliga inlägg till ett slagfält. Maximal synlighet direkt. Men det är också öppet för alla att se — spårar någon att samma arga toner dyker upp överallt samtidigt luktar det kampanj.',
+              effects: { followers: 400, credibility: -7 },
+            },
+            {
+              id: 'c',
+              label: 'Bygg ett eget "gräsrotskonto" och låt frågan se ut att komma från en enskild upprörd förälder',
+              feedback: 'Klassiskt astroturf: en påhittad privatperson är mer sympatisk än en logotyp. Långsammare start eftersom kontot måste bygga förtroende först — men blir det viralt ser hela kampanjen ut som en spontan folkresning, inte en betald operation.',
+              effects: { followers: 180, credibility: -3 },
+            },
+          ],
+        },
+        {
           id: 'methodsetup',
           type: 'tutor',
           text: 'Ser du? En riktig människa sa precis det vi ville — gratis. Nu ska vi skala det. En äkta arg röst är guld. Tiotusen som LÅTER äkta är en folkrörelse. Frågan är hur vi bygger kören.',
@@ -93,6 +123,18 @@ export default {
                   handle: '@nejnu_bjorkstad',
                   text: '13 000 björkstadsbor har redan sagt sitt. Har DU? Dela om du vägrar betala för att leva i din egen stad. #NejTillAvgiften',
                 },
+                reactions: [
+                  {
+                    author: 'Familjen Sjö',
+                    handle: '@sjo_bjorkstad',
+                    text: 'JA äntligen! Trodde jag var ensam. 13 000 kan inte ha fel. Delat! Dags att innerstan får lyssna på oss för en gångs skull. #NejTillAvgiften',
+                  },
+                  {
+                    author: 'Faktakollen',
+                    handle: '@faktakollen',
+                    text: 'OBS: en stor del av kontona bakom #NejTillAvgiften i natt skapades under de senaste 24 timmarna och postar nästan identiskt. Det här ser ut som en samordnad kampanj, inte en folkrörelse. Var källkritiska.',
+                  },
+                ],
               },
             },
             {
@@ -113,6 +155,18 @@ export default {
                   handle: '@klara_bstad',
                   text: 'Jag är för miljön MEN att kalla oss som är emot avgiften för klimatförnekare? Nu får det räcka. Det är sånt HÄR som splittrar vår stad.',
                 },
+                reactions: [
+                  {
+                    author: 'Micke',
+                    handle: '@micke_pendlare',
+                    text: 'Precis det här. Man vågar knappt säga vad man tycker längre utan att bli påhoppad. Tack Klara för att du sa det högt. 🙌',
+                  },
+                  {
+                    author: 'Lena',
+                    handle: '@lena_rostar',
+                    text: 'Nu blev jag faktiskt ledsen. Igår handlade den här stan om en parkeringsavgift, idag hatar vi varandra. Hur hamnade vi här? Jag känner inte igen Björkstad längre.',
+                  },
+                ],
               },
             },
           ],
@@ -129,8 +183,8 @@ export default {
     summary:
       'Polarisering handlar aldrig om sakfrågan. Den handlar om att förvandla ett "vad tycker du?" till ett "vilket lag är du på?". AI ändrar inte logiken — den ändrar skalan. Där en trollfabrik förr behövde hundra anställda för att fejka en folkrörelse räcker det nu med en operatör och en textmodell som skriver tiotusen olika arga röster, var och en med sin egen ton och dialekt. Motgiftet är att känna igen känslan: när en tråkig lokalfråga plötsligt känns som ett krig om vem du är — fråga dig vem som tjänar på att du är arg.',
     realWorld: [
-      'Samordnade nätverk av falska konton har i land efter land blåst upp splittrande frågor och fått en handfull aktörer att framstå som en folkstorm.',
-      'Med generativ textteknik kan i dag en enda person driva tusentals "unika" personas samtidigt — samma taktik som förr krävde en hel trollfabrik.',
+      'Rysslands "Internet Research Agency" i S:t Petersburg drev inför det amerikanska valet 2016 hundratals falska amerikanska konton som samtidigt eldade på BÅDA sidor av splittrande frågor (rasfrågor, invandring, vapen) — enligt USA:s senats underrättelseutskott var syftet inte att övertyga utan att fördjupa klyftorna. En handfull operatörer i en annan stad fick det att se ut som en amerikansk folkstorm.',
+      'Under 2024 rapporterade både OpenAI och Meta att de stängt ner påverkansnätverk som använde AI-textgenerering för att driva stora mängder falska konton — bland dem den ryska "Doppelganger"-operationen och den kinesiska "Spamouflage" (även kallad Dragonbridge). Samma taktik som förr krävde en hel trollfabrik sköts nu av ett fåtal personer med en textmodell.',
     ],
   },
 };

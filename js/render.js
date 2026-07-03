@@ -47,7 +47,12 @@ function renderStatusbar(container, state) {
   credibility.append(el('span', 'stat-label', 'Trovärdighet'), meter);
 
   const progress = el('div', 'stat');
-  if (state.stage === 'core') {
+  if (state.stage === 'prologue') {
+    progress.append(
+      el('span', 'stat-label', 'Kapitel'),
+      el('span', 'stat-value', 'Prolog'),
+    );
+  } else if (state.stage === 'core') {
     progress.append(
       el('span', 'stat-label', 'Uppdrag'),
       el('span', 'stat-value', `${Math.min(state.coreNumber, state.coreTotal)}/${state.coreTotal}`),
@@ -88,12 +93,35 @@ function renderFeedItem(item, engine, isLast, state) {
       );
       const client = el('div', 'mission-client');
       client.append(
+        el('p', 'mission-block-label', 'Uppdragsgivare'),
         el('p', 'client-row client-name', item.client.name),
         el('p', 'client-row', item.client.description),
         row('Mål', item.client.goal),
         row('Arvode', item.client.fee),
       );
       card.append(header, el('h2', 'card-title', item.title), client);
+
+      if (item.target) {
+        const target = el('div', 'mission-target');
+        target.append(
+          el('p', 'mission-block-label', 'Måltavla'),
+          el('p', 'client-row client-name', item.target.name),
+          el('p', 'client-row', item.target.description),
+        );
+        card.append(target);
+      }
+      if (item.stakes) {
+        const stakes = el('div', 'mission-stakes');
+        stakes.append(el('p', 'mission-block-label', 'Vad som står på spel'), el('p', 'client-row', item.stakes));
+        card.append(stakes);
+      }
+      return card;
+    }
+    case 'title': {
+      const card = el('article', 'card card-title-screen');
+      card.append(el('p', 'title-kicker', 'Ett spel om AI och desinformation'));
+      card.append(el('h1', 'title-name', item.title));
+      if (item.tagline) card.append(el('p', 'title-tagline', item.tagline));
       return card;
     }
     case 'tutor':
@@ -101,10 +129,14 @@ function renderFeedItem(item, engine, isLast, state) {
     case 'feedback':
       return tutorBubble(item.text, 'tutor-feedback');
     case 'post': {
-      const card = el('article', item.generated ? 'card card-post card-generated' : 'card card-post');
+      let cls = 'card card-post';
+      if (item.generated) cls += ' card-generated';
+      else if (item.reaction) cls += ' card-reaction';
+      const card = el('article', cls);
       const header = el('header', 'post-header');
       header.append(el('strong', 'post-author', item.author), el('span', 'post-handle', item.handle));
       if (item.generated) header.append(el('span', 'post-generated-tag', 'AI-genererat'));
+      else if (item.reaction) header.append(el('span', 'post-reaction-tag', 'Reaktion'));
       card.append(header, el('p', 'post-text', item.text));
       return card;
     }
