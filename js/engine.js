@@ -11,11 +11,13 @@ const CREDIBILITY_MAX = 100;
 //   terminal       – terminal-overlay visas; väntar på terminalDone()
 //   module-debrief – modulens debrief visas; väntar på nextModule()
 //   finished       – alla moduler klara
-export function createEngine(modules) {
+export function createEngine(modules, options = {}) {
   const schemaErrors = validateModules(modules);
   if (schemaErrors.length > 0) {
     throw new Error('Ogiltig speldata:\n' + schemaErrors.join('\n'));
   }
+  // Avslutningsreflektion (lista med stycken) som visas på slutkortet.
+  const closing = Array.isArray(options.closing) ? options.closing : [];
 
   const state = {
     phase: 'playing',
@@ -188,7 +190,7 @@ export function createEngine(modules) {
     state.stepIndex = 0;
     if (state.moduleIndex >= modules.length) {
       state.phase = 'finished';
-      state.feed.push({ kind: 'game-over', badges: state.badges });
+      state.feed.push({ kind: 'game-over', badges: state.badges, closing });
     } else {
       state.phase = 'playing';
       pushMissionCard();

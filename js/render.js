@@ -138,13 +138,13 @@ function renderFeedItem(item, engine, isLast, state) {
     }
     case 'game-over': {
       const card = el('article', 'card card-gameover');
-      card.append(
-        el('h2', 'card-title', 'Spelet slut'),
-        el('p', null, `Du har samlat ${item.badges.length} av 6 badges.`),
-      );
+      card.append(el('h2', 'card-title', 'Kampanjen är över'));
       const badges = el('div', 'gameover-badges');
       for (const badgeId of item.badges) badges.append(badgePill(badgeId));
       card.append(badges);
+      for (const paragraph of item.closing ?? []) {
+        card.append(el('p', 'gameover-text', paragraph));
+      }
       return card;
     }
     default:

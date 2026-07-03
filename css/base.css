@@ -345,17 +345,27 @@ button {
 .card-gameover {
   background: var(--ink);
   color: var(--paper);
-  text-align: center;
 }
 
-.card-gameover .card-title { color: var(--yellow); }
+.card-gameover .card-title { color: var(--yellow); text-align: center; }
 
 .gameover-badges {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
   gap: 0.5rem;
-  margin-top: 0.75rem;
+  margin: 0.75rem 0 1.1rem;
+}
+
+.gameover-text {
+  margin: 0.7rem 0 0;
+  color: #e9e7df;
+}
+
+.gameover-text:first-of-type {
+  font-weight: 700;
+  font-size: 1.05rem;
+  color: var(--paper);
 }
 
 /* ---------- Terminal-overlay (mörkt läge) ---------- */
