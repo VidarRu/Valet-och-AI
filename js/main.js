@@ -1,11 +1,11 @@
 // Startpunkt: kopplar ihop data, motor, renderare och terminal-overlay.
 
-import { modules, closing } from '../data/index.js';
+import { core, deep, hub, closing } from '../data/index.js';
 import { createEngine } from './engine.js';
 import { createRenderer } from './render.js';
 import { createTerminal } from './terminal.js';
 
-const engine = createEngine(modules, { closing });
+const engine = createEngine({ core, deep, hub, closing });
 
 const renderer = createRenderer({
   statusbar: document.getElementById('statusbar'),

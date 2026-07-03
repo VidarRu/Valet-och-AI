@@ -179,6 +179,82 @@ button {
 .client-row { margin: 0.25rem 0; font-size: 0.92rem; }
 .client-name { font-weight: 800; font-size: 1rem; }
 
+/* Fördjupningskort — blå accent skiljer dem från kärnuppdragen */
+.card-mission-deep { box-shadow: 4px 4px 0 var(--blue); }
+.card-mission-deep .mission-number { color: var(--blue); }
+
+/* Fördjupningsmeny (hub) */
+.hub-panel .card-title { margin-top: 0; }
+
+.hub-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.55rem;
+  margin: 0.4rem 0 1rem;
+}
+
+.hub-item {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  width: 100%;
+  padding: 0.6rem 0.8rem;
+  background: var(--paper);
+  border: 2px solid var(--ink);
+  text-align: left;
+}
+
+.hub-item-open {
+  box-shadow: 3px 3px 0 var(--ink);
+  transition: transform 0.08s ease, box-shadow 0.08s ease;
+}
+
+.hub-item-open:hover, .hub-item-open:focus-visible { background: var(--yellow); }
+.hub-item-open:active { transform: translate(3px, 3px); box-shadow: none; }
+
+.hub-item-done {
+  border-style: dashed;
+  color: var(--gray);
+  background: var(--bg);
+}
+
+.hub-item-badge {
+  flex: 0 0 auto;
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--paper);
+  background: var(--red);
+  border: 2px solid var(--ink);
+  border-radius: 999px;
+  padding: 0.08rem 0.6rem;
+}
+
+.hub-item-done .hub-item-badge { background: var(--gray); }
+
+.hub-item-title { flex: 1 1 auto; font-weight: 700; }
+.hub-item-done .hub-item-title { font-weight: 600; }
+
+.hub-item-go { flex: 0 0 auto; font-weight: 700; color: var(--blue); }
+.hub-item-check { flex: 0 0 auto; font-size: 0.85rem; }
+
+.hub-finish {
+  display: block;
+  width: 100%;
+  margin: 0;
+}
+
+.gameover-deep {
+  margin: 0 0 0.3rem;
+  text-align: center;
+  font-size: 0.85rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--yellow);
+}
+
 /* Handledarbubbla */
 .tutor-bubble {
   display: flex;

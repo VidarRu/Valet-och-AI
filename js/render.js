@@ -46,15 +46,22 @@ function renderStatusbar(container, state) {
   meter.append(fill);
   credibility.append(el('span', 'stat-label', 'Trovärdighet'), meter);
 
-  const mission = el('div', 'stat');
-  mission.append(
-    el('span', 'stat-label', 'Uppdrag'),
-    el('span', 'stat-value',
-      `${Math.min(state.moduleIndex + 1, state.totalModules)}/${state.totalModules}`),
-  );
+  const progress = el('div', 'stat');
+  if (state.stage === 'core') {
+    progress.append(
+      el('span', 'stat-label', 'Uppdrag'),
+      el('span', 'stat-value', `${Math.min(state.coreNumber, state.coreTotal)}/${state.coreTotal}`),
+    );
+  } else {
+    const deepDone = state.deepStatus.filter((d) => d.done).length;
+    progress.append(
+      el('span', 'stat-label', 'Fördjupning'),
+      el('span', 'stat-value', `${deepDone}/${state.deepTotal}`),
+    );
+  }
 
   const stats = el('div', 'statusbar-stats');
-  stats.append(followers, credibility, mission);
+  stats.append(followers, credibility, progress);
   container.append(stats);
 }
 
@@ -73,11 +80,11 @@ function tutorBubble(text, extraClass) {
 function renderFeedItem(item, engine, isLast, state) {
   switch (item.kind) {
     case 'mission': {
-      const card = el('article', 'card card-mission');
+      const card = el('article', item.stage === 'deep' ? 'card card-mission card-mission-deep' : 'card card-mission');
       const header = el('div', 'mission-header');
       header.append(
         badgePill(item.badge),
-        el('span', 'mission-number', `Uppdrag ${item.moduleNumber}`),
+        el('span', 'mission-number', item.stage === 'deep' ? 'Fördjupning' : `Uppdrag ${item.moduleNumber}`),
       );
       const client = el('div', 'mission-client');
       client.append(
@@ -119,7 +126,7 @@ function renderFeedItem(item, engine, isLast, state) {
     case 'debrief': {
       const card = el('article', 'card card-debrief');
       const banner = el('div', 'debrief-banner');
-      banner.append(el('span', null, 'Badge upplåst'), badgePill(item.badge));
+      banner.append(el('span', null, item.deep ? 'Fördjupning klar' : 'Badge upplåst'), badgePill(item.badge));
       card.append(
         banner,
         el('h2', 'card-title', 'Sammanfattning'),
@@ -130,7 +137,8 @@ function renderFeedItem(item, engine, isLast, state) {
       for (const example of item.realWorld) list.append(el('li', null, example));
       card.append(list);
       if (isLast && state.phase === 'module-debrief') {
-        const button = el('button', 'continue-button debrief-next', 'Nästa uppdrag →');
+        const label = item.deep ? 'Tillbaka till uppdragen →' : 'Fortsätt →';
+        const button = el('button', 'continue-button debrief-next', label);
         button.addEventListener('click', () => engine.nextModule());
         card.append(button);
       }
@@ -142,6 +150,9 @@ function renderFeedItem(item, engine, isLast, state) {
       const badges = el('div', 'gameover-badges');
       for (const badgeId of item.badges) badges.append(badgePill(badgeId));
       card.append(badges);
+      if (item.deepTotal > 0) {
+        card.append(el('p', 'gameover-deep', `Fördjupningar avklarade: ${item.deepDone}/${item.deepTotal}`));
+      }
       for (const paragraph of item.closing ?? []) {
         card.append(el('p', 'gameover-text', paragraph));
       }
@@ -156,6 +167,40 @@ function row(label, text) {
   const p = el('p', 'client-row');
   p.append(el('strong', null, `${label}: `), document.createTextNode(text));
   return p;
+}
+
+// Fördjupningsmenyn: valbara djupdykningar per badge + avsluta-knapp.
+function renderHub(state, engine) {
+  const panel = el('section', 'card hub-panel enter');
+  panel.append(el('h2', 'card-title', 'Fördjupningar'));
+
+  const list = el('div', 'hub-list');
+  for (const entry of state.deepStatus) {
+    if (entry.done) {
+      const done = el('div', 'hub-item hub-item-done');
+      done.append(
+        el('span', 'hub-item-badge', BADGES[entry.badge].label),
+        el('span', 'hub-item-title', entry.title),
+        el('span', 'hub-item-check', 'Avklarad ✓'),
+      );
+      list.append(done);
+    } else {
+      const button = el('button', 'hub-item hub-item-open');
+      button.append(
+        el('span', 'hub-item-badge', BADGES[entry.badge].label),
+        el('span', 'hub-item-title', entry.title),
+        el('span', 'hub-item-go', 'Spela →'),
+      );
+      button.addEventListener('click', () => engine.selectDeep(entry.id));
+      list.append(button);
+    }
+  }
+  panel.append(list);
+
+  const finish = el('button', 'continue-button hub-finish', 'Avsluta spelet');
+  finish.addEventListener('click', () => engine.finish());
+  panel.append(finish);
+  return panel;
 }
 
 export function createRenderer({ statusbar, feed, engine }) {
@@ -178,6 +223,10 @@ export function createRenderer({ statusbar, feed, engine }) {
       const button = el('button', 'continue-button', 'Fortsätt');
       button.addEventListener('click', () => engine.advance());
       feed.append(button);
+    }
+
+    if (state.phase === 'hub') {
+      feed.append(renderHub(state, engine));
     }
 
     feed.lastElementChild?.scrollIntoView({ block: 'end', behavior: 'smooth' });
