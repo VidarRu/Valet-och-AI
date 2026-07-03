@@ -1,0 +1,260 @@
+// Spelmotor: state och flödeslogik. Ingen DOM-kod här — renderaren
+// prenumererar på state-ändringar via subscribe().
+//
+// Spelet har två skeden:
+//   core – de sex obligatoriska uppdragen spelas i ordning
+//   deep – efter kärnspelet väljer spelaren fritt bland fördjupningar i en
+//          "hub", spelar dem och återvänder, tills hen väljer att avsluta.
+
+import { validateModules } from './schema.js';
+
+const CREDIBILITY_MIN = 0;
+const CREDIBILITY_MAX = 100;
+
+// Faser:
+//   playing        – steg matas ut i flödet; väntar på advance()/choose()
+//   terminal       – terminal-overlay visas; väntar på terminalDone()
+//   module-debrief – modulens debrief visas; väntar på nextModule()
+//   hub            – fördjupningsval visas; väntar på selectDeep()/finish()
+//   finished       – spelet avslutat
+export function createEngine({ core, deep = [], closing = [], hub = {} }) {
+  const schemaErrors = validateModules([...core, ...deep]);
+  if (schemaErrors.length > 0) {
+    throw new Error('Ogiltig speldata:\n' + schemaErrors.join('\n'));
+  }
+
+  const state = {
+    phase: 'playing',
+    stage: 'core',
+    coreIndex: 0,
+    current: core[0],
+    currentDeepId: null,
+    scenarioIndex: 0,
+    stepIndex: 0,
+    followers: 0,
+    credibility: 50,
+    badges: [],
+    // Status för fördjupningarna (för hub-menyn).
+    deepStatus: deep.map((m) => ({ id: m.id, badge: m.badge, title: m.title, done: false })),
+    // Flödet som renderas: allt spelaren sett hittills, i ordning.
+    feed: [],
+    pendingChoice: null,
+    pendingTerminal: null,
+  };
+
+  const listeners = new Set();
+  function notify() {
+    for (const listener of listeners) listener(getState());
+  }
+
+  function getState() {
+    return {
+      ...state,
+      module: state.current,
+      coreNumber: state.stage === 'core' ? state.coreIndex + 1 : core.length,
+      coreTotal: core.length,
+      deepStatus: state.deepStatus.map((d) => ({ ...d })),
+      deepTotal: deep.length,
+    };
+  }
+
+  function currentScenario() {
+    return state.current?.scenarios[state.scenarioIndex] ?? null;
+  }
+
+  function currentStep() {
+    return currentScenario()?.steps[state.stepIndex] ?? null;
+  }
+
+  function applyEffects(effects) {
+    if (!effects) return;
+    if (Number.isInteger(effects.followers)) {
+      state.followers = Math.max(0, state.followers + effects.followers);
+    }
+    if (Number.isInteger(effects.credibility)) {
+      state.credibility = Math.min(CREDIBILITY_MAX,
+        Math.max(CREDIBILITY_MIN, state.credibility + effects.credibility));
+    }
+  }
+
+  // Flyttar pekaren till nästa steg. target: stegId | 'end' | undefined.
+  function movePointer(target) {
+    const scenario = currentScenario();
+    if (target === 'end') {
+      state.stepIndex = scenario.steps.length;
+    } else if (target != null) {
+      state.stepIndex = scenario.steps.findIndex((s) => s.id === target);
+    } else {
+      state.stepIndex += 1;
+    }
+    if (state.stepIndex >= scenario.steps.length) {
+      state.scenarioIndex += 1;
+      state.stepIndex = 0;
+      if (state.scenarioIndex >= state.current.scenarios.length) {
+        finishModule();
+      }
+    }
+  }
+
+  function finishModule() {
+    const module = state.current;
+    if (!state.badges.includes(module.badge)) state.badges.push(module.badge);
+    state.feed.push({
+      kind: 'debrief',
+      badge: module.badge,
+      deep: state.stage === 'deep',
+      summary: module.debrief.summary,
+      realWorld: module.debrief.realWorld,
+    });
+    state.phase = 'module-debrief';
+  }
+
+  function start() {
+    pushMissionCard();
+    notify();
+  }
+
+  function pushMissionCard() {
+    const module = state.current;
+    state.feed.push({
+      kind: 'mission',
+      stage: state.stage,
+      title: module.title,
+      client: module.client,
+      badge: module.badge,
+      moduleNumber: state.stage === 'core' ? state.coreIndex + 1 : null,
+    });
+  }
+
+  function advance() {
+    if (state.phase !== 'playing' || state.pendingChoice) return;
+    const step = currentStep();
+    if (!step) return;
+
+    if (step.type === 'tutor') {
+      state.feed.push({ kind: 'tutor', text: step.text });
+      movePointer();
+    } else if (step.type === 'post') {
+      state.feed.push({ kind: 'post', author: step.author, handle: step.handle, text: step.text });
+      movePointer();
+    } else if (step.type === 'choice') {
+      const item = { kind: 'choice', prompt: step.prompt, options: step.options, chosenId: null };
+      state.feed.push(item);
+      state.pendingChoice = { step, feedItem: item };
+    }
+    notify();
+  }
+
+  function choose(optionId) {
+    if (!state.pendingChoice) return;
+    const { step, feedItem } = state.pendingChoice;
+    const option = step.options.find((o) => o.id === optionId);
+    if (!option) return;
+
+    feedItem.chosenId = optionId;
+    state.pendingChoice = null;
+    applyEffects(option.effects);
+
+    // Feedbacklager 1: handledarens direktkommentar, alltid.
+    state.feed.push({ kind: 'feedback', text: option.feedback });
+
+    if (option.terminal) {
+      // Pekaren flyttas först vid terminalDone(), så att terminalresultatet
+      // hamnar i flödet före en eventuell modul-debrief.
+      state.pendingTerminal = { ...option.terminal, next: option.next };
+      state.phase = 'terminal';
+    } else {
+      movePointer(option.next);
+    }
+    notify();
+  }
+
+  function terminalDone() {
+    if (state.phase !== 'terminal') return;
+    const { result, next } = state.pendingTerminal;
+    state.pendingTerminal = null;
+    state.feed.push({
+      kind: 'post',
+      generated: true,
+      author: result.author,
+      handle: result.handle,
+      text: result.text,
+    });
+    state.phase = 'playing';
+    movePointer(next); // kan avsluta modulen → fasen blir 'module-debrief'
+    notify();
+  }
+
+  // Går vidare från en debrief: nästa kärnuppdrag, annars in i huben.
+  function nextModule() {
+    if (state.phase !== 'module-debrief') return;
+
+    if (state.stage === 'core') {
+      state.coreIndex += 1;
+      if (state.coreIndex < core.length) {
+        state.current = core[state.coreIndex];
+        resetPointer();
+        state.phase = 'playing';
+        pushMissionCard();
+      } else {
+        enterHub(true);
+      }
+    } else {
+      const entry = state.deepStatus.find((d) => d.id === state.currentDeepId);
+      if (entry) entry.done = true;
+      enterHub(false);
+    }
+    notify();
+  }
+
+  function enterHub(firstTime) {
+    state.phase = 'hub';
+    state.stage = 'deep';
+    state.current = null;
+    state.currentDeepId = null;
+    const allDone = state.deepStatus.every((d) => d.done);
+    const text = firstTime ? hub.intro : (allDone ? hub.allDone : hub.back);
+    if (text) state.feed.push({ kind: 'tutor', text });
+  }
+
+  // Startar en vald fördjupning från huben.
+  function selectDeep(id) {
+    if (state.phase !== 'hub') return;
+    const module = deep.find((m) => m.id === id);
+    const entry = state.deepStatus.find((d) => d.id === id);
+    if (!module || !entry || entry.done) return;
+    state.stage = 'deep';
+    state.current = module;
+    state.currentDeepId = id;
+    resetPointer();
+    state.phase = 'playing';
+    pushMissionCard();
+    notify();
+  }
+
+  // Avslutar spelet från huben.
+  function finish() {
+    if (state.phase !== 'hub') return;
+    state.phase = 'finished';
+    state.feed.push({
+      kind: 'game-over',
+      badges: state.badges,
+      deepDone: state.deepStatus.filter((d) => d.done).length,
+      deepTotal: deep.length,
+      closing,
+    });
+    notify();
+  }
+
+  function resetPointer() {
+    state.scenarioIndex = 0;
+    state.stepIndex = 0;
+  }
+
+  function subscribe(listener) {
+    listeners.add(listener);
+    return () => listeners.delete(listener);
+  }
+
+  return { start, advance, choose, terminalDone, nextModule, selectDeep, finish, subscribe, getState };
+}
