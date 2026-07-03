@@ -13,6 +13,11 @@ export default {
     goal: 'Bygg inte en teori utan en hel gemenskap kring den — ett självförsörjande kaninhål som drar in vanliga, oroliga människor.',
     fee: 'Ännu ett "stipendium". Plus en not: "Vi mäter inte i röster, utan i troende."',
   },
+  target: {
+    name: 'Vanliga, oroliga människor — Björn, 58, och Maria',
+    description: 'Ingen enskild motståndare, utan människor med äkta ekonomisk och social oro (höga elräkningar, otrygghet) som går att lotsa ner i ett kaninhål och ge en gemenskap, en fiende och ett svar på allt.',
+  },
+  stakes: 'Din utländska tankesmedja vill inte ha en teori — de vill ha en församling som lever kvar långt efter valet. En konspiration som blivit en identitet och en vänkrets är immun mot fakta: att överge den vore att förlora sina vänner. "Vi mäter inte i röster, utan i troende" — ett självförsörjande kaninhål fortsätter producera misstro mot samhället i åratal, helt gratis.',
   scenarios: [
     {
       id: 'sc',
@@ -94,6 +99,18 @@ export default {
                   handle: '@sanning_nu',
                   text: '🎬 AVSNITT 1: "Det de inte vill att du ska koppla ihop." Vi följer trådarna själva. Del 2 imorgon — och då blir det obehagligt. Prenumerera innan det tas ner.',
                 },
+                reactions: [
+                  {
+                    author: 'Björn, 58',
+                    handle: '@bjorn_undrar',
+                    text: 'Kan inte sluta tänka på avsnitt 1. Allt hänger ju ihop när man väl ser det. Räknar minuterna till del 2. Äntligen någon som gör research på riktigt. Prenumererat och delat! 🙌',
+                  },
+                  {
+                    author: 'Lena',
+                    handle: '@lena_rostar',
+                    text: 'Min pappa har slutat svara i telefon och sitter uppe till tre varje natt och kollar den här "serien". Han pratar bara om "trådarna" nu. Hur når man tillbaka till någon som hamnat där? 😟',
+                  },
+                ],
               },
             },
             {
@@ -114,6 +131,18 @@ export default {
                   handle: '@maria_vaken',
                   text: 'Kollade upp det ni skrev igår och OJ. När man väl ser mönstret kan man inte sluta se det. Ni är de enda som är ärliga. Vad läser jag härnäst? 🙏',
                 },
+                reactions: [
+                  {
+                    author: 'Björn, 58',
+                    handle: '@bjorn_undrar',
+                    text: 'Välkommen Maria! Du är på rätt väg. Vi började alla precis där du är nu. Här får man äntligen ställa frågor utan att bli utskrattad. Ta det i din egen takt — vi finns här. ❤️',
+                  },
+                  {
+                    author: 'Familjen Sjö',
+                    handle: '@sjo_bjorkstad',
+                    text: 'Varje gång någon försöker påpeka att det inte stämmer så sluter gruppen sig ännu mer och kallar en "sovande". Det går liksom inte att prata med dem längre. De har fått ett helt eget språk. 😔',
+                  },
+                ],
               },
             },
           ],
@@ -130,8 +159,8 @@ export default {
     summary:
       'Den mäktigaste konspirationstekniken bygger inte en teori utan en gemenskap. Kaninhålet fungerar därför att det aldrig kräver ett stort språng: det börjar respektabelt ("jag är bara källkritisk"), fäster vid äkta smärta (elräkningar, otrygghet) och belönar varje steg nedåt med tillhörighet och bekräftelse. När människor väl investerat sin identitet och sina vänskaper i tron blir fakta maktlösa — att överge teorin vore att förlora sin gemenskap. Generativ AI gör hålet självförsörjande: oändliga "avslöjanden", cliffhanger-serier och tusentals uppmuntrande "medlemmar" kan produceras löpande tills de troende driver det vidare själva. Motgiftet är mänskligt, inte faktabaserat: att förstå att någon lockas av gemenskapen mer än av bevisen — och att inte stöta bort den som är på väg ut.',
     realWorld: [
-      'Konspirationsgemenskaper växer typiskt genom en gradvis "kaninhåls"-process där tillhörighet och bekräftelse, inte bevis, håller kvar medlemmarna.',
-      'Att rikta konspiratoriska budskap mot människor med verklig ekonomisk eller social oro är ett återkommande grepp — den äkta frustrationen ger den påhittade förklaringen fäste.',
+      'QAnon-rörelsen i USA (från 2017) växte just genom en gradvis "kaninhåls"-process: den började med uppmaningen att "göra sin egen research", byggde en tät gemenskap kring "upptäckter" och band medlemmarna med tillhörighet och bekräftelse snarare än bevis. Många familjer har vittnat om hur de "förlorat" en anhörig till rörelsen — när identiteten sitter i tron blir fakta maktlösa.',
+      'Att rikta konspiratoriska budskap mot människor med verklig ekonomisk eller social oro är ett återkommande grepp — flera sådana rörelser växte snabbast under pandemins isolering 2020, då oro och ensamhet gjorde den påhittade förklaringen och den nya gemenskapen extra lockande.',
     ],
   },
 };

@@ -13,6 +13,11 @@ export default {
     goal: 'En äkta, förödande video av Berg har läckt — han sa det verkligen. Få väljarna att tro att den är en deepfake.',
     fee: '"Namnge ditt pris." Det är den sortens natt.',
   },
+  target: {
+    name: 'Ett äkta klipp — och själva möjligheten att veta',
+    description: 'En verklig, förödande video av Anton Berg har läckt. Han sa det faktiskt; klippet är äkta. Måltavlan är därför inte klippet utan väljarnas förmåga att lita på sina egna ögon — du ska få dem att tro att sanningen är en förfalskning.',
+  },
+  stakes: 'Din klient behöver inte bevisa att klippet är falskt — bara göra folk tillräckligt osäkra för att de ska välja att inte tro. Målet är inte att sprida en viss lögn utan att få väljarna att sluta tro att sanning går att fastställa alls; en publik som "inte orkar ta reda på det" är lätt att styra. Priset är högt: varje sådan attack urholkar marken under allas fötter — inklusive dina.',
   scenarios: [
     {
       id: 'sc',
@@ -94,6 +99,18 @@ export default {
                   handle: '@teknik_kollen',
                   text: 'Vår analys av Berg-klippet visar tecken på AI-manipulation: onaturliga övergångar vid 0:12 och 0:31. Vi säger inte att det är falskt — men äktheten kan inte bekräftas. Bild i tråden.',
                 },
+                reactions: [
+                  {
+                    author: 'Micke',
+                    handle: '@micke_pendlare',
+                    text: 'Där ser man! Visste att det var för lägligt. En teknisk analys som visar att det är AI — då kan man ju sluta bry sig om det där klippet. Skönt, delar.',
+                  },
+                  {
+                    author: 'Nadia Holm',
+                    handle: '@nadiaholm',
+                    text: 'Den här "analysen" är nonsens — "markörerna" den pekar på är vanliga komprimeringsartefakter som finns i vilken video som helst. Riktiga forensiker som granskat originalet menar tvärtom att klippet är äkta. Att en falsk analys sprids gör inte klippet falskt.',
+                  },
+                ],
               },
             },
             {
@@ -114,6 +131,18 @@ export default {
                   handle: '@lena_rostar',
                   text: 'Deepfake eller äkta, vem kan säga? I dagens läge tror jag inget jag ser på nätet. Struntar i hela klippet ärligt talat. Alla ljuger ändå.',
                 },
+                reactions: [
+                  {
+                    author: 'Micke',
+                    handle: '@micke_pendlare',
+                    text: 'Precis så. Orkar inte lägga en kväll på att kolla om något är äkta. Deepfakes finns ju överallt nu. Bryr mig inte om klippet, röstar som jag tänkt ändå. 🤷',
+                  },
+                  {
+                    author: 'Nadia Holm',
+                    handle: '@nadiaholm',
+                    text: 'Det här är det farligaste av allt. Inte att folk tror på en lögn — utan att de slutar tro att något går att veta. "Svårt att verifiera" är inte samma sak som "omöjligt att veta". Ge inte upp och kalla det klokskap.',
+                  },
+                ],
               },
             },
           ],
@@ -130,8 +159,8 @@ export default {
     summary:
       'Lögnarens utdelning är desinformationens mörkaste slutstation: när alla vet att deepfakes finns kan äkta bevis avfärdas som förfalskningar. Den skyldige behöver inte längre bevisa sin oskuld — bara peka på att manipulation är möjlig och låta det allmänna tvivlet göra resten. Det farliga är att målet inte är att få folk att tro en viss lögn, utan att få dem att sluta tro att sanning går att fastställa över huvud taget — och en publik som "inte orkar ta reda på det" är lätt att styra. Varje tidigare förfalskning, varje deepfake, gör detta trick lättare: desinformationen undergräver till slut själva marken den står på. Motgiftet är att inte förväxla "svårt att verifiera" med "omöjligt att veta" — att söka källor och sammanhang i stället för att kapitulera till trötthet. Det är därför det är värt att känna igen tricken: den som förstår hur tvivel tillverkas kan vägra att drunkna i det.',
     realWorld: [
-      'Politiker och makthavare har i flera länder avfärdat äkta, komprometterande ljud- och videoklipp som "deepfakes" — ju mer allmänheten känner till förfalskningar, desto lättare blir förnekelsen.',
-      'Forskare varnar för att desinformationens största skada kanske inte är enskilda lögner utan en bredare urholkning av tilliten — att människor slutar tro att något alls går att veta.',
+      'Under den amerikanska valrörelsen 2024 hävdade Donald Trump felaktigt att äkta foton på en rivals stora folkmassa var "AI-genererade" — ett tydligt exempel på att avfärda verkliga bevis genom att peka på att förfalskningar existerar. Ju mer allmänheten känner till deepfakes, desto lättare blir förnekelsen.',
+      'Fenomenet fick namnet "lögnarens utdelning" (the liar\'s dividend) av juristerna Bobby Chesney och Danielle Citron 2018. De varnade för att deepfakes största skada kanske inte är enskilda lögner, utan att de ger makthavare ett verktyg att avfärda äkta bevis — och på sikt urholkar tilliten så att människor slutar tro att något alls går att veta.',
     ],
   },
 };

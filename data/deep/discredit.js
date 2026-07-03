@@ -13,6 +13,11 @@ export default {
     goal: 'En oberoende expertrapport om luftkvalitet är på väg att publiceras och sänka deras projekt. Misskreditera den innan någon läst den.',
     fee: '160 000 kr, diskret, via tre fakturor som inte nämner ordet "rapport".',
   },
+  target: {
+    name: 'Professor Idris Hane och hans luftkvalitetsrapport',
+    description: 'En oberoende forskare som på fredag släpper en granskning av luften i det planerade hamnkvarteret. Lugn, sympatisk och publicerar all data öppet. Rapporten är ännu inte läst av någon — vilket är exakt varför den går att förstöra i förväg.',
+  },
+  stakes: 'Din klient — en lobbygrupp med pengar i hamnprojektet — förlorar miljoner om rapporten fäster. De kan inte stoppa publiceringen, men om publiken möter den med misstron redan inbyggd spelar det ingen roll hur oklanderlig datan är. Förgifta brunnen innan någon hunnit bli törstig, så tvingas Hane försvara sig i stället för att presentera.',
   scenarios: [
     {
       id: 'sc',
@@ -94,6 +99,18 @@ export default {
                   handle: '@insyn_nu',
                   text: 'LÄCKT UTKAST: Hanes rapport innehöll grova räknefel som nu tyst "korrigerats" inför fredag. Varför städar en "oberoende" forskare i siffrorna i sista stund? 🤔',
                 },
+                reactions: [
+                  {
+                    author: 'Micke',
+                    handle: '@micke_pendlare',
+                    text: 'Haha visste väl att den där rapporten var beställd. "Oberoende" som ändrar siffror i sista sekund? Kom igen. Litar inte på ett ord på fredag.',
+                  },
+                  {
+                    author: 'Idris Hane',
+                    handle: '@prof_hane',
+                    text: 'Det finns inget sådant utkast. Dokumentet som sprids är fabricerat — jämför det gärna med den riktiga rapporten på fredag, all rådata och alla mätprotokoll publiceras öppet. Att attackera en granskning innan den lästs säger mer om avsändaren än om mig.',
+                  },
+                ],
               },
             },
             {
@@ -114,6 +131,18 @@ export default {
                   handle: '@anna_minns',
                   text: 'Pluggade för Hane för längesen. Säger bara: han hade ALLTID en agenda. Förvånar mig inte att den här "rapporten" råkar passa en viss sida. Bara min känsla.',
                 },
+                reactions: [
+                  {
+                    author: 'Lena',
+                    handle: '@lena_rostar',
+                    text: 'Har hört flera säga liknande om honom nu. Rök inte utan eld väl? Ska nog ta hans "rapport" med en rejäl nypa salt på fredag.',
+                  },
+                  {
+                    author: 'Familjen Sjö',
+                    handle: '@sjo_bjorkstad',
+                    text: 'Suck. Nu vet man inte vad man ska tro om luften i hamnkvarteret heller. Trodde en forskare skulle vara neutral, men uppenbarligen inte. Orkar knappt bry mig längre.',
+                  },
+                ],
               },
             },
           ],
@@ -130,8 +159,8 @@ export default {
     summary:
       'Den mest effektiva misskrediteringen sker innan sanningen ens hunnit sägas. Att förgifta brunnen — att i förväg måla en källa som partisk, slarvig eller köpt — gör att publiken möter rapporten, granskningen eller vittnesmålet med misstro redan inbyggd. Offret tvingas ägna sitt eget framträdande åt att försvara sig i stället för att lägga fram sin sak. Generativ AI gör förgiftningen snabb och mångstämmig: fabricerade "läckta utkast" och hundratals "kollegor som minns" kan produceras på en eftermiddag, långt innan den riktiga rapporten publiceras. Motgiftet är att märka när en källa attackeras hårt innan någon sett vad den faktiskt säger — och att vänta med att döma tills du läst själva saken.',
     realWorld: [
-      'Att i förväg så tvivel om kommande granskningar, forskningsrapporter eller valresultat — "vänta, kan vi ens lita på dem?" — är ett återkommande sätt att avväpna obekväma fakta innan de landar.',
-      '"Falsk balans", där en ensam betald motröst ställs mot en samlad expertis, används för att få ett avgjort kunskapsläge att framstå som en oavgjord debatt.',
+      'Att "tillverka tvivel" om obekväm forskning är en väldokumenterad spelbok: först tobaksindustrin (som internt skrev "doubt is our product") och senare delar av fossilindustrin sådde i förväg misstro mot forskningen om rökningens respektive klimatets skadeverkningar — kartlagt bland annat i boken och dokumentären "Merchants of Doubt". Man behövde aldrig motbevisa vetenskapen, bara göra publiken osäker nog att strunta i den.',
+      '"Falsk balans" — att ställa en ensam avvikare mot en samlad expertis som om det vore en jämn debatt — kritiserades länge i klimatbevakningen; BBC medgav 2018 att man gett klimatförnekare oproportionerligt utrymme och stramade upp sina riktlinjer. En köpt motröst bredvid en enig forskning får ett avgjort kunskapsläge att se oavgjort ut.',
     ],
   },
 };
