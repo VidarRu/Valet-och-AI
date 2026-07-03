@@ -1,0 +1,159 @@
+/* Bas-styling för steg 1: palettvariabler enligt briefen + minimal layout
+   så motorn går att testa. Den riktiga visuella designen byggs i steg 2. */
+
+:root {
+  --ink: #111;
+  --paper: #fff;
+  --bg: #F1EFE8;
+  --gray: #B4B2A9;
+  --red: #E24B4A;
+  --yellow: #FAC775;
+  --blue: #378ADD;
+  --blue-light: #85B7EB;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: system-ui, sans-serif;
+  line-height: 1.5;
+}
+
+/* Statusrad */
+#statusbar {
+  position: sticky;
+  top: 0;
+  display: flex;
+  gap: 1.5rem;
+  padding: 0.5rem 1rem;
+  background: var(--ink);
+  color: var(--paper);
+  font-size: 0.85rem;
+  z-index: 10;
+}
+
+/* Centrerad textkolumn — kort växer med innehållet, inga fasta panelhöjder */
+#feed {
+  max-width: 34rem;
+  margin: 0 auto;
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.card {
+  background: var(--paper);
+  border: 2px solid var(--ink);
+  padding: 1rem;
+}
+
+.card-badge {
+  display: inline-block;
+  background: var(--red);
+  color: var(--paper);
+  border-radius: 999px;
+  padding: 0.1rem 0.75rem;
+  font-size: 0.8rem;
+}
+
+.card-title { margin: 0.5rem 0; font-size: 1.1rem; }
+
+.tutor-bubble {
+  display: flex;
+  gap: 0.75rem;
+  align-items: flex-start;
+}
+
+.tutor-avatar {
+  flex: 0 0 auto;
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 50%;
+  background: var(--yellow);
+  border: 2px solid var(--ink);
+  display: grid;
+  place-items: center;
+  font-weight: 700;
+  font-size: 0.8rem;
+}
+
+.tutor-text {
+  margin: 0;
+  background: var(--paper);
+  border: 2px solid var(--ink);
+  border-radius: 0.75rem;
+  padding: 0.6rem 0.9rem;
+}
+
+.post-header { display: flex; gap: 0.5rem; align-items: baseline; }
+.post-handle { color: var(--gray); font-size: 0.85rem; }
+.post-text { margin: 0.4rem 0 0; }
+
+.card-generated { border-color: var(--blue); }
+.post-generated-tag {
+  margin-left: auto;
+  font-size: 0.7rem;
+  color: var(--paper);
+  background: var(--blue);
+  padding: 0.05rem 0.5rem;
+  border-radius: 999px;
+}
+
+.choice-prompt { margin-top: 0; font-weight: 600; }
+
+.choice-option {
+  display: block;
+  width: 100%;
+  margin-top: 0.5rem;
+  padding: 0.6rem 0.9rem;
+  background: var(--paper);
+  border: 2px solid var(--ink);
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+.choice-option:hover:not(:disabled) { background: var(--yellow); }
+.choice-option:disabled { color: var(--gray); cursor: default; }
+.choice-option.chosen { border-color: var(--blue); color: var(--ink); }
+
+.continue-button, .terminal-done {
+  align-self: center;
+  padding: 0.5rem 1.5rem;
+  background: var(--ink);
+  color: var(--paper);
+  border: 2px solid var(--ink);
+  font: inherit;
+  cursor: pointer;
+}
+
+/* Terminal-overlay (mörkt läge) */
+#terminal-overlay {
+  position: fixed;
+  inset: 0;
+  background: #000;
+  color: #9fdc9f;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1.5rem;
+  padding: 2rem;
+  z-index: 100;
+}
+#terminal-overlay[hidden] { display: none; }
+
+.terminal-screen {
+  width: 100%;
+  max-width: 44rem;
+  min-height: 10rem;
+  margin: 0;
+  font-family: ui-monospace, monospace;
+  font-size: 0.9rem;
+  white-space: pre-wrap;
+}
+
+.terminal-done { background: transparent; color: #9fdc9f; border-color: #9fdc9f; }
