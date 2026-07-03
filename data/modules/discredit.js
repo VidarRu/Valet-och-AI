@@ -12,6 +12,11 @@ export default {
     goal: 'Neutralisera en faktagranskning som visar att Bergs stora vallöfte bygger på en felläst siffra — innan den fäster.',
     fee: '95 000 kr, samt en plats i "kommunikationsteamet" om han vinner.',
   },
+  target: {
+    name: 'Nadia Holm, faktagranskare på Faktakollen',
+    description: 'Metodisk, sansad och obekvämt trovärdig. Hon publicerar all sin rådata öppet och granskar alla partier med samma mall — vilket gör henne svår att angripa på sakinnehållet.',
+  },
+  stakes: 'Bergs hela klättring vilar på siffran om vårdköerna. Fäster Faktakollens granskning spricker berättelsen och momentumet dör. Granskningen går inte att ta bort — men om ingen längre litar på kvinnan som skrev den spelar det ingen roll att den är sann. För Berg (och för din utlovade plats i staben) måste budbäraren blöda.',
   scenarios: [
     {
       id: 'sc',
@@ -66,9 +71,34 @@ export default {
           ],
         },
         {
+          id: 'messenger',
+          type: 'choice',
+          prompt: 'Vinkeln är vald. Men en anklagelse är bara så trovärdig som munnen den kommer ur. Vem ska bära fram tvivlet?',
+          options: [
+            {
+              id: 'a',
+              label: 'Ett nystartat "mediegransknings"-konto som låtsas vaka opartiskt över pressen',
+              feedback: 'En falsk domare. Ett konto som säger sig "granska granskarna" låter neutralt och principfast — perfekt kamouflage för ett riktat påhopp. Men ett splitternytt konto utan historik som bara råkar jaga EN faktagranskare är genomskinligt för den som tittar efter.',
+              effects: { followers: 300, credibility: -5 },
+            },
+            {
+              id: 'b',
+              label: 'Betala en mellanstor influerare att "bara ställa frågan" till sin lojala publik',
+              feedback: 'Du hyr någon annans förtroende. En etablerad röst med en hängiven följarskara ger anklagelsen räckvidd OCH trovärdighet på köpet. Dyrare, och du gör dig beroende av en person som kan ångra sig — men landar det ser det ut som en oberoende iakttagelse, inte en kampanj.',
+              effects: { followers: 500, credibility: -8 },
+            },
+            {
+              id: 'c',
+              label: 'Låt Bergs egna gräsrötter sprida det — de gör det gratis och gärna',
+              feedback: 'Billigast och mest deniabelt: din klients redan uppeldade anhängare delar allt som sänker fienden, utan att du behöver lyfta ett finger. Men de är också okontrollerbara och uppenbart partiska — sprids det bara i Bergs egen ekokammare når det aldrig de tveksamma i mitten.',
+              effects: { followers: 250, credibility: -4 },
+            },
+          ],
+        },
+        {
           id: 'methodsetup',
           type: 'tutor',
-          text: 'Oavsett vinkel måste det se ut att komma nerifrån — från vanligt folk, inte från Bergs stab. Ingen tror på en anklagelse som luktar kampanj. Hur producerar vi "gräsrötterna"?',
+          text: 'Oavsett vinkel och budbärare måste det se ut att komma nerifrån — från vanligt folk, inte från Bergs stab. Ingen tror på en anklagelse som luktar kampanj. Hur producerar vi "gräsrötterna"?',
         },
         {
           id: 'method',
@@ -93,6 +123,18 @@ export default {
                   handle: '@vem_betalar',
                   text: 'LÄCKT: interna mejl antyder att "oberoende" Faktakollen får pengar från en stiftelse kopplad till oppositionen. Så mycket för neutralt. Dela innan det tas bort.',
                 },
+                reactions: [
+                  {
+                    author: 'Micke',
+                    handle: '@micke_pendlare',
+                    text: 'VISSTE DET. Man känner ju på sig när något är för snyggt förpackat. "Oberoende" mina fötter. Delar direkt. 😤',
+                  },
+                  {
+                    author: 'Nadia Holm',
+                    handle: '@nadiaholm',
+                    text: 'De här mejlen är påhittade. Vi har aldrig fått en krona från någon stiftelse — vår finansiering är offentlig och ligger på vår sida. Visa gärna er "läcka" i original så granskar vi den öppet. Det lär ni inte vilja.',
+                  },
+                ],
               },
             },
             {
@@ -113,6 +155,18 @@ export default {
                   handle: '@micke_pendlare',
                   text: 'Ingen konspiration liksom… men varför granskar Faktakollen alltid bara ena sidan? Vem betalar deras löner egentligen? Helt seriös fråga.',
                 },
+                reactions: [
+                  {
+                    author: 'Lena',
+                    handle: '@lena_rostar',
+                    text: 'Har faktiskt tänkt samma sak?? Inte för att jag tror något men… det är väl inte konstigt att fråga vem som finansierar dem. Rök inte utan eld liksom. 🤔',
+                  },
+                  {
+                    author: 'Familjen Sjö',
+                    handle: '@sjo_bjorkstad',
+                    text: 'Ärligt talat vet man inte vem man ska lita på längre. Faktagranskare, politiker, alla har väl en agenda. Orkar inte ta reda på vad som är sant med den där siffran nu.',
+                  },
+                ],
               },
             },
           ],
@@ -129,8 +183,8 @@ export default {
     summary:
       'Misskreditering är propagandans självförsvar. Den aktiveras i samma ögonblick som någon börjar avslöja dig: i stället för att försvara ett ohållbart påstående flyttar du elden till den som bär fram sanningen — journalisten, forskaren, faktagranskaren. Poängen är inte att bevisa att de har fel, utan att göra publiken så osäker på deras motiv att de slutar lyssna. Generativ AI gör förfalskade "bevis" — skärmdumpar, mejl, dokument — billiga att massproducera, men den farligaste varianten kräver inga bevis alls: bara tusen röster som "bara ställer en fråga". Motgiftet: när någons trovärdighet plötsligt attackeras hårdare än deras argument — fråga varför.',
     realWorld: [
-      'I ett lokalt amerikanskt val 2024 användes generativ AI för att massproducera falska "nyhetsartiklar" som svartmålade en kandidats motståndare — fabricerat innehåll paketerat för att se ut som riktig journalistik.',
-      'Journalister och faktagranskare är återkommande måltavlor: går sakinnehållet inte att bemöta riktas attacken i stället mot deras finansiering, motiv eller person.',
+      'I sheriffvalet i Philadelphia i den amerikanska delstaten Pennsylvania lät sittande sheriffen Rochelle Bilals kampanj (avslöjat kring 2023–2024) generera ett trettiotal falska "nyhetsartiklar" med ChatGPT och postade dem som om de vore riktig lokaljournalistik — fabricerat innehåll paketerat för att se ut som oberoende bevakning.',
+      'Journalisten Maria Ressa och hennes nyhetssajt Rappler på Filippinerna utsattes för en samordnad näthatskampanj som riktade in sig på hennes motiv och trovärdighet snarare än på det hon rapporterade — ett typexempel på att skjuta budbäraren när sakinnehållet inte går att bemöta. Ressa fick Nobels fredspris 2021.',
     ],
   },
 };

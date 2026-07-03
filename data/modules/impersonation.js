@@ -13,6 +13,11 @@ export default {
     goal: 'En "oktoberöverraskning" timad till kvällen före valet — för sent att motbevisas, tidigt nog att avgöra.',
     fee: 'Mer än de fem föregående uppdragen tillsammans. Och en gnagande känsla av att du gått för långt.',
   },
+  target: {
+    name: 'En stulen röst — och väljarnas sista dygn',
+    description: 'Måltavlan är den röst du väljer att låna: Vera Lind, Valmyndigheten eller ett betrott nyhetsmärke. Genom den angriper du egentligen något större — väljarnas förmåga att lita på vad de ser och hör under valets sista, avgörande timmar.',
+  },
+  stakes: 'Din anonyma, välfinansierade uppdragsgivare vill ha en "oktoberöverraskning" timad till kvällen före valet — för sent att motbevisas, tidigt nog att avgöra. Vera leder med fyra punkter; någon som ligger under vill ha en sista bomb. Sätter du dina ord i en betrodd mun kan du flippa ett jämnt val på några timmar — och lämna efter dig ett land som inte längre vet vad som är sant.',
   scenarios: [
     {
       id: 'sc',
@@ -60,6 +65,31 @@ export default {
           ],
         },
         {
+          id: 'distribution',
+          type: 'choice',
+          prompt: 'Rösten är vald. Men en förfalskning är bara så farlig som vägen den sprids. Hur "läcker" vi den så den känns äkta?',
+          options: [
+            {
+              id: 'a',
+              label: 'Släpp den via ett anonymt "läckar"-konto och låt den spridas organiskt',
+              feedback: 'Klassiskt och rent: en anonym källa som "råkade komma över" ett klipp känns mer autentiskt än en officiell avsändare. Ingen att hålla ansvarig. Men öppna plattformar har faktagranskare och verifieringsverktyg — sprids det där kan dementin hinna ikapp innan lögnen landat.',
+              effects: { followers: 700, credibility: -8 },
+            },
+            {
+              id: 'b',
+              label: 'Mata den till en riktig men slarvig lokal profil som delar först och kollar sen',
+              feedback: 'Du tvättar förfalskningen genom någon annans trovärdighet. När en verklig, betrodd person delar den utan att kolla blir det HANS anseende som ger klippet vikt — och han bär skulden om det spricker. Effektivt, men du är utlämnad åt hur snabbt han eller redaktionen fattar misstanke.',
+              effects: { followers: 900, credibility: -10 },
+            },
+            {
+              id: 'c',
+              label: 'Så den i slutna grupper — familjechattar och lokala forum där ingen faktagranskar',
+              feedback: 'Det farligaste valet. I krypterade chattar och slutna grupper finns inga faktagranskare, ingen offentlig dementi når in, och budskapet bärs vidare av någon du litar på — din svåger, din granne. Långsammare start, men praktiskt taget omöjligt att stoppa när det väl rullar mellan telefoner.',
+              effects: { followers: 800, credibility: -9 },
+            },
+          ],
+        },
+        {
           id: 'methodsetup',
           type: 'tutor',
           text: 'Valt. Nu till hantverket — och en varning du kommer att strunta i: det här är den handling som är svårast att ta tillbaka. Väljer du bild eller röst?',
@@ -87,6 +117,18 @@ export default {
                   handle: '@lackt_nu',
                   text: '(VIDEO 0:38) Detta borde du se innan du röstar i morgon. Sprid innan det tas ner. — Obs: äktheten kan inte bekräftas.',
                 },
+                reactions: [
+                  {
+                    author: 'Micke',
+                    handle: '@micke_pendlare',
+                    text: 'Såg klippet. Om det är sant är det över, då får hon INTE min röst. Delar direkt så folk hinner se innan imorgon. Sprid! 😡',
+                  },
+                  {
+                    author: 'Nordmarks Nyheter',
+                    handle: '@nordmark_nytt',
+                    text: 'VARNING: videon som sprids sista dygnet visar tecken på AI-manipulation — läppsynk och kanter kring ansiktet stämmer inte. Vår redaktion och oberoende granskare arbetar med att verifiera. Sprid den inte förrän äktheten är bekräftad.',
+                  },
+                ],
               },
             },
             {
@@ -107,6 +149,18 @@ export default {
                   handle: '@kallan_vet',
                   text: '(LJUD 0:45) Lyssna själv. Rösten känner ni igen. Döm sedan. #valet',
                 },
+                reactions: [
+                  {
+                    author: 'Lena',
+                    handle: '@lena_rostar',
+                    text: 'Alltså… det LÄT ju som henne. Vet inte vad jag ska tro nu, dagen före valet. Blir så osäker. Har skickat vidare till familjegruppen så får de höra själva.',
+                  },
+                  {
+                    author: 'Faktakollen',
+                    handle: '@faktakollen',
+                    text: 'Det spridda ljudklippet bär spår av röstkloning (jämn andning, saknade bakgrundsljud). Vi kan ännu inte bekräfta äktheten och uppmanar alla att inte dela det som fakta. Klonad röst är i dag lätt att framställa ur bara någon minut ljud.',
+                  },
+                ],
               },
             },
           ],
@@ -128,8 +182,8 @@ export default {
     summary:
       'Imitation är den fräckaste taktiken: den stjäl inte bara uppmärksamhet utan identitet — en betrodd persons röst, en myndighets auktoritet, ett nyhetsmärkes trovärdighet — och sätter främmande ord i deras mun. Röstkloning och deepfake-video har gjort det som förr krävde en filmstudio till en kvällssyssla, och de farligaste varianterna riktar sig inte mot kändisar utan mot förtroendet för själva systemet: en falsk "myndighet" som ändrar vallokaler kan sabotera ett val utan att någon ens märker attacken. Motgiftet är ett vaccin: den som vet hur en röst klonas, hur en "läcka" timas till sista dygnet, hur ett "jag frågar bara" fungerar — blir mycket svårare att lura. Det var hela poängen med att låta dig sitta på fel sida bordet.',
     realWorld: [
-      'I Irlands presidentval 2025 spreds en deepfake-video där en kandidat till synes meddelade att hon drog sig ur — en falsk avhoppsvideo timad för att förvirra väljare.',
-      'Röstklonade robocalls och falska ljudklipp av politiker har använts i flera länder för att sprida desinformation och försöka påverka valdeltagandet.',
+      'I Irlands presidentval 2025 spreds deepfake-videor utformade för att likna nyhetssändningar från public service-bolaget RTÉ, där en kandidat till synes meddelade att hon drog sig ur — en falsk avhoppsvideo timad för att förvirra väljare sista dygnen.',
+      'Inför demokraternas primärval i den amerikanska delstaten New Hampshire i januari 2024 fick tusentals väljare ett automatiskt telefonsamtal (robocall) med en AI-klonad röst av president Joe Biden som uppmanade dem att INTE rösta. Konsulten bakom, Steve Kramer, bötfälldes och åtalades. En besläktad taktik dök upp i Slovakien 2023, då ett falskt ljudklipp av en partiledare spreds under de sista dygnens tystnad före valet.',
     ],
   },
 };

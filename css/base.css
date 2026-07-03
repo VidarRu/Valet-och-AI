@@ -169,15 +169,62 @@ button {
   color: var(--gray);
 }
 
-.mission-client {
+.mission-client,
+.mission-target,
+.mission-stakes {
   margin-top: 0.75rem;
   background: var(--bg);
   border: 2px solid var(--ink);
   padding: 0.7rem 0.9rem;
 }
 
+/* Måltavla markeras i rött för att skilja den från uppdragsgivaren */
+.mission-target { border-left: 6px solid var(--red); }
+.mission-stakes { border-left: 6px solid var(--yellow); }
+
+.mission-block-label {
+  margin: 0 0 0.35rem;
+  font-size: 0.68rem;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--gray);
+}
+
 .client-row { margin: 0.25rem 0; font-size: 0.92rem; }
 .client-name { font-weight: 800; font-size: 1rem; }
+
+/* Titel-/prologskärm */
+.card-title-screen {
+  background: var(--ink);
+  color: var(--paper);
+  text-align: center;
+  padding: 1.6rem 1.3rem;
+}
+
+.title-kicker {
+  margin: 0 0 0.4rem;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--gray);
+}
+
+.title-name {
+  margin: 0;
+  font-size: 2.3rem;
+  font-weight: 900;
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+  color: var(--yellow);
+}
+
+.title-tagline {
+  margin: 0.7rem 0 0;
+  font-size: 1rem;
+  color: #e9e7df;
+}
 
 /* Fördjupningskort — blå accent skiljer dem från kärnuppdragen */
 .card-mission-deep { box-shadow: 4px 4px 0 var(--blue); }
@@ -319,6 +366,30 @@ button {
   background: var(--blue);
   padding: 0.08rem 0.55rem;
   border-radius: 999px;
+}
+
+/* Reaktionskort: publikens svar på ett publicerat inlägg. Indragna och
+   nedtonade så att de tre reaktionerna läses som en klunga av gensvar. */
+.card-reaction {
+  margin-left: 1.5rem;
+  box-shadow: 2px 2px 0 var(--gray);
+  border-color: var(--gray);
+}
+
+.post-reaction-tag {
+  margin-left: auto;
+  font-size: 0.64rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--gray);
+  border: 1px solid var(--gray);
+  padding: 0.04rem 0.5rem;
+  border-radius: 999px;
+}
+
+@media (max-width: 480px) {
+  .card-reaction { margin-left: 0.75rem; }
 }
 
 /* Valkort */

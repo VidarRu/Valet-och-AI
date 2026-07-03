@@ -34,6 +34,8 @@ Modul:
   client: {                           // konkret uppdragsgivare med motiv
     name: '…', description: '…', goal: '…', fee: '…'
   },
+  target: { name: '…', description: '…' },  // valfritt: vem/vad uppdraget riktas mot
+  stakes: '…',                        // valfritt: varför måltavlan ska tas ut
   scenarios: [Scenario, …],
   debrief: {                          // feedbacklager 2 (obligatoriskt)
     summary: '…',                     // taktiken i bredare sammanhang
@@ -62,7 +64,8 @@ Val:
   terminal: {                         // valfritt: triggar mörkt terminalläge
     tool: 'voice_synth',              // fiktivt verktygsnamn (inga riktiga varumärken)
     lines: ['rad', …],                // fejkade loggrader, uttryckligen illustrativa
-    result: { author, handle, text }  // kortet som klistras in i flödet efteråt
+    result: { author, handle, text }, // kortet som klistras in i flödet efteråt
+    reactions: [{ author, handle, text }, …]  // valfritt: fler sociala medie-reaktioner
   },
   next: 'stegId' | 'end'              // valfritt: hoppmål inom scenariot;
                                       // utelämnat = nästa steg i ordningen
@@ -73,6 +76,16 @@ function isNonEmptyString(v) {
   return typeof v === 'string' && v.trim().length > 0;
 }
 
+function validatePost(post, path, errors) {
+  if (!post || typeof post !== 'object') {
+    errors.push(`${path} saknas`);
+    return;
+  }
+  for (const field of ['author', 'handle', 'text']) {
+    if (!isNonEmptyString(post[field])) errors.push(`${path}.${field} saknas`);
+  }
+}
+
 function validateTerminal(terminal, path, errors) {
   if (!isNonEmptyString(terminal.tool)) errors.push(`${path}.tool saknas`);
   if (!Array.isArray(terminal.lines) || terminal.lines.length === 0) {
@@ -80,12 +93,13 @@ function validateTerminal(terminal, path, errors) {
   } else if (!terminal.lines.every(isNonEmptyString)) {
     errors.push(`${path}.lines innehåller tomma rader`);
   }
-  const r = terminal.result;
-  if (!r || typeof r !== 'object') {
-    errors.push(`${path}.result saknas (kortet som visas i flödet efteråt)`);
-  } else {
-    for (const field of ['author', 'handle', 'text']) {
-      if (!isNonEmptyString(r[field])) errors.push(`${path}.result.${field} saknas`);
+  validatePost(terminal.result, `${path}.result`, errors);
+  // Valfria extra reaktioner: fler sociala medie-svar efter det genererade kortet.
+  if (terminal.reactions != null) {
+    if (!Array.isArray(terminal.reactions)) {
+      errors.push(`${path}.reactions måste vara en lista`);
+    } else {
+      terminal.reactions.forEach((r, i) => validatePost(r, `${path}.reactions[${i}]`, errors));
     }
   }
 }
@@ -174,6 +188,22 @@ export function validateModule(module) {
     for (const field of ['name', 'description', 'goal', 'fee']) {
       if (!isNonEmptyString(client[field])) errors.push(`${path}: client.${field} saknas`);
     }
+  }
+
+  // Valfri men rekommenderad extra kontext på uppdragskortet:
+  //   target – vem/vad uppdraget riktas mot
+  //   stakes – varför någon vill ta ut måltavlan (intresset bakom uppdraget)
+  if (module.target != null) {
+    if (typeof module.target !== 'object') {
+      errors.push(`${path}: target måste vara ett objekt { name, description }`);
+    } else {
+      for (const field of ['name', 'description']) {
+        if (!isNonEmptyString(module.target[field])) errors.push(`${path}: target.${field} saknas`);
+      }
+    }
+  }
+  if (module.stakes != null && !isNonEmptyString(module.stakes)) {
+    errors.push(`${path}: stakes måste vara en icke-tom sträng`);
   }
 
   if (!Array.isArray(module.scenarios) || module.scenarios.length === 0) {

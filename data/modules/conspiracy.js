@@ -12,6 +12,11 @@ export default {
     goal: 'Så tvivel om själva rösträkningen redan innan en enda röst är lagd — så att valnatten blir en krutdurk oavsett utgång.',
     fee: 'Ett generöst "forskningsstipendium". Frågor om varifrån pengarna kommer besvaras inte.',
   },
+  target: {
+    name: 'Valmyndigheten (@valmyndigheten) och tilltron till rösträkningen',
+    description: 'En torr, transparent myndighet som uppgraderar sitt räknesystem och tar in extern säkerhetsgranskning. Harmlöst, rutinmässigt och sant — vilket gör det till perfekt råmaterial. Måltavlan är egentligen inte myndigheten utan väljarnas tro på att rösterna räknas rätt.',
+  },
+  stakes: 'Din utländska tankesmedja bryr sig inte om vem som vinner — de vill att halva landet ska vägra tro på resultatet. Ett folk som misstror själva rösträkningen är ett destabiliserat folk, och en förlorarsida som redan "vet" att valet var riggat gör valnatten till en krutdurk oavsett utgång. Det tjänar varje aktör som vinner på kaos och ett urholkat förtroende för demokratin i Nordmark.',
   scenarios: [
     {
       id: 'sc',
@@ -59,6 +64,31 @@ export default {
           ],
         },
         {
+          id: 'timing',
+          type: 'choice',
+          prompt: 'Inramningen är vald. Men konspiration är lika mycket en fråga om tempo som om innehåll. När sår vi tvivlet?',
+          options: [
+            {
+              id: 'a',
+              label: 'Lång, tålmodig sådd i veckor — låt tvivlet gro långsamt tills det känns som väljarnas egen slutsats',
+              feedback: 'Hantverkarens val. Ett tvivel som mognat i tre veckor känns inte som något du planterade — det känns som något publiken "kommit på själv", och det sitter oändligt mycket hårdare. Kräver tålamod och budget, men bygger en misstro som står emot alla dementier.',
+              effects: { followers: 500, credibility: -6 },
+            },
+            {
+              id: 'b',
+              label: 'Spara krutet till sista dygnen — en koncentrerad tvivelsstorm precis vid urnorna',
+              feedback: 'Maximal effekt i rätt ögonblick: slår du sent hinner ingen faktagranska innan folk röstar, och tvivlet är färskt på valnatten. Men en storm som blossar upp ur ingenstans ser regisserad ut — och koncentrerad aktivitet är just vad plattformarnas filter jagar.',
+              effects: { followers: 700, credibility: -10 },
+            },
+            {
+              id: 'c',
+              label: 'Haka på varje liten nyhet löpande — låt varje försening och glitch "bekräfta" mönstret',
+              feedback: 'Den självgödande metoden. Genom att koppla varje vardaglig incident — en försenad leverans, ett kort systemavbrott — till berättelsen får du verkligheten själv att verka bekräfta dig. Diffust och uthålligt, men kräver att du hela tiden är på tå och matar elden.',
+              effects: { followers: 600, credibility: -7 },
+            },
+          ],
+        },
+        {
           id: 'methodsetup',
           type: 'tutor',
           text: 'Nu ska tvivlet få en form som känns som bevis — utan att vara det. Inget övertygar som något man tror sig ha upptäckt själv. Välj leverans.',
@@ -86,6 +116,18 @@ export default {
                   handle: '@sanning_nu',
                   text: '🎬 SE DEN HÄR innan den censureras. Vi ställer bara frågorna ingen annan vågar om valet. Bilda dig en egen uppfattning. 3 min som förändrar allt.',
                 },
+                reactions: [
+                  {
+                    author: 'Björn, 58',
+                    handle: '@bjorn_undrar',
+                    text: 'Wow. Såg den två gånger. Man KAN inte förklara bort allt det där som slump. Varför pratar ingen "riktig" media om det? Delar vidare innan den försvinner. 🙏',
+                  },
+                  {
+                    author: 'Valmyndigheten',
+                    handle: '@valmyndigheten',
+                    text: 'Klargörande: rösträkningen sker manuellt och är öppen för partiernas valobservatörer. Den externa leverantören granskar säkerheten och rör aldrig rösterna. Hela protokollet är offentligt på vår sida. Sprid gärna det i stället.',
+                  },
+                ],
               },
             },
             {
@@ -106,6 +148,18 @@ export default {
                   handle: '@lena_rostar',
                   text: 'Är det bara jag som tycker det är konstigt att de byter räknesystem precis nu? Ingen konspiration alltså. Men någon borde ju förklara. 🤔',
                 },
+                reactions: [
+                  {
+                    author: 'Micke',
+                    handle: '@micke_pendlare',
+                    text: 'Nej du är inte ensam, tänkte exakt samma. Varför just NU? Säger inte att något är fel men… lite väl lägligt. Någon borde ställa dem mot väggen.',
+                  },
+                  {
+                    author: 'Familjen Sjö',
+                    handle: '@sjo_bjorkstad',
+                    text: 'Har läst runt lite nu och blir bara mer osäker. Ska nog dubbelkolla att min röst faktiskt registreras på valnatten. Man vet ju liksom inte längre. 😕',
+                  },
+                ],
               },
             },
           ],
@@ -122,8 +176,8 @@ export default {
     summary:
       'Konspirationsteorins motor är inte påståendet — det är frågan. "Jag säger inte att något är fel, jag undrar bara" är en sköld som gör det omöjligt att motbevisa och lätt att sprida. Tekniken består i att koppla ihop verkliga, harmlösa punkter (ett systembyte, en extern leverantör) till ett mönster och sedan låta publiken själv dra det sista strecket — det man "kommer på själv" sitter hårdare än det man blir itutad. Generativ AI adderar produktionsvärde: en övertygande "dokumentär" eller en ström av till synes oberoende "oroliga medborgare" kan skapas av en enda aktör. Motgiftet är att lägga märke till formen: när någon "bara ställer frågor" men aldrig accepterar några svar — är målet inte sanning, utan tvivel.',
     realWorld: [
-      'Att så tvivel om valets integritet i förväg — "jag frågar bara" om rösträkning, maskiner eller poströster — har blivit ett återkommande sätt att förbereda anhängare på att avvisa ett förlorat resultat.',
-      'Generativa verktyg gör det billigt att producera material som ser granskat ut — påkostade "dokumentärer" eller strömmar av till synes oberoende röster — vilket får en ensam aktörs berättelse att likna en folklig upptäckt.',
+      'Inför och efter det amerikanska presidentvalet 2020 såddes tvivel om poströster och rösträkning i förväg ("Stop the Steal", den så kallade Stora lögnen). Genom att förbereda anhängarna på att resultatet var riggat redan innan rösterna räknats fick man en förlorarsida som "redan visste" — vilket kulminerade i stormningen av Kapitolium den 6 januari 2021.',
+      'Filmen "2000 Mules" (USA, 2022) förpackade sedan länge motbevisade påståenden om valfusk 2020 som en påkostad "dokumentär" — produktionsvärdet gav lögnerna en känsla av bevis. Distributören Salem Media drog senare tillbaka filmen och bad om ursäkt (2024). Generativa verktyg gör i dag samma sorts trovärdighetsförpackning — dokumentärer och strömmar av till synes oberoende röster — billig för vem som helst.',
     ],
   },
 };
