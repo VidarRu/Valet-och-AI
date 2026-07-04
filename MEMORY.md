@@ -68,6 +68,8 @@ js/
   schema.js             BADGES-konstant + validering av moduldata (validateModules).
   engine.js             Spelmotorn. Ren state/flödeslogik, ingen DOM. Pub/sub via subscribe().
   render.js             Ritar statusrad + kortflöde + hub + slutkort utifrån state.
+                        Inläggen renderas som "Kvittra"-plattformskort med medieblock
+                        (video/röst/meme/bild/dokument) — se avsnitt 8.
   terminal.js           Mörk terminal-overlay med typewriter-effekt.
 data/
   index.js              Register: exporterar { core, deep, hub, closing, prologue }.
@@ -209,6 +211,24 @@ VIKTIGT: alla verkliga exempel ska förbli faktiskt korrekta — hitta inte på 
   "storyn"→"nyheten/snacket", "targeting", "cliffhanger", "creepy", "online",
   "spinndoktor" m.fl.). Behåll etablerade lånord (deepfake, trollfabrik, meme, bot,
   krypto) och dokumenterade termer. Undvik direktöversättningar från engelska i ny text.
+- **Kvittra — inläggens plattform (visuell inlevelse):** alla `post`-flödesposter
+  (kontextinlägg, AI-genererade resultat, reaktioner) renderas i `render.js` som kort
+  på den fiktiva mikrobloggplattformen **Kvittra** — rundat formspråk (medvetet mjukare
+  än spelets tabloidkort; kontrasten "spelets ram vs skärmen du tittar på" är poängen),
+  gradientavatar med initial, blå verifieringsbock för institutionella konton (se
+  `VERIFIED`-listan), relativ tidsstämpel, hashtags/@omnämnanden i accentfärg och en
+  engagemangsrad (svar/omdelningar/gillningar). Reaktioner blir **trådade svar** (indragna,
+  med kopplande svarsräls). Alla härledda värden (tid, siffror, avatarfärg) är
+  **deterministiska ur innehållet** (FNV-hash) så inget hoppar vid omritning. Inget nytt
+  schemafält behövs — `engine.terminalDone()` skickar bara med `tool`-strängen till det
+  genererade kortet.
+- **Medietyper i genererade inlägg:** `render.js:parseMedia()` härleder medietyp ur
+  verktygsnamnet (`item.tool`) + textledtrådar och ritar ett medieblock ovanför bildtexten:
+  `ansiktsvav`/`djupbild` → **video** (mörk ruta, spelknapp, längd, scen-alt), `rostspegel`
+  → **röst** (vågform + längd), `memesmed` → **meme** (versaltext på mönster), `bildsmed`
+  → **bild** (fotoruta + scenbeskrivning), `dokumentsmedjan` → **skärmdump/dokument**
+  (maskerat "läckt" ark). Längd/scen parsas ur texten (`(VIDEO 0:38)`, `(LJUD 0:45)`,
+  `[bild: …]`); text-verktyg (`ekomotor` m.fl.) får inget block. Rent presentationslager.
 - **Faser** (`state.phase`): `playing` → `terminal` → `module-debrief` → `hub` → `finished`.
 - **Statusrad**: följartal, blå trovärdighetsstapel, uppdragsräknare.
 - **Terminalläge**: triggas av val med `terminal`-fält; typewriter skriver fiktiva
@@ -225,11 +245,12 @@ VIKTIGT: alla verkliga exempel ska förbli faktiskt korrekta — hitta inte på 
 
 - **GitHub Pages** bygger från **default-branchen `claude/ai-misinformation-game-IXaqW`**
   och serverar på **https://vidarru.github.io/Valet-och-AI/**.
-- **Aktuell utvecklingsbranch: `claude/game-narrative-missions-cux2zv`.** Allt arbete görs
+- **Aktuell utvecklingsbranch: `claude/game-social-media-visuals-kytfow`.** Allt arbete görs
   här och mergas till default-branchen via PR. (Historik: PR #4 = prolog/kontext/reaktioner/
-  exempel, MERGAD. PR #5 = reaktiva val + avanglifiering, MERGAD 2026-07-04. PR #6 = denna
-  MEMORY.md-uppdatering, eftersläntrande efter PR #5:s merge.) Är en PR redan mergad: starta
-  om branchen från default och gör en NY PR — stacka inte på mergad historik.
+  exempel, MERGAD. PR #5 = reaktiva val + avanglifiering, MERGAD 2026-07-04. PR #6 =
+  MEMORY.md-uppdatering. Aktuellt arbete: Kvittra-plattformskort + medietyper i inläggen,
+  se avsnitt 8.) Är en PR redan mergad: starta om branchen från default och gör en NY PR —
+  stacka inte på mergad historik.
 - **Konsekvens:** ändringar syns på webb-URL:en först när de mergats in i
   default-branchen. (Skillnad mot första versionen, som skrev rakt på deploy-branchen.)
 - Pages använder en `.nojekyll`-fil (statisk servering utan Jekyll). Alla sökvägar i
