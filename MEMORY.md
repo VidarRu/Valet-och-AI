@@ -5,7 +5,7 @@ en **ny chattsession** så att kontexten kan börja om utan att något går för
 Läs även `PROJECT_BRIEF.md` — den är den ursprungliga designbriefen och gäller
 fortfarande som källa för spelets vision.
 
-Senast uppdaterad: 2026-07-03.
+Senast uppdaterad: 2026-07-04.
 
 ---
 
@@ -35,6 +35,16 @@ Arbetsordningen från briefen är genomförd i sin helhet:
 Spelet är komplett och spelbart från början till slut. Återstående arbete är
 förbättringar/utökningar, inte grundfunktioner (se avsnitt 11).
 
+**Senare tillägg (efter beställarfeedback, 2026-07-04):**
+- **Prolog + introruta** som etablerar Nordmark/valår/spelaren och EKO/Ekokammaren.
+- **Mer uppdragskontext:** `target` (måltavla) + `stakes` (vad som står på spel) på
+  uppdragskortet, utöver `client`.
+- **Fler reaktioner:** metodutfall ger tre sociala medie-reaktioner (`terminal.reactions`).
+- **Fler beslut:** reaktiva dialogval (Bad News-stil) + enda-val-repliker i varje uppdrag;
+  kärnuppdragen har dessutom ett extra strategiskt val.
+- **Skarpare verkliga exempel** (plats/delstat/år/namn) i debrieferna.
+- **Avanglifiering** av dialogen (se avsnitt 8).
+
 ---
 
 ## 3. Teknisk stack
@@ -60,7 +70,7 @@ js/
   render.js             Ritar statusrad + kortflöde + hub + slutkort utifrån state.
   terminal.js           Mörk terminal-overlay med typewriter-effekt.
 data/
-  index.js              Register: exporterar { core, deep, hub, closing }.
+  index.js              Register: exporterar { core, deep, hub, closing, prologue }.
   modules/*.js          De SEX kärnuppdragen (en fil per badge).
   deep/*.js             De SEX fördjupningarna (en fil per badge).
 tools/
@@ -121,7 +131,13 @@ legojobb.
 - **Nadia Holm** (@nadiaholm) / **Faktakollen** (@faktakollen) — faktagranskare.
 - **Valmyndigheten** (@valmyndigheten) — imitations-/konspirationsmål.
 - **Nordmarks Nyheter** (@nordmark_nytt) — nyhetsmedium.
-- Återkommande "vanliga" röster: **Micke** (@micke_pendlare), **Lena** (@lena_rostar).
+- Återkommande "vanliga" röster: **Micke** (@micke_pendlare), **Lena** (@lena_rostar),
+  **Familjen Sjö** (@sjo_bjorkstad).
+- **Ekokammaren** (@ekokammaren) — den shady reklambyrån/trollfabriken som rekryterar
+  spelaren i prologen (paraplyet ovanför de sex klienterna).
+- Måltavlor i fördjupningarna: **Moa Ek** (@moaek, 19) — trollning; **prof. Idris Hane**
+  (@prof_hane) — misskreditering; **Camilla**/**admin Sara** i föräldragruppen —
+  polarisering; **Björn, 58** (@bjorn_undrar)/**Maria** i kaninhålet — konspiration.
 
 **Fiktiva AI-verktyg** (ALDRIG riktiga varumärken; terminalloggar märkta SIMULERING):
 - `EkoMotor` / `SvärmSkribent` / `Frågefabriken` — bot-genererad text
@@ -151,8 +167,12 @@ legojobb.
 - Känslor: kapa en verklig tragedi för moralisk upprördhet (news-jacking)
 - Imitation: "liar's dividend" — avfärda ett ÄKTA klipp som deepfake
 
-Varje uppdrag: intro/taktik (tutor) → kontextinlägg → strategival → metodval (terminal)
-→ genererat resultatkort → wrap → debrief (lager 2 med verkliga exempel).
+Uppdragskortet visar nu **Uppdragsgivare** (`client`) + **Måltavla** (`target`) +
+**Vad som står på spel** (`stakes`). Typiskt flöde i ett uppdrag: uppdragskort →
+intro (tutor) → **reaktivt dialogval** (konvergerar) → taktik → kontextinlägg →
+strategival → **enda-val-replik** som binder ihop kronologin → ev. extra val →
+metodval (terminal) → genererat resultatkort + **tre reaktioner** → wrap →
+debrief (lager 2 med verkliga exempel).
 
 **Verkliga fall som vävs in i debriefer/avslutning** — nu KONKRETA med plats/
 delstat/år/namn (efter beställarens önskemål "säg i vilken delstat valet var"):
@@ -197,7 +217,7 @@ VIKTIGT: alla verkliga exempel ska förbli faktiskt korrekta — hitta inte på 
   fördjupning per badge eller avslutar. `selectDeep(id)` / `finish()`.
 - **Avslutning**: slutkort med alla badges + `closing`-reflektionen + "Spela igen"
   (`window.location.reload()`).
-- Motorns signatur: `createEngine({ core, deep, closing, hub })` i `js/main.js`.
+- Motorns signatur: `createEngine({ core, deep, closing, hub, prologue })` i `js/main.js`.
 
 ---
 
@@ -205,8 +225,11 @@ VIKTIGT: alla verkliga exempel ska förbli faktiskt korrekta — hitta inte på 
 
 - **GitHub Pages** bygger från **default-branchen `claude/ai-misinformation-game-IXaqW`**
   och serverar på **https://vidarru.github.io/Valet-och-AI/**.
-- **Utvecklingsbranch: `claude/repo-cleanup-tech-stack-ey67r2`.** Allt arbete görs här
-  och mergas till default-branchen via PR (t.ex. PR #2).
+- **Aktuell utvecklingsbranch: `claude/game-narrative-missions-cux2zv`.** Allt arbete görs
+  här och mergas till default-branchen via PR. (Historik: PR #4 = prolog/kontext/reaktioner/
+  exempel, MERGAD. PR #5 = reaktiva val + avanglifiering, MERGAD 2026-07-04. PR #6 = denna
+  MEMORY.md-uppdatering, eftersläntrande efter PR #5:s merge.) Är en PR redan mergad: starta
+  om branchen från default och gör en NY PR — stacka inte på mergad historik.
 - **Konsekvens:** ändringar syns på webb-URL:en först när de mergats in i
   default-branchen. (Skillnad mot första versionen, som skrev rakt på deploy-branchen.)
 - Pages använder en `.nojekyll`-fil (statisk servering utan Jekyll). Alla sökvägar i
@@ -232,9 +255,9 @@ VIKTIGT: alla verkliga exempel ska förbli faktiskt korrekta — hitta inte på 
 Idéer för att fördjupa spelet ytterligare, grovt sorterade efter värde/insats:
 
 **Pacing & känsla**
-- Öppningarna har ofta två tutor-bubblor i rad + många "Fortsätt"-klick. Överväg att
-  slå ihop korta tutor-steg eller lägga in ett auto-advance-läge med paus.
-- **Terminalvariation:** `SvärmSkribent` används i 7 av 24 metodval. Ge fler distinkta
+- ~~Öppningarna har ofta två tutor-bubblor i rad + många "Fortsätt"-klick.~~ — till stor del
+  åtgärdat 2026-07-04: text trimmad och uppbruten med reaktiva dialogval/enda-val-repliker.
+- **Terminalvariation:** `SvärmSkribent` används i flera metodval. Ge fler distinkta
   verktygsnamn och loggstilar så terminalläget känns nytt varje gång (briefens önskemål).
 
 **Spelmekanik**
@@ -243,10 +266,10 @@ Idéer för att fördjupa spelet ytterligare, grovt sorterade efter värde/insat
   ett alternativt "du blev avslöjad"-slut om den bottnar. Det gör dilemmana skarpare.
 - ~~**Titel-/startskärm** som ramar in spelet~~ — KLART (prolog + titelkort, se avsnitt 8).
 - ~~**Fler val/beslut per uppdrag** och **fler reaktioner** på besluten~~ — KLART: varje
-  kärnuppdrag har fått ett tredje val, och metodutfall ger nu tre sociala
-  medie-reaktioner (`terminal.reactions`). Fördjupningarna har fått reaktioner +
-  target/stakes men behållit två val (de är redan längre). Ev. framtida: lägg ett
-  tredje val även i fördjupningarna för symmetri.
+  kärnuppdrag har ett tredje strategiskt val, metodutfall ger tre sociala medie-reaktioner
+  (`terminal.reactions`), och ALLA 12 uppdrag har reaktiva dialogval + enda-val-repliker
+  (avsnitt 8). Fördjupningarna har två strategiska val (inte tre) men fick de reaktiva
+  beaten — ev. framtida: ett tredje strategiskt val även där för full symmetri.
 - **localStorage:** spara badges/progress mellan sessioner, låt spelaren återuppta.
 
 **Innehåll**
@@ -265,8 +288,7 @@ Idéer för att fördjupa spelet ytterligare, grovt sorterade efter värde/insat
 ## 12. Snabborientering för nästa session
 
 1. Läs `PROJECT_BRIEF.md` (vision) + detta `MEMORY.md` (nuläge).
-2. Utveckla på branchen `claude/repo-cleanup-tech-stack-ey67r2`, merga till
-   default för att deploya.
+2. Utveckla på aktuell branch (se avsnitt 9), merga till default för att deploya.
 3. Kör `node tools/validate.js` efter dataändringar; spela igenom via lokal server.
 4. Håll spelvärlden (avsnitt 6) konsekvent och alla AI-verktyg fiktiva + märkta
-   SIMULERING.
+   SIMULERING. Skriv idiomatisk svenska — undvik anglifieringar (avsnitt 8).
