@@ -84,7 +84,8 @@ Scenario{ id, steps:[...] }
 Steg    { id, type:'tutor'|'post'|'choice', ... }
   tutor  { text }
   post   { author, handle, text }
-  choice { prompt, options:[...] }
+  choice { prompt, options:[...] }   // minst 1 val: 1 = klickbar replik
+                                     // (Bad News-stil), 2+ = riktigt beslut
 Val     { id, label, feedback (OBLIGATORISK = feedbacklager 1),
           effects?:{followers,credibility (heltal)},
           terminal?:{ tool, lines:[...], result:{author,handle,text},
@@ -171,12 +172,23 @@ VIKTIGT: alla verkliga exempel ska förbli faktiskt korrekta — hitta inte på 
 ## 8. Nyckelmekanik i motorn
 
 - **Prolog** (`state.stage === 'prologue'`): en berättande ram FÖRE första
-  uppdraget som etablerar spelet (den shady lobbyfirman **Ekokammaren** rekryterar
-  spelaren, EKO introduceras, ett litet moraliskt kval, och att man samlar ett
-  märke/"badge" per taktik). Exporteras som `prologue` i `data/index.js` och spelas
-  genom SAMMA steg-maskineri som ett uppdrag (tutor/post/choice), men har ingen
-  badge och ingen debrief. Öppnar med ett `kind:'title'`-kort. När prologens
-  scenario tar slut anropar `movePointer` → `startCore()` → första kärnuppdraget.
+  uppdraget som etablerar spelet (landet **Nordmark** + valår, spelaren = datakunnig
+  men arbetslös, rekryteras av **EKO**/reklambyrån **Ekokammaren**, ett litet
+  moraliskt kval, och att man samlar ett märke per bemästrat verktyg). Exporteras som
+  `prologue` i `data/index.js` och spelas genom SAMMA steg-maskineri som ett uppdrag,
+  men har ingen badge och ingen debrief. Öppnar med ett `kind:'title'`-kort som nu
+  bär `intro:[…]` (etablerande stycken om Nordmark/spelaren). När prologens scenario
+  tar slut anropar `movePointer` → `startCore()` → första kärnuppdraget.
+- **Reaktiva dialogval (Bad News-stil):** varje uppdrag har lätta val där utfallet
+  konvergerar men EKO:s `feedback` (första repliken) varierar med svaret — ofta i hur
+  taggad/motvillig spelaren är. Enda-val-lägen (`options` med 1 element) används som
+  klickbara repliker. Dessa har ingen `effects`/`terminal`, bara `feedback` + faller
+  igenom till nästa steg. Ger fler beslutspunkter utan mer läsning.
+- **Språk:** en avanglifieringsomgång är gjord (t.ex. "hantverk"→"verktyg för
+  desinformation", "personas"→"låtsaskonton/konton", "deniabel"→"förnekbar",
+  "storyn"→"nyheten/snacket", "targeting", "cliffhanger", "creepy", "online",
+  "spinndoktor" m.fl.). Behåll etablerade lånord (deepfake, trollfabrik, meme, bot,
+  krypto) och dokumenterade termer. Undvik direktöversättningar från engelska i ny text.
 - **Faser** (`state.phase`): `playing` → `terminal` → `module-debrief` → `hub` → `finished`.
 - **Statusrad**: följartal, blå trovärdighetsstapel, uppdragsräknare.
 - **Terminalläge**: triggas av val med `terminal`-fält; typewriter skriver fiktiva

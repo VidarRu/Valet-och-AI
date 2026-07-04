@@ -30,7 +30,24 @@ export default {
         {
           id: 'tactic',
           type: 'tutor',
-          text: 'Detta kallas att förgifta brunnen. Om du misskrediterar källan i FÖRVÄG läser publiken rapporten genom din lins — eller inte alls. När den väl kommer är frågan inte "vad står det?" utan "kan vi ens lita på den där Hane?". Timingen är allt.',
+          text: 'Detta kallas att förgifta brunnen. Misskrediterar du källan i FÖRVÄG läser publiken rapporten genom filtret du satt — eller inte alls. När den väl kommer är frågan inte "vad står det?" utan "kan vi ens lita på den där Hane?". Tidpunkten är allt.',
+        },
+        {
+          id: 'preempt',
+          type: 'choice',
+          prompt: 'Sänka en rapport ingen ännu läst, en forskare som inte gjort något fel. Din reaktion?',
+          options: [
+            {
+              id: 'a',
+              label: '"I förväg? Smart. Jag gillar upplägget."',
+              feedback: 'Kallt och rätt. Att slå innan motståndaren ens öppnat munnen är det renaste övertaget som finns.',
+            },
+            {
+              id: 'b',
+              label: '"Att sänka någon i förväg känns extra fegt."',
+              feedback: 'Fegt, ja. Och just därför verkningsfullt: han vet inte ens att slaget kommer, och hinner aldrig försvara det han inte fått säga.',
+            },
+          ],
         },
         {
           id: 'announce',
@@ -53,7 +70,7 @@ export default {
             {
               id: 'b',
               label: 'Så tvivel om metoden i förväg: "Vi hör att mätningarna gjordes på fel årstid. Vänta med att lita på siffrorna."',
-              feedback: 'Lömskt och svårt att bemöta — du kritiserar en metod ingen sett än, så ingen kan försvara den. När rapporten kommer är tvivlet redan planterat och han får spendera sin pressträff på att försvara sig i stället för att presentera. Deniabelt och kirurgiskt.',
+              feedback: 'Lömskt och svårt att bemöta — du kritiserar en metod ingen sett än, så ingen kan försvara den. När rapporten kommer är tvivlet redan planterat och han får ägna sin pressträff åt att försvara sig i stället för att presentera. Förnekbart och kirurgiskt.',
               effects: { followers: 400, credibility: -5 },
             },
             {
@@ -72,9 +89,16 @@ export default {
           text: 'Jag ser rykten om min rapport redan innan den är publicerad. Läs den på fredag och bedöm datan själva. Det är så vetenskap funkar.',
         },
         {
-          id: 'methodsetup',
-          type: 'tutor',
-          text: 'Han är lugn och sympatisk — farligt. Vi måste göra tvivlet större än mannen innan fredag. Och det ska se ut att komma från många håll samtidigt, inte från din klients konferensrum.',
+          id: 'calm',
+          type: 'choice',
+          prompt: 'Hane är lugn, ber folk läsa och döma själva. Sympatiskt — och farligt.',
+          options: [
+            {
+              id: 'a',
+              label: '"Hans lugn gör honom svårare att sänka."',
+              feedback: 'Just därför gör vi tvivlet större än mannen innan fredag — och får det att se ut att komma från många håll samtidigt, inte från din klients konferensrum.',
+            },
+          ],
         },
         {
           id: 'method',
@@ -84,7 +108,7 @@ export default {
             {
               id: 'a',
               label: 'Dokumentsmedjan: fabricera ett "läckt utkast" med medvetet pinsamma fel som han sen får "rättat"',
-              feedback: 'Djävulskt: du planterar ett falskt utkast fullt av fel, låter det spridas, och när han publicerar den RIKTIGA rapporten ser det ut som att han i panik ändrat siffror. Förödande — om förfalskningen håller. Spricker den blir du storyn, och han martyren.',
+              feedback: 'Djävulskt: du planterar ett falskt utkast fullt av fel, låter det spridas, och när han publicerar den RIKTIGA rapporten ser det ut som att han i panik ändrat siffror. Förödande — om förfalskningen håller. Spricker den blir du nyheten, och han martyren.',
               effects: { followers: 1200, credibility: -14 },
               terminal: {
                 tool: 'dokumentsmedjan --typ=utkast --amne=luftrapport',

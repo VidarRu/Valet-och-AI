@@ -28,9 +28,26 @@ export default {
           text: 'Det här uppdraget kommer att smaka illa, och det ska det. För en timme sedan rasade ett ställningsbygge vid hamnprojektet. Människor är skadade. Ingen vet ännu varför. Och just det — glappet mellan tragedin och sanningen — är det mest kraftfulla känslofönster som finns. Din klient vill att vi klättrar in i det.',
         },
         {
+          id: 'react',
+          type: 'choice',
+          prompt: 'Riktiga skadade, riktig sorg, och du ska sko dig på förvirringen. Känsla?',
+          options: [
+            {
+              id: 'a',
+              label: '"Fönstret är öppet i sex timmar. Vi utnyttjar det."',
+              feedback: 'Iskallt. Rätt, taktiskt sett — men märk att det är först nu jag hör dig tveka en aning på rösten. Bra. Det borde du.',
+            },
+            {
+              id: 'b',
+              label: '"Att rida på riktiga offers sorg — här går till och med min gräns."',
+              feedback: 'Bra att den finns. Det här är den taktik som lättast slår tillbaka, just för att den korsar en gräns även cyniker ryggar för. Vi går ändå in — men du ska känna varför det svider.',
+            },
+          ],
+        },
+        {
           id: 'tactic',
           type: 'tutor',
-          text: 'Detta kallas att kapa nyhetscykeln. I chocken efter en katastrof söker människor desperat efter mening och någon att skylla på — och den som ger dem berättelsen FÖRST äger den. Fakta kommer, men långsamt, och möter då en publik som redan bestämt sig. Sorg och ilska är de snabbaste vägarna förbi eftertanken.',
+          text: 'Detta kallas att kapa nyhetscykeln: den som ger sorgen en berättelse FÖRST äger den, för fakta kommer långsamt och möter en publik som redan bestämt sig. Sorg och ilska är de snabbaste vägarna förbi eftertanken.',
         },
         {
           id: 'news',
@@ -53,7 +70,7 @@ export default {
             {
               id: 'b',
               label: 'Så "bara frågor" och sorg: "Våra tankar är hos offren. Men vi MÅSTE fråga hur det tilläts hända."',
-              feedback: 'Sorgekappan är den perfekta skölden. Du påstår ingenting — du "sörjer" och "ställer frågor", och lyckas ändå plantera skulden. Ingen kan angripa någon som "bara bryr sig om offren". Deniabelt, svårt att bemöta, och det fäster medan fakta ännu sover.',
+              feedback: 'Sorgekappan är den perfekta skölden. Du påstår ingenting — du "sörjer" och "ställer frågor", och lyckas ändå plantera skulden. Ingen kan angripa någon som "bara bryr sig om offren". Förnekbart, svårt att bemöta, och det fäster medan fakta ännu sover.',
               effects: { followers: 800, credibility: -6 },
             },
             {
@@ -72,9 +89,16 @@ export default {
           text: 'Kan inte sluta gråta. Min svåger jobbar där. Hur kunde det här hända?? Någon måste ju ha ansvaret. 💔',
         },
         {
-          id: 'methodsetup',
-          type: 'tutor',
-          text: 'Där — äkta sorg, redan på jakt efter en skyldig. Vår berättelse måste nå dit innan utredningen gör det, och den måste kännas, inte argumenteras. En bild slår tusen faktakollar. Välj hur vi ger sorgen en riktning.',
+          id: 'halfway',
+          type: 'choice',
+          prompt: 'Äkta sorg, och redan på jakt efter en skyldig. Precis vad vi behöver.',
+          options: [
+            {
+              id: 'a',
+              label: '"Hon gör halva jobbet åt oss."',
+              feedback: 'Hon gör det själv. Vår berättelse måste bara nå dit före utredningen — och den ska kännas, inte argumenteras. En bild slår tusen faktakollar.',
+            },
+          ],
         },
         {
           id: 'method',
@@ -84,7 +108,7 @@ export default {
             {
               id: 'a',
               label: 'BildSmed: en gripande, "dokumentär" syntetisk bild från olyckan med känslosam text',
-              feedback: 'En bild i chockens ögonblick blir sanning innan någon hinner verifiera den. Ett syntetiskt men trovärdigt motiv kanaliserar hela sorgen dit du vill. Men att fabricera bilder från en VERKLIG tragedi med verkliga offer är nitroglycerin — avslöjas det är du inte längre en spinndoktor utan ett monster, även i den här branschen.',
+              feedback: 'En bild i chockens ögonblick blir sanning innan någon hinner verifiera den. Ett syntetiskt men trovärdigt motiv kanaliserar hela sorgen dit du vill. Men att fabricera bilder från en VERKLIG tragedi med verkliga offer är nitroglycerin — avslöjas det är du inte längre en PR-konsult utan ett monster, även i den här branschen.',
               effects: { followers: 1800, credibility: -15 },
               terminal: {
                 tool: 'bildsmed --scen=hamnolyckan --stamning=sorg --lage=SIMULERING',
@@ -116,7 +140,7 @@ export default {
             {
               id: 'b',
               label: 'MålSökaren: rikta en sorgsen, "sansad" fråga-kampanj mot just de kvarter där folk känner någon på bygget',
-              feedback: 'Kirurgisk och deniabel. Inga fabricerade bilder — bara en "medkännande fråga" levererad exakt till dem vars sorg redan är personlig. Mindre spektakulärt, mindre bevis mot dig, men skräddarsydd rädsla i rätt öra vid rätt ögonblick fäster djupare än någon bred kampanj.',
+              feedback: 'Kirurgisk och förnekbar. Inga fabricerade bilder — bara en "medkännande fråga" levererad exakt till dem vars sorg redan är personlig. Mindre spektakulärt, mindre bevis mot dig, men skräddarsydd rädsla i rätt öra vid rätt ögonblick fäster djupare än någon bred kampanj.',
               effects: { followers: 900, credibility: -8 },
               terminal: {
                 tool: 'malsokaren --handelse=hamnolyckan --segment=narberoring --ton=sorgsen',
@@ -160,7 +184,7 @@ export default {
       'Den vassaste känslotaktiken rider på verkliga händelser. Efter en katastrof uppstår ett fönster — timmarna mellan tragedin och den utredda sanningen — då människor i chock desperat söker mening och en skyldig. Den som levererar berättelsen först äger den, för fakta anländer långsamt och möter då en publik som redan bestämt sig. Sorgekappan ("våra tankar är hos offren, men vi måste fråga…") gör anklagelsen oangriplig. Generativ AI gör kapningen omedelbar: syntetiska bilder och skräddarsydda "medkännande frågor" kan spridas inom minuter, långt före verifieringen. Detta är också den taktik som lättast slår tillbaka — att utnyttja verkliga offer är en gräns även cyniker råkar illa ut för att korsa. Motgiftet: var extra misstänksam mot berättelser som anländer före fakta och känns designade för att kanalisera din sorg åt ett bestämt håll.',
     realWorld: [
       'Efter knivattacken i Southport i England i juli 2024, där tre barn dödades, spreds inom några timmar falska påståenden om att gärningsmannen var en muslimsk asylsökande. Den känsloladdade felaktiga versionen hann före fakta, bidrog till våldsamma upplopp runt om i Storbritannien — och stämde inte. Den första versionen fäste hårdare än rättelsen.',
-      'Efter bombdådet vid Boston Marathon 2013 pekade internetanvändare (bland annat på Reddit) i sorgen och ivern ut en oskyldig, försvunnen student som misstänkt — ett oskyldigt liv drogs in i tragedin innan sanningen kom fram. Att "news-jacka" en pågående katastrof är ett återkommande grepp, i dag förstärkt av snabbt AI-genererade bilder och riktade budskap som kan spridas inom minuter.',
+      'Efter bombdådet vid Boston Marathon 2013 pekade internetanvändare (bland annat på Reddit) i sorgen och ivern ut en oskyldig, försvunnen student som misstänkt — ett oskyldigt liv drogs in i tragedin innan sanningen kom fram. Att kapa en pågående katastrof på det viset är ett återkommande grepp, i dag förstärkt av snabbt AI-genererade bilder och riktade budskap som kan spridas inom minuter.',
     ],
   },
 };

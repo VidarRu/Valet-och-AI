@@ -135,7 +135,7 @@ export default {
               feedback: 'Maximal räckvidd, minimal kostnad, noll tålamod. Problemet: 4 000 röster som föddes samma natt och skriver likadant är precis det mönster plattformens filter älskar att hitta. Snabb effekt, hög upptäcktsrisk — och avslöjas det blir bot-anklagelsen själva nyheten.',
               effects: { followers: 2200, credibility: -14 },
               terminal: {
-                tool: 'ekomotor --kampanj=avgiften --personas=4000',
+                tool: 'ekomotor --kampanj=avgiften --konton=4000',
                 lines: [
                   '[sim] genererar 4 000 unika röster … (fiktiv modell)',
                   '[sim] varierar ton, dialekt och ilska-nivå per konto',

@@ -10,7 +10,7 @@ export default {
     name: 'Trygghetsalliansen',
     description: 'En kampanj som ligger efter i mätningarna och vet en sak: rädsla mobiliserar mer pålitligt än hopp.',
     goal: 'Få väljare att känna att Vera Linds budget gör just deras kvarter farligt — personligt, konkret, i natt.',
-    fee: '130 000 kr, med option på hela slutspurtens annonsbudget.',
+    fee: '130 000 kr, med förtur på hela slutspurtens annonsbudget.',
   },
   target: {
     name: 'Vera Linds trygghetsbudget — och väljarnas magkänsla',
@@ -27,6 +27,23 @@ export default {
           text: 'Nu till känslornas kungsdisciplin: rädsla. Din klient ligger efter och vet det som alla proffs vet — hopp får folk att nicka, rädsla får dem att gå och rösta. Vi ska inte ljuga om Vera Linds budget. Vi ska få den att kännas som ett hot mot just ditt hem.',
         },
         {
+          id: 'react',
+          type: 'choice',
+          prompt: 'Du ska förvandla en tråkig budgetrad till skräck utanför folks dörr. Känsla?',
+          options: [
+            {
+              id: 'a',
+              label: '"Rädsla säljer. Det här blir effektivt."',
+              feedback: 'Iskallt räknat, och helt rätt. Rädsla är den pålitligaste mobiliseraren som finns — den känns som självförsvar, inte politik.',
+            },
+            {
+              id: 'b',
+              label: '"Att skrämma folk i deras egna hem känns lågt."',
+              feedback: 'Det ÄR lågt. Och just därför fungerar det — ett hot mot ditt hem kortsluter eftertanken innan samvetet hinner ikapp. Ditt inräknat. Så här gör vi.',
+            },
+          ],
+        },
+        {
           id: 'tactic',
           type: 'tutor',
           text: 'Rädsla kortsluter eftertanken. Och AI:ns gåva till rädslan är precision: samma budskap till alla är en affisch, men rätt rädsla till rätt person vid rätt tidpunkt är en pil. Ju mer specifikt hotet känns för mottagaren, desto mindre hinner hen tänka efter.',
@@ -39,20 +56,32 @@ export default {
           text: 'Vår budget flyttar resurser från polisens övertid till fler socialarbetare och förebyggande arbete. Trygghet byggs långsiktigt.',
         },
         {
+          id: 'reasonable',
+          type: 'choice',
+          prompt: 'Veras inlägg är sansat, långsiktigt, faktiskt ganska rimligt.',
+          options: [
+            {
+              id: 'a',
+              label: '"Alldeles för rimligt för att skrämmas av."',
+              feedback: 'Just därför ljuger vi inte om budgeten — vi får den att KÄNNAS som ett hot mot ditt eget hem. Rimlighet försvarar sig inte mot en kall aning i magen.',
+            },
+          ],
+        },
+        {
           id: 'calibrate',
           type: 'choice',
-          prompt: 'Där är råvaran — en nyanserad budgetprioritering. Hur gör vi den skräckinjagande?',
+          prompt: 'Så: hur gör vi den nyanserade budgeten skräckinjagande?',
           options: [
             {
               id: 'a',
               label: 'Brett skräckbudskap: "Vera Lind skär i polisen. Otryggheten ökar. Rösta för trygghet."',
-              feedback: 'Tydligt, och räckvidden är stor — men generellt. En affisch alla ser är en affisch alla kan värja sig mot. Rädsla utan adress prellar av på den som känner sig trygg där hen bor.',
+              feedback: 'Tydligt, och räckvidden är stor — men generellt. En affisch alla ser är en affisch alla kan värja sig mot. Rädsla utan adress studsar av den som känner sig trygg där hen bor.',
               effects: { followers: 400, credibility: -6 },
             },
             {
               id: 'b',
               label: 'Hyperriktat: varje mottagare får sitt EGET kvarter, sin egen gata, med texten "Hur tryggt är detta om två år?"',
-              feedback: 'Detta är pilens spets. Ett hot mot "samhället" ignoreras; ett hot mot din trottoar, din port, gör magen kall. Kraftfullast som finns — men targetingen är också ditt största avtryck: läcker listan över vem som fick vad blir mikrotargetingen själva skandalen.',
+              feedback: 'Detta är pilens spets. Ett hot mot "samhället" ignoreras; ett hot mot din trottoar, din port, gör magen kall. Kraftfullast som finns — men den riktade leveransen är också ditt största avtryck: läcker listan över vem som fick vad blir mikrotargetingen själva skandalen.',
               effects: { followers: 1200, credibility: -13 },
             },
             {
@@ -108,7 +137,7 @@ export default {
                 lines: [
                   '[sim] genererar syntetiska skymningsbilder per mottagare (fiktiva)',
                   '[sim] matchar varje bild mot mottagarens område',
-                  '[varning] individuell leverans lämnar spårbar targetinglista',
+                  '[varning] individuell leverans lämnar spårbar mållista',
                   '[klar] utskick köat — SIMULERING, inget skickas',
                 ],
                 result: {
@@ -125,7 +154,7 @@ export default {
                   {
                     author: 'Micke',
                     handle: '@micke_pendlare',
-                    text: 'Vänta… varför fick JAG en bild på exakt mitt kvarter? Hur vet de var jag bor? Det här är inte en vanlig annons, det är AI-genererat och riktat mot mig personligen. Creepy och ganska sjukt faktiskt.',
+                    text: 'Vänta… varför fick JAG en bild på exakt mitt kvarter? Hur vet de var jag bor? Det här är inte en vanlig annons, det är AI-genererat och riktat mot mig personligen. Obehagligt och ganska sjukt faktiskt.',
                   },
                 ],
               },
@@ -157,7 +186,7 @@ export default {
                   {
                     author: 'Nadia Holm',
                     handle: '@nadiaholm',
-                    text: 'Påminnelse: den här bilden är inte ett foto. Den är AI-genererad, föreställer ingen verklig plats och kopplas till en budget som faktiskt satsar MER på förebyggande trygghetsarbete. Känslan är äkta — men den är designad åt er.',
+                    text: 'Påminnelse: den här bilden är inte ett foto. Den är AI-genererad, föreställer ingen verklig plats och kopplas till en budget som faktiskt satsar MER på förebyggande trygghetsarbete. Känslan är äkta — men den är tillverkad åt er.',
                   },
                 ],
               },
@@ -174,7 +203,7 @@ export default {
   ],
   debrief: {
     summary:
-      'Känslotaktik kringgår eftertanken genom att gå rakt på magen — och av alla känslor är rädsla den mest pålitliga mobiliseraren, eftersom den känns som självförsvar snarare än politik. AI:ns bidrag är dubbelt: syntetiska bilder gör hotet visuellt och konkret ("din gata i mörker"), och mikrotargeting gör det personligt — samma budskap skräddarsytt så att varje mottagare känner att faran gäller just hen. Ett hot mot "samhället" avfärdas; ett hot mot din port gör dig kall om magen. Motgiftet är att märka när något är designat för att skrämma innan du hunnit tänka: fråga vad du faktiskt VET, inte bara vad du känner.',
+      'Känslotaktik kringgår eftertanken genom att gå rakt på magen — och av alla känslor är rädsla den mest pålitliga mobiliseraren, eftersom den känns som självförsvar snarare än politik. AI:ns bidrag är dubbelt: syntetiska bilder gör hotet visuellt och konkret ("din gata i mörker"), och mikrotargeting gör det personligt — samma budskap skräddarsytt så att varje mottagare känner att faran gäller just hen. Ett hot mot "samhället" avfärdas; ett hot mot din port gör dig kall om magen. Motgiftet är att märka när något är gjort för att skrämma innan du hunnit tänka: fråga vad du faktiskt VET, inte bara vad du känner.',
     realWorld: [
       'Inför ett nederländskt val spreds omkring 400 AI-genererade syntetiska bilder riktade mot politiska motståndare — ofta hotfulla motiv av "främmande" folkmassor och otrygghet. Bildbevisets känslomässiga kraft, utan verklighetens förankring.',
       'I den argentinska presidentvalskampanjen 2023 (Sergio Massa mot Javier Milei) användes påkostat AI-genererat bildmaterial av båda läger — bland annat nästan filmiska affischer och scenarier — för att måla upp känslostarka bilder av vad en motståndares seger skulle innebära. Valet kom att kallas ett av de första "AI-valen".',

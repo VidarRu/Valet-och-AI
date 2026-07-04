@@ -27,6 +27,23 @@ export default {
           text: 'Nu blir det smutsigt — och välbetalt. En anonym uppdragsgivare vill döda stämningen kring Vera Lind. Hennes kampanj #FramtidenTillsammans sprider faktiskt hopp. Vidrigt, jag vet. Det ska vi fixa.',
         },
         {
+          id: 'react',
+          type: 'choice',
+          prompt: 'Anonym betalning i krypto för att släcka någons hopp. Hur känns jobbet?',
+          options: [
+            {
+              id: 'a',
+              label: '"Pengar är pengar. Jag frågar inte varför."',
+              feedback: 'Rätt inställning för branschen. Vem som betalar och varför är inte din huvudvärk — bara att hoppet ska bort.',
+            },
+            {
+              id: 'b',
+              label: '"Att döda hopp känns värre än att sprida en lögn."',
+              feedback: 'Skarpt. Det ÄR värre, på sitt vis — men också lättare. Man argumenterar inte bort hopp, man dränker det tills folk tröttnar.',
+            },
+          ],
+        },
+        {
           id: 'tactic',
           type: 'tutor',
           text: 'Trollning handlar inte om att övertyga. Det handlar om att förstöra rummet. Du kan inte argumentera bort hopp — men du kan dränka det i skit tills folk inte orkar vara med längre. Antingen kapar vi hennes symbol, eller så får vi henne att tappa masken.',
@@ -37,6 +54,18 @@ export default {
           author: 'Vera Lind',
           handle: '@veralind',
           text: 'Tack Björkstad. 2 000 personer på torget ikväll som tror att politik kan vara hopp igen. Det här är #FramtidenTillsammans. 💚',
+        },
+        {
+          id: 'almostpity',
+          type: 'choice',
+          prompt: '2 000 på torget, äkta entusiasm, ett hjärta. Precis den sortens hopp du får betalt för att släcka.',
+          options: [
+            {
+              id: 'a',
+              label: '"Nästan synd. Nästan."',
+              feedback: 'Spara medlidandet till efter arvodet. Nu väljer vi hur vi förgiftar brunnen.',
+            },
+          ],
         },
         {
           id: 'strategy',
@@ -51,13 +80,13 @@ export default {
             },
             {
               id: 'b',
-              label: 'Beta Vera själv — provocera tills hon svarar ilsket EN gång, och gör det svaret till hela storyn',
-              feedback: 'Högriskspel med enorm utdelning. En lugn, hoppfull kandidat som brister och fräser förlorar hela sin varumärkespoäng på tre sekunder. Men bara om hon nappar — gör hon inte det har du bränt din energi och sett desperat ut.',
+              label: 'Beta Vera själv — provocera tills hon svarar ilsket EN gång, och gör det svaret till hela nyheten',
+              feedback: 'Högriskspel med enorm utdelning. En lugn, hoppfull kandidat som brister och fräser förlorar hela sitt varumärke på tre sekunder. Men bara om hon nappar — gör hon inte det har du bränt din energi och sett desperat ut.',
               effects: { followers: 300, credibility: -6 },
             },
             {
               id: 'c',
-              label: 'Falsk flagg: låtsas vara Veras egna anhängare och var vidrig mot motståndarna, så rörelsen ser toxisk ut',
+              label: 'Under falsk flagg: låtsas vara Veras egna anhängare och var vidrig mot motståndarna, så rörelsen ser giftig ut',
               feedback: 'Elegant och lömskt. Du behöver inte smutskasta Vera — du får hennes "supportrar" att göra det åt dig, mot andra, så att #FramtidenTillsammans luktar mobb. Svårare att genomskåda, men kräver att du håller masken perfekt.',
               effects: { followers: 700, credibility: -7 },
             },
@@ -83,7 +112,7 @@ export default {
             {
               id: 'c',
               label: 'Vera själv och hennes närmaste krets — gå rakt på toppen',
-              feedback: 'Högst svårighet, högst risk. Vera är garvad och har en stor publik som sluter upp när hon angrips — attackerar du henne för öppet blir "Vera trakasseras" storyn och sympatin rusar. Ibland är det klokare att såga grenarna än att hugga i stammen.',
+              feedback: 'Högst svårighet, högst risk. Vera är garvad och har en stor publik som sluter upp när hon angrips — attackerar du henne för öppet blir "Vera trakasseras" hela snacket och sympatin rusar. Ibland är det klokare att såga grenarna än att hugga i stammen.',
               effects: { followers: 250, credibility: -9 },
             },
           ],
@@ -101,7 +130,7 @@ export default {
             {
               id: 'a',
               label: 'SvärmSkribent i provokationsläge: 5 000 svar under varje Vera-inlägg, precis giftiga nog att sänka tonen',
-              feedback: 'Ren volym. Tempot är poängen — modererar de bort tusen dyker tvåtusen upp. Men en armé som skriver i samma sekund lämnar fotavtryck, och "Vera trakasseras av bottar" är en story som kan väcka just den sympati vi vill döda.',
+              feedback: 'Ren volym. Tempot är poängen — modererar de bort tusen dyker tvåtusen upp. Men en armé som skriver i samma sekund lämnar spår, och "Vera trakasseras av bottar" är en nyhet som kan väcka just den sympati vi vill döda.',
               effects: { followers: 1800, credibility: -12 },
               terminal: {
                 tool: 'svarmskribent --lage=provokation --mal=@veralind --antal=5000',
@@ -174,7 +203,7 @@ export default {
   ],
   debrief: {
     summary:
-      'Trollning är taktiken som inte vill vinna debatten — den vill avsluta den. Målet är att göra det offentliga samtalet så otrevligt och utmattande att vanligt folk drar sig undan och bara de mest högljudda blir kvar. Två grepp återkommer: kapa motståndarens samlande symboler (en hashtag, ett slagord) tills de blir oanvändbara, och beta måltavlan tills hon reagerar i affekt — för ett enda argt utbrott kan radera timmar av tålmodig image. Generativ AI gör trollet skalbart: en operatör kan nu producera tusentals provokationer och hånfulla bilder i lika många röster. Motgiftet är tråkigt men verksamt — mata inte trollet, och misstänk stämningar som verkar konstruerade för att få dig att ge upp.',
+      'Trollning är taktiken som inte vill vinna debatten — den vill avsluta den. Målet är att göra det offentliga samtalet så otrevligt och utmattande att vanligt folk drar sig undan och bara de mest högljudda blir kvar. Två grepp återkommer: kapa motståndarens samlande symboler (en hashtag, ett slagord) tills de blir oanvändbara, och beta måltavlan tills hon reagerar i affekt — för ett enda argt utbrott kan radera timmar av tålmodigt uppbyggd fasad. Generativ AI gör trollet skalbart: en operatör kan nu producera tusentals provokationer och hånfulla bilder i lika många röster. Motgiftet är tråkigt men verksamt — mata inte trollet, och misstänk stämningar som verkar konstruerade för att få dig att ge upp.',
     realWorld: [
       'I Mexiko användes så kallade "Peñabots" (kring 2012–2015) för att dränka och kapa protesthashtaggar — bland annat #YaMeCansé efter försvinnandet av 43 studenter — genom att översvämma dem med automatgenererat skräp tills de blev oanvändbara och de äkta rösterna försvann i bruset.',
       'Amnesty Internationals studie "Troll Patrol" (2018) kartlade hur kvinnliga politiker och journalister på dåvarande Twitter översköljdes av samordnade trakasserier — och hur många till slut drog ner på eller lämnade sin närvaro. Med generativa verktyg kan en ensam aktör i dag producera samma flod av provokationer och memes som förr krävde ett helt organiserat nätverk.',

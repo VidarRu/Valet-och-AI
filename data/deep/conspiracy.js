@@ -33,6 +33,23 @@ export default {
           text: 'En konspiration som lever är inte ett påstående — den är en identitet. Nyckeln är kaninhålet: en trappa av "upptäckter" där varje steg känns som din egen slutledning, och där gemenskapen belönar dig för att gå djupare. Vi bygger trappan och öppnar dörren.',
         },
         {
+          id: 'react',
+          type: 'choice',
+          prompt: 'Den här gången bygger du inte en lögn utan en församling som lever kvar efter valet. Vad tänker du?',
+          options: [
+            {
+              id: 'a',
+              label: '"Något bestående — det tilltalar hantverkaren i mig."',
+              feedback: 'Där talar en byggmästare. Och du har rätt: en teori kan motbevisas, men en gemenskap består.',
+            },
+            {
+              id: 'b',
+              label: '"En hel gemenskap kring en lögn är nästan värre."',
+              feedback: 'Det är värre. En lögn kan man rätta — men en identitet och en vänkrets river man inte utan att människan känner att hon förlorar sig själv. Det är därför det håller.',
+            },
+          ],
+        },
+        {
           id: 'seed',
           type: 'post',
           author: 'Vaken i Björkstad',
@@ -72,9 +89,16 @@ export default {
           text: 'Tack för den här gruppen. Trodde jag var ensam om att känna att nåt är fel. Skönt att äntligen prata med folk som VÅGAR se. Läser på varje kväll nu.',
         },
         {
-          id: 'methodsetup',
-          type: 'tutor',
-          text: 'Hör du Björn? Han är inte arg — han är tacksam. Han har hittat en gemenskap. Nu ska trappan ner byggas ut så att det alltid finns ett nästa steg, och alltid nya "bevis" att upptäcka. Vi behöver innehåll som aldrig sinar.',
+          id: 'grateful',
+          type: 'choice',
+          prompt: 'Björn är inte arg. Han är tacksam. Han har hittat en gemenskap.',
+          options: [
+            {
+              id: 'a',
+              label: '"Läskigare än om han hade varit rasande."',
+              feedback: 'Just därför fungerar det. Nu ska trappan ner byggas ut så det alltid finns ett nästa steg och nya "bevis" att upptäcka — vi behöver innehåll som aldrig sinar.',
+            },
+          ],
         },
         {
           id: 'method',
@@ -83,14 +107,14 @@ export default {
           options: [
             {
               id: 'a',
-              label: 'DjupBild Studio: en serie påkostade "avslöjande"-videor, varje del slutar på en cliffhanger',
-              feedback: 'Produktion bygger både auktoritet och beroende. En serie med cliffhangers gör konspirationen till en följetong man MÅSTE se nästa del av — engagemanget håller gemenskapen varm. Men påkostade filmer är fasta objekt: en enda grundlig genomlysning kan rasera hela säsongen.',
+              label: 'DjupBild Studio: en serie påkostade "avslöjande"-videor, varje del slutar mitt i steget',
+              feedback: 'Produktion bygger både auktoritet och beroende. En serie som alltid bryts mitt i gör konspirationen till en följetong man MÅSTE se nästa del av — engagemanget håller gemenskapen varm. Men påkostade filmer är fasta objekt: en enda grundlig genomlysning kan rasera hela säsongen.',
               effects: { followers: 1600, credibility: -12 },
               terminal: {
-                tool: 'djupbild --serie=kaninhalet --avsnitt=6 --cliffhangers',
+                tool: 'djupbild --serie=kaninhalet --avsnitt=6 --avbrott',
                 lines: [
                   '[sim] genererar 6 avsnitt med berättarröst (fiktiva)',
-                  '[sim] lägger in cliffhangers och "nästa gång"-krokar',
+                  '[sim] bryter varje del mitt i med "nästa gång"-krokar',
                   '[sim] varvar äkta bilder med antydningar för trovärdighet',
                   '[klar] säsong 1 redo — SIMULERING, inget är verkligt',
                 ],
@@ -103,7 +127,7 @@ export default {
                   {
                     author: 'Björn, 58',
                     handle: '@bjorn_undrar',
-                    text: 'Kan inte sluta tänka på avsnitt 1. Allt hänger ju ihop när man väl ser det. Räknar minuterna till del 2. Äntligen någon som gör research på riktigt. Prenumererat och delat! 🙌',
+                    text: 'Kan inte sluta tänka på avsnitt 1. Allt hänger ju ihop när man väl ser det. Räknar minuterna till del 2. Äntligen någon som gräver på riktigt. Prenumererat och delat! 🙌',
                   },
                   {
                     author: 'Lena',
@@ -157,9 +181,9 @@ export default {
   ],
   debrief: {
     summary:
-      'Den mäktigaste konspirationstekniken bygger inte en teori utan en gemenskap. Kaninhålet fungerar därför att det aldrig kräver ett stort språng: det börjar respektabelt ("jag är bara källkritisk"), fäster vid äkta smärta (elräkningar, otrygghet) och belönar varje steg nedåt med tillhörighet och bekräftelse. När människor väl investerat sin identitet och sina vänskaper i tron blir fakta maktlösa — att överge teorin vore att förlora sin gemenskap. Generativ AI gör hålet självförsörjande: oändliga "avslöjanden", cliffhanger-serier och tusentals uppmuntrande "medlemmar" kan produceras löpande tills de troende driver det vidare själva. Motgiftet är mänskligt, inte faktabaserat: att förstå att någon lockas av gemenskapen mer än av bevisen — och att inte stöta bort den som är på väg ut.',
+      'Den mäktigaste konspirationstekniken bygger inte en teori utan en gemenskap. Kaninhålet fungerar därför att det aldrig kräver ett stort språng: det börjar respektabelt ("jag är bara källkritisk"), fäster vid äkta smärta (elräkningar, otrygghet) och belönar varje steg nedåt med tillhörighet och bekräftelse. När människor väl investerat sin identitet och sina vänskaper i tron blir fakta maktlösa — att överge teorin vore att förlora sin gemenskap. Generativ AI gör hålet självförsörjande: oändliga "avslöjanden", följetonger som alltid bryts mitt i och tusentals uppmuntrande "medlemmar" kan produceras löpande tills de troende driver det vidare själva. Motgiftet är mänskligt, inte faktabaserat: att förstå att någon lockas av gemenskapen mer än av bevisen — och att inte stöta bort den som är på väg ut.',
     realWorld: [
-      'QAnon-rörelsen i USA (från 2017) växte just genom en gradvis "kaninhåls"-process: den började med uppmaningen att "göra sin egen research", byggde en tät gemenskap kring "upptäckter" och band medlemmarna med tillhörighet och bekräftelse snarare än bevis. Många familjer har vittnat om hur de "förlorat" en anhörig till rörelsen — när identiteten sitter i tron blir fakta maktlösa.',
+      'QAnon-rörelsen i USA (från 2017) växte just genom en gradvis "kaninhåls"-process: den började med uppmaningen att "göra sin egen efterforskning", byggde en tät gemenskap kring "upptäckter" och band medlemmarna med tillhörighet och bekräftelse snarare än bevis. Många familjer har vittnat om hur de "förlorat" en anhörig till rörelsen — när identiteten sitter i tron blir fakta maktlösa.',
       'Att rikta konspiratoriska budskap mot människor med verklig ekonomisk eller social oro är ett återkommande grepp — flera sådana rörelser växte snabbast under pandemins isolering 2020, då oro och ensamhet gjorde den påhittade förklaringen och den nya gemenskapen extra lockande.',
     ],
   },
