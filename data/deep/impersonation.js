@@ -33,6 +33,23 @@ export default {
           text: 'Det kallas lögnarens utdelning. Ju mer allmänheten vet att deepfakes finns, desto lättare blir det att avfärda ÄKTA bevis som "säkert bara en deepfake". Vi behöver inte bevisa att klippet är falskt. Vi behöver bara göra folk tillräckligt osäkra för att de ska välja att inte tro sina ögon. Ironin? Alla desinformationskampanjer före denna gör just den här möjlig.',
         },
         {
+          id: 'react',
+          type: 'choice',
+          prompt: 'Den här gången är problemet att sanningen läckt. Du ska få folk att inte tro sina egna ögon. Vad tänker du?',
+          options: [
+            {
+              id: 'a',
+              label: '"Det mörkaste tricket i lådan. Nästan elegant."',
+              feedback: 'Nästan. Och lägg märke till att du börjar beundra hantverket — det är så här man slutar känna. Håll fast vid ordet "nästan".',
+            },
+            {
+              id: 'b',
+              label: '"Att förstöra själva sanningen är botten."',
+              feedback: 'Det är botten. Och du står på den nu, sista uppdraget. Bra att du ser hur djupt vi grävt — det är det som gör att du kan klättra upp igen efteråt.',
+            },
+          ],
+        },
+        {
           id: 'leak',
           type: 'post',
           author: 'Nordmarks Nyheter',
@@ -53,7 +70,7 @@ export default {
             {
               id: 'b',
               label: '"Bara tvivel": "I deepfakes tidsålder — kan NÅGON av oss vara säker på vad som är äkta längre?"',
-              feedback: 'Detta är hantverket. Du hävdar aldrig att klippet är falskt — du gör bara själva möjligheten till en dimridå. Du behöver inte vinna argumentet, bara skapa tillräckligt tvivel för att hans anhängare ska få en ursäkt att inte tro. Deniabelt, oangripligt, och det utnyttjar en oro folk redan bär.',
+              feedback: 'Detta är hantverket. Du hävdar aldrig att klippet är falskt — du gör bara själva möjligheten till en dimridå. Du behöver inte vinna argumentet, bara skapa tillräckligt tvivel för att hans anhängare ska få en ursäkt att inte tro. Förnekbart, oangripligt, och det utnyttjar en oro folk redan bär.',
               effects: { followers: 600, credibility: -6 },
             },
             {
@@ -72,9 +89,16 @@ export default {
           text: 'Ärligt? Vet inte vad man ska tro längre. Ena dan är allt deepfakes, andra dan är det "läckt". Kanske sa han det, kanske inte. Jag orkar inte ta reda på det. 🤷',
         },
         {
-          id: 'methodsetup',
-          type: 'tutor',
-          text: 'Hör du Micke? "Jag orkar inte ta reda på det." Det är exakt segern. Han valde inte att tro Berg — han valde att inte bry sig. Nu ska tvivlet kännas tekniskt underbyggt, inte som en desperat förnekelse. Vi behöver något som ser ut som bevis på osäkerhet.',
+          id: 'victory',
+          type: 'choice',
+          prompt: '"Jag orkar inte ta reda på det." Micke valde inte att tro Berg — han valde att inte bry sig.',
+          options: [
+            {
+              id: 'a',
+              label: '"Det är ju precis segern."',
+              feedback: 'Precis. Nu ska tvivlet kännas tekniskt underbyggt, inte som en desperat förnekelse — vi behöver något som ser ut som bevis på osäkerhet.',
+            },
+          ],
         },
         {
           id: 'method',
@@ -84,7 +108,7 @@ export default {
             {
               id: 'a',
               label: 'Dokumentsmedjan: fabricera en "teknisk analys" som "påvisar deepfake-artefakter" i det äkta klippet',
-              feedback: 'Falska bevis mot en sann film. En officiellt utseende "analys" ger tvivlarna exakt det de behöver för att slippa tro. Kraftfullt — men en riktig forensiker kan slå hål på din analys, och då bevisar du oavsiktligt att klippet var äkta hela tiden. Binärt och farligt.',
+              feedback: 'Falska bevis mot en sann film. En officiellt utseende "analys" ger tvivlarna exakt det de behöver för att slippa tro. Kraftfullt — men en riktig forensiker kan slå hål på din analys, och då bevisar du oavsiktligt att klippet var äkta hela tiden. Allt eller inget, och farligt.',
               effects: { followers: 1300, credibility: -14 },
               terminal: {
                 tool: 'dokumentsmedjan --typ=teknisk-analys --amne=berg-klipp',

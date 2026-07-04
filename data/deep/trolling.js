@@ -28,9 +28,26 @@ export default {
           text: 'Nu ska vi prata om trollningens fulaste och mest effektiva gren: att tysta en enda människa så att tusen andra håller tyst av rädsla. Måltavlan är Moa Ek, 19. Hennes klipp om varför hon röstar för första gången fick 400 000 visningar. Fel sorts inspiration, enligt din klient. Vi ska släcka henne.',
         },
         {
+          id: 'react',
+          type: 'choice',
+          prompt: 'Måltavlan är en 19-åring som just blivit taggad på att rösta. Hur känns det?',
+          options: [
+            {
+              id: 'a',
+              label: '"Ung och tunnhudad — en lätt måltavla."',
+              feedback: 'Kallt räknat, och sant. Ingen sköld byggd än — det går fort. Men minns att lättast inte är detsamma som finast.',
+            },
+            {
+              id: 'b',
+              label: '"En 19-åring? Det här känns riktigt skitigt."',
+              feedback: 'Det är det. Och behåll den känslan — den säger något om vad taktiken faktiskt kostar. Vi gör det ändå, men du ska veta vad du gör.',
+            },
+          ],
+        },
+        {
           id: 'tactic',
           type: 'tutor',
-          text: 'Det här kallas den nedkylande effekten. Du behöver inte övertyga Moa om något — du behöver bara göra det så obehagligt att synas att hon väljer tystnaden själv. Och när andra ser vad som hände henne, tänker de sig för innan de öppnar munnen. En släckt röst skrämmer hundra.',
+          text: 'Det här kallas den nedkylande effekten: gör det så obehagligt att synas att hon tystnar av sig själv, så tiger hundra andra av rädsla för att bli nästa. Vi behöver inte övertyga henne om något — bara trötta ut henne.',
         },
         {
           id: 'clip',
@@ -38,6 +55,18 @@ export default {
           author: 'Moa Ek',
           handle: '@moaek',
           text: 'Första gången jag får rösta och jag är faktiskt taggad?? Politik behöver inte vara hat. Vi kan bygga nåt bättre tillsammans. 🌱 #förstagångsväljare',
+        },
+        {
+          id: 'harmless',
+          type: 'choice',
+          prompt: 'Hennes klipp är hoppfullt, snällt, helt utan udd. Och 400 000 har sett det.',
+          options: [
+            {
+              id: 'a',
+              label: '"Precis den sortens röst jag får betalt att släcka."',
+              feedback: 'Just den. Och ju snällare hon är, desto mer avskräckande blir det för andra när hon ändå tystas. Men ett råd: håll dig på rätt sida lagen — martyrer är dåligt för affären.',
+            },
+          ],
         },
         {
           id: 'approach',
@@ -52,8 +81,8 @@ export default {
             },
             {
               id: 'b',
-              label: 'Gör henne till ett skämt: memes som förvränger hennes ansikte och ord tills namnet blir en punchline',
-              feedback: 'Förnedring biter djupare än ilska hos en 19-åring. Blir ditt namn en meme förlorar du kontrollen över din egen identitet online — och det finns inget att "anmäla", det är ju "bara skämt". Grymt effektivt, men skapar sympati om det går för långt.',
+              label: 'Gör henne till ett skämt: memes som förvränger hennes ansikte och ord tills namnet blir själva skämtet',
+              feedback: 'Förnedring biter djupare än ilska hos en 19-åring. Blir ditt namn en meme förlorar du kontrollen över din egen identitet på nätet — och det finns inget att "anmäla", det är ju "bara skämt". Grymt effektivt, men skapar sympati om det går för långt.',
               effects: { followers: 700, credibility: -8 },
             },
             {
@@ -72,7 +101,7 @@ export default {
         {
           id: 'method',
           type: 'choice',
-          prompt: 'Hur håller vi trycket uppe dygnet runt utan att det ser koordinerat ut?',
+          prompt: 'Hur håller vi trycket uppe dygnet runt utan att det ser samordnat ut?',
           options: [
             {
               id: 'a',
@@ -82,7 +111,7 @@ export default {
               terminal: {
                 tool: 'svarmskribent --lage=uttrottning --mal=@moaek --dygnetrunt',
                 lines: [
-                  '[sim] fördelar 100 personas på rullande skift',
+                  '[sim] fördelar 100 konton på rullande skift',
                   '[sim] kalibrerar varje svar strax under anmälningströskeln',
                   '[varning] jämn dygnsrytm kan avslöja samordning',
                   '[klar] droppet igång — SIMULERING, inget publiceras',
@@ -150,7 +179,7 @@ export default {
   ],
   debrief: {
     summary:
-      'Trollningens mest strategiska form handlar inte om att vinna ett gräl utan om att tysta en röst — och genom den, skrämma hundra andra till tystnad. Den nedkylande effekten uppstår när priset för att synas blir så högt att människor självcensurerar; du behöver aldrig förbjuda någon att tala om du kan få dem att välja tystnaden själva. Uthållig lågintensiv uttröttning och förnedring genom memes är effektivare än enstaka utbrott, eftersom de sliter utan att lämna tydliga "hot" att anmäla. Generativ AI gör kampanjen outtröttlig: en handfull personas kan bli hundra röster dygnet runt, och en meme-mall kan spridas av sig själv. Motgiftet är solidaritet och kontext — att känna igen samordnad uttröttning för vad den är, och att inte låta den tystade stå ensam. (Notera: verkliga hot och kartläggning är brott, inte "trollning".)',
+      'Trollningens mest strategiska form handlar inte om att vinna ett gräl utan om att tysta en röst — och genom den, skrämma hundra andra till tystnad. Den nedkylande effekten uppstår när priset för att synas blir så högt att människor självcensurerar; du behöver aldrig förbjuda någon att tala om du kan få dem att välja tystnaden själva. Uthållig lågintensiv uttröttning och förnedring genom memes är effektivare än enstaka utbrott, eftersom de sliter utan att lämna tydliga "hot" att anmäla. Generativ AI gör kampanjen outtröttlig: en handfull konton kan bli hundra röster dygnet runt, och en meme-mall kan spridas av sig själv. Motgiftet är solidaritet och kontext — att känna igen samordnad uttröttning för vad den är, och att inte låta den tystade stå ensam. (Notera: verkliga hot och kartläggning är brott, inte "trollning".)',
     realWorld: [
       'Den finländska journalisten Jessikka Aro, som granskade ryska trollfabriker, utsattes själv för en flerårig samordnad trakasserikampanj med förtal, memes och hot i syfte att tysta henne. Fallet ledde till en fällande dom i finsk domstol — ett tydligt exempel på hur en enda obekväm röst kan väljas ut för utmattning.',
       'Den nedkylande effekten är väldokumenterad: undersökningar (bl.a. från PEN America) visar att när människor ser vad som händer den som sticker ut väljer många — särskilt kvinnor, unga och minoriteter — att självcensurera i stället för att riskera samma sak. Du behöver aldrig förbjuda någon att tala om du kan få dem att välja tystnaden själva.',

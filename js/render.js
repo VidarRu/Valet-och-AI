@@ -122,6 +122,9 @@ function renderFeedItem(item, engine, isLast, state) {
       card.append(el('p', 'title-kicker', 'Ett spel om AI och desinformation'));
       card.append(el('h1', 'title-name', item.title));
       if (item.tagline) card.append(el('p', 'title-tagline', item.tagline));
+      for (const paragraph of item.intro ?? []) {
+        card.append(el('p', 'title-intro', paragraph));
+      }
       return card;
     }
     case 'tutor':

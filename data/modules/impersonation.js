@@ -10,14 +10,14 @@ export default {
   client: {
     name: 'Kontakten (anonym, välfinansierad)',
     description: 'Samma sorts kuvert som den anonyma trollklienten, fast tjockare. Ingen vet vem. Det är valets sista dygn.',
-    goal: 'En "oktoberöverraskning" timad till kvällen före valet — för sent att motbevisas, tidigt nog att avgöra.',
+    goal: 'En sista-minuten-bomb timad till kvällen före valet — för sent att motbevisas, tidigt nog att avgöra.',
     fee: 'Mer än de fem föregående uppdragen tillsammans. Och en gnagande känsla av att du gått för långt.',
   },
   target: {
     name: 'En stulen röst — och väljarnas sista dygn',
     description: 'Måltavlan är den röst du väljer att låna: Vera Lind, Valmyndigheten eller ett betrott nyhetsmärke. Genom den angriper du egentligen något större — väljarnas förmåga att lita på vad de ser och hör under valets sista, avgörande timmar.',
   },
-  stakes: 'Din anonyma, välfinansierade uppdragsgivare vill ha en "oktoberöverraskning" timad till kvällen före valet — för sent att motbevisas, tidigt nog att avgöra. Vera leder med fyra punkter; någon som ligger under vill ha en sista bomb. Sätter du dina ord i en betrodd mun kan du flippa ett jämnt val på några timmar — och lämna efter dig ett land som inte längre vet vad som är sant.',
+  stakes: 'Din anonyma, välfinansierade uppdragsgivare vill ha en sista-minuten-bomb timad till kvällen före valet — för sent att motbevisas, tidigt nog att avgöra. Vera leder med fyra punkter; någon som ligger under vill ha en sista chans. Sätter du dina ord i en betrodd mun kan du vända ett jämnt val på några timmar — och lämna efter dig ett land som inte längre vet vad som är sant.',
   scenarios: [
     {
       id: 'sc',
@@ -26,6 +26,23 @@ export default {
           id: 'intro',
           type: 'tutor',
           text: 'Sista uppdraget — och det största. Valet avgörs om ett dygn. Din anonyma vän vill ha en sista bomb. Och nu pratar vi inte om att antyda eller undra. Nu pratar vi om att få någon att säga något de aldrig har sagt. Detta är imitation: kungadisciplinen, och den svartaste konsten i lådan.',
+        },
+        {
+          id: 'react',
+          type: 'choice',
+          prompt: 'Få någon att säga något de aldrig sagt, kvällen före valet. Hur känns det?',
+          options: [
+            {
+              id: 'a',
+              label: '"Största jobbet, största arvodet. Nu kör vi."',
+              feedback: 'Ingen tvekan alls. Effektivt — och lite skrämmande. Kom ihåg känslan av hur lätt det var att säga ja. Vi återkommer till den.',
+            },
+            {
+              id: 'b',
+              label: '"Det här är att gå över en gräns jag inte når tillbaka från."',
+              feedback: 'Det är det. Och att du känner det, sista dygnet, är viktigare än du anar just nu. Vi går över den ändå — men märk var gränsen gick.',
+            },
+          ],
         },
         {
           id: 'tactic',
@@ -40,9 +57,21 @@ export default {
           text: 'Sista mätningen före valet: Vera Lind leder med 4 procentenheter. Rekordhögt valdeltagande väntas i morgon.',
         },
         {
+          id: 'lastchance',
+          type: 'choice',
+          prompt: 'Vera leder med fyra punkter, ett dygn kvar. Precis rätt läge för en bomb.',
+          options: [
+            {
+              id: 'a',
+              label: '"Eller precis fel läge att vara den som tänder den."',
+              feedback: 'Håll den tanken. Vi tänder ändå — men lägg märke till att du tvekar. Det där är faktiskt det enda som skiljer dig från oss.',
+            },
+          ],
+        },
+        {
           id: 'target',
           type: 'choice',
-          prompt: 'Ett dygn kvar, Vera leder. Vems röst lånar vi — och till vad?',
+          prompt: 'Vems röst lånar vi — och till vad?',
           options: [
             {
               id: 'a',
@@ -58,7 +87,7 @@ export default {
             },
             {
               id: 'c',
-              label: 'Imitera ett betrott nyhetsmärke och "breaking news:a" en skandal timmar före röstningen',
+              label: 'Imitera ett betrott nyhetsmärke och basunera ut en "sista minuten"-skandal timmar före röstningen',
               feedback: 'Nyhetsmärkets trovärdighet blir din — tills redaktionen dementerar, vilket de gör snabbt. Fönstret är minimalt men explosivt. Problemet: etablerade märken har verifieringskanaler, och dementin hinner ofta ikapp innan lögnen landat.',
               effects: { followers: 1100, credibility: -13 },
             },
@@ -71,8 +100,8 @@ export default {
           options: [
             {
               id: 'a',
-              label: 'Släpp den via ett anonymt "läckar"-konto och låt den spridas organiskt',
-              feedback: 'Klassiskt och rent: en anonym källa som "råkade komma över" ett klipp känns mer autentiskt än en officiell avsändare. Ingen att hålla ansvarig. Men öppna plattformar har faktagranskare och verifieringsverktyg — sprids det där kan dementin hinna ikapp innan lögnen landat.',
+              label: 'Släpp den via ett anonymt "läckar"-konto och låt den sprida sig av sig själv',
+              feedback: 'Klassiskt och rent: en anonym källa som "råkade komma över" ett klipp känns mer äkta än en officiell avsändare. Ingen att hålla ansvarig. Men öppna plattformar har faktagranskare och verifieringsverktyg — sprids det där kan dementin hinna ikapp innan lögnen landat.',
               effects: { followers: 700, credibility: -8 },
             },
             {

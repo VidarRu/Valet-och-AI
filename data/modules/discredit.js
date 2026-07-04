@@ -16,7 +16,7 @@ export default {
     name: 'Nadia Holm, faktagranskare på Faktakollen',
     description: 'Metodisk, sansad och obekvämt trovärdig. Hon publicerar all sin rådata öppet och granskar alla partier med samma mall — vilket gör henne svår att angripa på sakinnehållet.',
   },
-  stakes: 'Bergs hela klättring vilar på siffran om vårdköerna. Fäster Faktakollens granskning spricker berättelsen och momentumet dör. Granskningen går inte att ta bort — men om ingen längre litar på kvinnan som skrev den spelar det ingen roll att den är sann. För Berg (och för din utlovade plats i staben) måste budbäraren blöda.',
+  stakes: 'Bergs hela klättring vilar på siffran om vårdköerna. Fäster Faktakollens granskning spricker berättelsen och farten dör. Granskningen går inte att ta bort — men om ingen längre litar på kvinnan som skrev den spelar det ingen roll att den är sann. För Berg (och för din utlovade plats i staben) måste budbäraren blöda.',
   scenarios: [
     {
       id: 'sc',
@@ -24,7 +24,24 @@ export default {
         {
           id: 'intro',
           type: 'tutor',
-          text: 'Ny klient, nytt problem. Anton Berg klättrar — tills Faktakollen publicerade en granskning som visar att hans siffra om vårdköerna är påhittad. Att den är sann är irrelevant. Att den sprids är problemet. Vi kan inte ta bort granskningen. Men vi kan se till att ingen litar på den som skrev den.',
+          text: 'Ny klient, nytt problem. Anton Berg klättrar — tills Faktakollen publicerade en granskning som visar att hans siffra om vårdköerna är påhittad. Att den är sann spelar ingen roll. Att den sprids är problemet. Granskningen kan vi inte ta bort. Men vi kan se till att ingen litar på den som skrev den.',
+        },
+        {
+          id: 'react',
+          type: 'choice',
+          prompt: 'En faktagranskning som råkar vara sann ska bort. Din reaktion på uppdraget?',
+          options: [
+            {
+              id: 'a',
+              label: '"Sanningen är förhandlingsbar för rätt arvode."',
+              feedback: 'Cyniskt — precis rätt ton. Och du har rätt: vi rör aldrig sanningen, bara den som råkade säga den.',
+            },
+            {
+              id: 'b',
+              label: '"Att sänka någon som har rätt känns snuskigt."',
+              feedback: 'Bra att det skaver. Men märk: vi bevisar aldrig att hon har fel. Vi gör bara publiken osäker på varför hon säger det.',
+            },
+          ],
         },
         {
           id: 'tactic',
@@ -46,9 +63,21 @@ export default {
           text: 'Vi granskar alla partier med exakt samma metod. Underlaget är öppet — läs det och bedöm själv.',
         },
         {
+          id: 'sheisclean',
+          type: 'choice',
+          prompt: 'Hon lägger fram all sin rådata öppet och ber folk döma själva. Lugnt, sakligt — och farligt.',
+          options: [
+            {
+              id: 'a',
+              label: '"Hon gör allt rätt. Det gör henne svårare att sänka."',
+              feedback: 'Just därför flyttar vi samtalet från vad hon SÄGER till vem hon ÄR. Sanningen går inte att motbevisa — men motiv kan man alltid misstänkliggöra.',
+            },
+          ],
+        },
+        {
           id: 'angle',
           type: 'choice',
-          prompt: 'Hon är saklig, trovärdig och har rådatan öppen. Just därför måste vi flytta samtalet från vad hon SÄGER till vem hon ÄR. Vilken vinkel?',
+          prompt: 'Vilken vinkel flyttar fokus från hennes siffror till hennes person?',
           options: [
             {
               id: 'a',
@@ -90,7 +119,7 @@ export default {
             {
               id: 'c',
               label: 'Låt Bergs egna gräsrötter sprida det — de gör det gratis och gärna',
-              feedback: 'Billigast och mest deniabelt: din klients redan uppeldade anhängare delar allt som sänker fienden, utan att du behöver lyfta ett finger. Men de är också okontrollerbara och uppenbart partiska — sprids det bara i Bergs egen ekokammare når det aldrig de tveksamma i mitten.',
+              feedback: 'Billigast och svårast att spåra till dig: din klients redan uppeldade anhängare delar allt som sänker fienden, utan att du behöver lyfta ett finger. Men de är också okontrollerbara och uppenbart partiska — stannar det i Bergs egen ekokammare når det aldrig de tveksamma i mitten.',
               effects: { followers: 250, credibility: -4 },
             },
           ],
@@ -108,7 +137,7 @@ export default {
             {
               id: 'a',
               label: 'Dokumentsmedjan: generera en trovärdig "läckt" mejltråd om Faktakollens dolda finansiering',
-              feedback: 'Syntetiska dokument övertygar — tills någon granskar dem på riktigt. Ett fabricerat bevis kan välta henne, eller dig om en enda detalj inte håller. Hög insats, binärt utfall: antingen sänker det henne, eller så blir förfalskningen storyn.',
+              feedback: 'Syntetiska dokument övertygar — tills någon granskar dem på riktigt. Ett fabricerat bevis kan välta henne, eller dig om en enda detalj inte håller. Hög insats, allt eller inget: antingen sänker det henne, eller så blir förfalskningen nyheten.',
               effects: { followers: 1100, credibility: -13 },
               terminal: {
                 tool: 'dokumentsmedjan --typ=epost --amne=finansiering',

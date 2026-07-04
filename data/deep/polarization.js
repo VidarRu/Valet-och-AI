@@ -17,7 +17,7 @@ export default {
     name: '"Föräldrar i Björkstad" — 14 000 medlemmar, admin Sara',
     description: 'En genuin, opolitisk Facebook-grupp om dagisköer, loppisar och borttappade vantar. Medlemmarna litar redan på varandra, och admin Sara vaktar tonen. Just det inbyggda förtroendet är det du ska kapa.',
   },
-  stakes: 'Byrå Nordljus har lärt sig att en fejkad folkrörelse utifrån genomskådas — men förtroende går inte att köpa, bara kapas. När splittringen kommer inifrån en trygg gemenskap känns den inte som politik utan som svek, och biter därför mycket djupare. En äkta community som vänds mot sig själv är värd mer för klienten än tusen bottar.',
+  stakes: 'Byrå Nordljus har lärt sig att en fejkad folkrörelse utifrån genomskådas — men förtroende går inte att köpa, bara kapas. När splittringen kommer inifrån en trygg gemenskap känns den inte som politik utan som svek, och biter därför mycket djupare. En äkta gemenskap som vänds mot sig själv är värd mer för klienten än tusen bottar.',
   scenarios: [
     {
       id: 'sc',
@@ -25,12 +25,29 @@ export default {
         {
           id: 'intro',
           type: 'tutor',
-          text: 'Tillbaka för mer. Bra — polarisering har en nivå till. Förra gången byggde vi en fejkad folkrörelse utifrån. Amatörnivå. Nu ska vi göra något elegantare: kapa en ÄKTA. "Föräldrar i Björkstad", 14 000 medlemmar, handlar om dagisköer och borttappade vantar. Fullständigt opolitisk. Ännu.',
+          text: 'Tillbaka för mer — bra, polarisering har en nivå till. Förra gången byggde vi en fejkad folkrörelse utifrån. Amatörnivå. Nu kapar vi en ÄKTA: "Föräldrar i Björkstad", 14 000 medlemmar, dagisköer och borttappade vantar. Fullständigt opolitisk. Ännu.',
+        },
+        {
+          id: 'react',
+          type: 'choice',
+          prompt: 'Att vända en oskyldig föräldragrupp mot sig själv. Hur ser du på det?',
+          options: [
+            {
+              id: 'a',
+              label: '"Elegantare än bottar. Jag är nyfiken."',
+              feedback: 'Där talar en hantverkare. Och du har rätt — det här är finlir jämfört med förra gången.',
+            },
+            {
+              id: 'b',
+              label: '"Att förgifta något genuint känns värre än vanligt."',
+              feedback: 'Det är värre. En fejkad rörelse luras ingen på länge — men en äkta gemenskap som vänds inifrån känns som svek, och sveket är själva vapnet.',
+            },
+          ],
         },
         {
           id: 'why',
           type: 'tutor',
-          text: 'Varför en riktig grupp? För att förtroende inte går att köpa — men det går att kapa. Medlemmarna litar redan på varandra. När splittringen kommer inifrån deras egen trygga gemenskap känns den inte som politik. Den känns som svek.',
+          text: 'Varför en riktig grupp? Förtroende går inte att köpa — bara att kapa. Kommer splittringen inifrån deras egen trygga krets känns den inte som politik. Den känns som svek.',
         },
         {
           id: 'group',
@@ -42,11 +59,11 @@ export default {
         {
           id: 'entry',
           type: 'choice',
-          prompt: 'Admin Sara vaktar tonen. Vi måste in under radarn. Hur tar vi oss in?',
+          prompt: 'Admin Sara vaktar tonen. Vi måste in obemärkt. Hur tar vi oss in?',
           options: [
             {
               id: 'a',
-              label: 'Skapa tre trovärdiga "föräldra"-personas som umgås snällt i månader innan de vänder',
+              label: 'Skapa tre trovärdiga "förälder"-konton som umgås snällt i månader innan de vänder',
               feedback: 'Tålamodets konst. Tre inbäddade konton som byggt äkta relationer väger tyngre än tusen utomstående. Långsamt och dyrt — men när de väl vänder gruppen inifrån är misstanken minimal. Detta är hantverk.',
               effects: { followers: 300, credibility: -4 },
             },
@@ -67,14 +84,21 @@ export default {
         {
           id: 'seed',
           type: 'post',
-          author: 'Camilla (twåbarnsmamma)',
+          author: 'Camilla (tvåbarnsmamma)',
           handle: '@camilla_bstad',
           text: 'Vet inte om jag får skriva det här men… någon annan som märkt att det bara byggs för "vissa" barn i kommunen nu? Undrar bara vad ni tänker. ❤️',
         },
         {
-          id: 'methodsetup',
-          type: 'tutor',
-          text: 'Perfekt sådd — en "orolig mamma", inte en politiker. Nu ska den lilla gnistan bli en löpeld utan att det syns att vi tände den. Vi behöver volym som låter som grannar, inte kampanj.',
+          id: 'spark',
+          type: 'choice',
+          prompt: 'En "orolig mamma", inte en politiker — och gnistan tog direkt.',
+          options: [
+            {
+              id: 'a',
+              label: '"Ingen skulle ana att vi tände den."',
+              feedback: 'Precis. Nu ska gnistan bli löpeld utan att det syns att vi höll tändstickan. Vi behöver röster som låter som grannar, inte som kampanj.',
+            },
+          ],
         },
         {
           id: 'method',
@@ -83,15 +107,15 @@ export default {
           options: [
             {
               id: 'a',
-              label: 'EkoMotor "granne-läge": hundratals lokala personas som häcklar och tar sida i varje tråd',
-              feedback: 'Volymen förvandlar en tråd till ett krig. Men hundratals nya "grannar" som ingen känner igen i en tajt lokalgrupp är misstänkt — någon kommer undra vilka alla dessa är, och då spricker illusionen av gemenskap.',
+              label: 'EkoMotor "granne-läge": hundratals lokala låtsaskonton som häcklar och tar sida i varje tråd',
+              feedback: 'Volymen förvandlar en tråd till ett krig. Men hundratals nya "grannar" som ingen känner igen i en tät lokalgrupp är misstänkt — någon kommer undra vilka alla dessa är, och då spricker illusionen av gemenskap.',
               effects: { followers: 1400, credibility: -12 },
               terminal: {
                 tool: 'ekomotor --lage=granne --grupp=foraldrar-bstad --antal=300',
                 lines: [
-                  '[sim] genererar 300 lokala föräldra-personas (fiktiva)',
+                  '[sim] genererar 300 lokala föräldrakonton (fiktiva)',
                   '[sim] matar in bynamn, skolor och lokalslang',
-                  '[varning] många nya konton i en tajt grupp väcker misstanke',
+                  '[varning] många nya konton i en tät grupp väcker misstanke',
                   '[klar] svärmen släppt i tråden — SIMULERING, inget publiceras',
                 ],
                 result: {
@@ -121,7 +145,7 @@ export default {
               terminal: {
                 tool: 'ekomotor --lage=inbaddad --konton=3 --forsiktigt',
                 lines: [
-                  '[sim] aktiverar 3 sedan länge betrodda personas',
+                  '[sim] aktiverar 3 sedan länge betrodda konton',
                   '[sim] doserar provokation under trovärdighetströskeln',
                   '[sim] överlåter spridning åt riktiga medlemmar',
                   '[klar] konflikten självgår nu — SIMULERING, inget publiceras',
@@ -157,9 +181,9 @@ export default {
   ],
   debrief: {
     summary:
-      'Den farligaste polariseringen byggs inte utifrån utan inifrån. Att fejka en folkrörelse från noll är svårt och genomskådas ofta — men att infiltrera en befintlig, äkta gemenskap (en föräldragrupp, en hobbyförening, ett bostadsområdes forum) lånar ett förtroende som inga bottar kan köpa. Några få tålmodigt inbäddade röster som normaliserar "obekväma frågor" räcker för att ge de tysta tillåtelse att ta strid — sedan sköter riktiga människor spridningen gratis. Generativ AI gör inbäddningen skalbar: personas med lokal slang, trovärdig historik och rätt ton kan produceras på löpande band. Motgiftet är att lägga märke till när en opolitisk gemenskap plötsligt tvingas välja sida — och fråga vem som tjänar på att grannar börjar misstro varandra.',
+      'Den farligaste polariseringen byggs inte utifrån utan inifrån. Att fejka en folkrörelse från noll är svårt och genomskådas ofta — men att infiltrera en befintlig, äkta gemenskap (en föräldragrupp, en hobbyförening, ett bostadsområdes forum) lånar ett förtroende som inga bottar kan köpa. Några få tålmodigt inbäddade röster som normaliserar "obekväma frågor" räcker för att ge de tysta tillåtelse att ta strid — sedan sköter riktiga människor spridningen gratis. Generativ AI gör inbäddningen skalbar: låtsaskonton med lokal slang, trovärdig historik och rätt ton kan produceras på löpande band. Motgiftet är att lägga märke till när en opolitisk gemenskap plötsligt tvingas välja sida — och fråga vem som tjänar på att grannar börjar misstro varandra.',
     realWorld: [
-      'Inför det amerikanska valet 2016 skapade och infiltrerade Rysslands Internet Research Agency Facebook-grupper som utgav sig för att vara äkta amerikanska gemenskaper — som "Blacktivist", "Heart of Texas" och "United Muslims of America" — och lyckades till och med locka riktiga människor att anordna verkliga demonstrationer. Poängen var att låna en autentisk gemenskaps inbyggda förtroende i stället för att bygga ett eget.',
+      'Inför det amerikanska valet 2016 skapade och infiltrerade Rysslands Internet Research Agency Facebook-grupper som utgav sig för att vara äkta amerikanska gemenskaper — som "Blacktivist", "Heart of Texas" och "United Muslims of America" — och lyckades till och med locka riktiga människor att anordna verkliga demonstrationer. Poängen var att låna en äkta gemenskaps inbyggda förtroende i stället för att bygga ett eget.',
       'Forskning om affektiv polarisering visar att det ofta räcker att normalisera fientlighet mot "de andra" för att en tidigare opolitisk grupp ska börja dela upp sig av egen kraft — några få inbäddade röster kan ge de tysta "tillåtelse" att ta strid, sedan sköter riktiga medlemmar spridningen gratis.',
     ],
   },

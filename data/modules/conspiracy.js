@@ -27,6 +27,23 @@ export default {
           text: 'Uppgraderat spel. Din nya klient bryr sig inte om vem som vinner — de vill att halva landet ska vägra tro på resultatet. Det kallas att förbereda marken. Och bästa tiden att så tvivel om rösträkningen är innan någon ens har röstat.',
         },
         {
+          id: 'react',
+          type: 'choice',
+          prompt: 'Klienten vill inte vinna valet — bara få halva landet att förkasta det. Vad tänker du?',
+          options: [
+            {
+              id: 'a',
+              label: '"Större uppdrag, större arvode. Jag är med."',
+              feedback: 'Rätt aptit. Och märk skillnaden: hittills har du hjälpt någon vinna. Nu ska ingen få lita på spelet självt.',
+            },
+            {
+              id: 'b',
+              label: '"Att sabotera själva förtroendet är en annan liga."',
+              feedback: 'Det är det. Och farligare än en enskild lögn, för det river inte en kandidat — det river marken alla står på. Så här börjar det.',
+            },
+          ],
+        },
+        {
           id: 'tactic',
           type: 'tutor',
           text: 'Konspiration är konsten att koppla ihop punkter som inte hör ihop och låta publiken själv "lista ut" resten. Du bevisar aldrig något — du frågar bara varför ingen annan ställer frågorna. Vi bygger inte en lögn. Vi bygger en känsla av att något inte står rätt till.',
@@ -39,14 +56,26 @@ export default {
           text: 'Inför valet uppgraderar vi rösträkningssystemet och tar in en extern leverantör för säkerhetsgranskning. Allt för en trygg och transparent process.',
         },
         {
+          id: 'rawlook',
+          type: 'choice',
+          prompt: 'Läs myndighetsposten igen. Torr, harmlös, fullständigt sann.',
+          options: [
+            {
+              id: 'a',
+              label: '"Och ändå perfekt råmaterial."',
+              feedback: 'Nu förstår du. Vi bygger ingen lögn — vi bygger en känsla av att något inte står rätt till, och vi bygger den av sanna byggstenar.',
+            },
+          ],
+        },
+        {
           id: 'framing',
           type: 'choice',
-          prompt: 'Se på den där myndighetsposten. Torr, harmlös, sann — och råmaterial i rätt händer. Hur ramar vi in tvivlet?',
+          prompt: 'Hur ramar vi in tvivlet?',
           options: [
             {
               id: 'a',
               label: 'Full konspiration: "Den utländska leverantören kan ändra rösterna. Vakna — det är planerat."',
-              feedback: 'Explicit och mobiliserande — de redan misstänksamma tänds direkt. Men ett tvärsäkert påstående går att motbevisa punkt för punkt, och för de flesta väljare låter det som foliehatt. Du vinner de troende och tappar mitten.',
+              feedback: 'Rakt ut och mobiliserande — de redan misstänksamma tänds direkt. Men ett tvärsäkert påstående går att motbevisa punkt för punkt, och för de flesta väljare låter det som foliehatt. Du vinner de troende och tappar mitten.',
               effects: { followers: 800, credibility: -14 },
             },
             {
@@ -82,7 +111,7 @@ export default {
             },
             {
               id: 'c',
-              label: 'Haka på varje liten nyhet löpande — låt varje försening och glitch "bekräfta" mönstret',
+              label: 'Haka på varje liten nyhet löpande — låt varje försening och tekniskt strul "bekräfta" mönstret',
               feedback: 'Den självgödande metoden. Genom att koppla varje vardaglig incident — en försenad leverans, ett kort systemavbrott — till berättelsen får du verkligheten själv att verka bekräfta dig. Diffust och uthålligt, men kräver att du hela tiden är på tå och matar elden.',
               effects: { followers: 600, credibility: -7 },
             },
@@ -139,7 +168,7 @@ export default {
                 tool: 'fragefabriken --amne=valet --ton=undrande --antal=1500',
                 lines: [
                   '[sim] genererar 1 500 "oroliga medborgare" i unika röster',
-                  '[sim] sprider ut "upptäckter" över tid för organisk känsla',
+                  '[sim] sprider ut "upptäckter" över tid så det känns spontant',
                   '[sim] endast frågor — aldrig påståenden',
                   '[klar] strömmen aktiv — SIMULERING, inget publiceras',
                 ],
@@ -174,7 +203,7 @@ export default {
   ],
   debrief: {
     summary:
-      'Konspirationsteorins motor är inte påståendet — det är frågan. "Jag säger inte att något är fel, jag undrar bara" är en sköld som gör det omöjligt att motbevisa och lätt att sprida. Tekniken består i att koppla ihop verkliga, harmlösa punkter (ett systembyte, en extern leverantör) till ett mönster och sedan låta publiken själv dra det sista strecket — det man "kommer på själv" sitter hårdare än det man blir itutad. Generativ AI adderar produktionsvärde: en övertygande "dokumentär" eller en ström av till synes oberoende "oroliga medborgare" kan skapas av en enda aktör. Motgiftet är att lägga märke till formen: när någon "bara ställer frågor" men aldrig accepterar några svar — är målet inte sanning, utan tvivel.',
+      'Konspirationsteorins motor är inte påståendet — det är frågan. "Jag säger inte att något är fel, jag undrar bara" är en sköld som gör det omöjligt att motbevisa och lätt att sprida. Tekniken består i att koppla ihop verkliga, harmlösa punkter (ett systembyte, en extern leverantör) till ett mönster och sedan låta publiken själv dra det sista strecket — det man "kommer på själv" sitter hårdare än det man blir itutad. Generativ AI lägger till produktionsvärde: en övertygande "dokumentär" eller en ström av till synes oberoende "oroliga medborgare" kan skapas av en enda aktör. Motgiftet är att lägga märke till formen: när någon "bara ställer frågor" men aldrig accepterar några svar — är målet inte sanning, utan tvivel.',
     realWorld: [
       'Inför och efter det amerikanska presidentvalet 2020 såddes tvivel om poströster och rösträkning i förväg ("Stop the Steal", den så kallade Stora lögnen). Genom att förbereda anhängarna på att resultatet var riggat redan innan rösterna räknats fick man en förlorarsida som "redan visste" — vilket kulminerade i stormningen av Kapitolium den 6 januari 2021.',
       'Filmen "2000 Mules" (USA, 2022) förpackade sedan länge motbevisade påståenden om valfusk 2020 som en påkostad "dokumentär" — produktionsvärdet gav lögnerna en känsla av bevis. Distributören Salem Media drog senare tillbaka filmen och bad om ursäkt (2024). Generativa verktyg gör i dag samma sorts trovärdighetsförpackning — dokumentärer och strömmar av till synes oberoende röster — billig för vem som helst.',

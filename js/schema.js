@@ -52,7 +52,7 @@ Scenario:
 Steg (gemensamt): { id, type }
   tutor:  { text }
   post:   { author, handle, text }
-  choice: { prompt, options: [Val, …] }   // minst 2 val
+  choice: { prompt, options: [Val, …] }   // minst 1 val (1 = klickbar replik)
 
 Val:
 {
@@ -140,8 +140,10 @@ function validateStep(step, stepIds, path, errors) {
   }
   if (step.type === 'choice') {
     if (!isNonEmptyString(step.prompt)) errors.push(`${path}.prompt saknas`);
-    if (!Array.isArray(step.options) || step.options.length < 2) {
-      errors.push(`${path}.options måste ha minst 2 val`);
+    // Minst ETT val. Ett enda val = en klickbar replik (som originalets
+    // enstaka dialogval); två+ = ett riktigt beslut.
+    if (!Array.isArray(step.options) || step.options.length < 1) {
+      errors.push(`${path}.options måste ha minst 1 val`);
     } else {
       const seen = new Set();
       step.options.forEach((option, i) => {
