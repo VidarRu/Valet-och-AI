@@ -353,54 +353,344 @@ button {
 /* Feedbackbubbla (lager 1) — gultonad så den skiljer sig från vanligt prat */
 .tutor-feedback .tutor-text { background: var(--yellow-pale); }
 
-/* Inläggskort */
-.post-header {
+/* ---------- Inläggskort: "Kvittra"-plattformen ----------
+   Inläggen bor på en egen fiktiv mikrobloggplattform och renderas som riktiga
+   plattformskort — rundade, med avatar, verifiering, tidsstämpel, hashtags och
+   engagemangssiffror. Medvetet mjukare formspråk än spelets tabloidkort:
+   kontrasten mellan "spelets ram" och "skärmen du tittar på" är en del av
+   inlevelsen. AI-genererade inlägg får blå accent; reaktioner blir trådade svar. */
+
+:root {
+  --kv-line: #E4E2DA;
+  --kv-muted: #70706A;
+  --kv-rail: #D4D2CA;
+}
+
+.post-card {
+  background: var(--paper);
+  border: 1px solid var(--kv-line);
+  border-radius: 1rem;
+  box-shadow: 0 1px 2px rgba(17, 17, 17, 0.05), 0 8px 20px rgba(17, 17, 17, 0.06);
+  padding: 0.9rem 1.05rem 0.8rem;
+}
+
+.kv-top {
   display: flex;
-  gap: 0.5rem;
-  align-items: baseline;
+  align-items: center;
+  margin-bottom: 0.5rem;
+}
+
+.kv-wordmark {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  font-size: 0.66rem;
+  font-weight: 800;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  color: var(--gray);
+}
+
+.kv-wordmark svg { width: 0.8rem; height: 0.8rem; fill: var(--blue); }
+
+/* AI-genererat: det pedagogiskt viktiga märket som pekar ut det fabricerade */
+.kv-genchip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  font-size: 0.66rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--blue);
+  background: #EAF3FD;
+  border: 1px solid #CFE4F8;
+  padding: 0.1rem 0.55rem;
+  border-radius: 999px;
+}
+
+.kv-head { display: flex; gap: 0.65rem; align-items: flex-start; }
+
+.kv-avatar {
+  flex: 0 0 auto;
+  width: 2.6rem;
+  height: 2.6rem;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  border: 1px solid rgba(17, 17, 17, 0.08);
+}
+
+.kv-avatar-sm { width: 2rem; height: 2rem; }
+
+.kv-avatar-initial {
+  color: #fff;
+  font-weight: 800;
+  font-size: 1rem;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.28);
+}
+
+.kv-avatar-sm .kv-avatar-initial { font-size: 0.8rem; }
+
+.kv-names { flex: 1 1 auto; min-width: 0; }
+
+.kv-row1 {
+  display: flex;
+  align-items: center;
+  gap: 0.28rem;
   flex-wrap: wrap;
 }
 
-.post-handle { color: var(--gray); font-size: 0.85rem; }
-.post-text { margin: 0.45rem 0 0; }
+.kv-name { font-weight: 800; font-size: 0.95rem; }
 
-.card-generated { border-color: var(--blue); box-shadow: 4px 4px 0 var(--blue); }
-
-.post-generated-tag {
-  margin-left: auto;
-  font-size: 0.68rem;
-  font-weight: 700;
-  letter-spacing: 0.05em;
-  text-transform: uppercase;
-  color: var(--paper);
+.kv-check {
+  flex: 0 0 auto;
+  width: 1rem;
+  height: 1rem;
+  border-radius: 50%;
   background: var(--blue);
-  padding: 0.08rem 0.55rem;
-  border-radius: 999px;
+  display: inline-grid;
+  place-items: center;
 }
 
-/* Reaktionskort: publikens svar på ett publicerat inlägg. Indragna och
-   nedtonade så att de tre reaktionerna läses som en klunga av gensvar. */
-.card-reaction {
-  margin-left: 1.5rem;
-  box-shadow: 2px 2px 0 var(--gray);
-  border-color: var(--gray);
+.kv-check svg { width: 0.62rem; height: 0.62rem; fill: none; stroke: #fff; stroke-width: 3.2; stroke-linecap: round; stroke-linejoin: round; }
+
+.kv-handle, .kv-dot, .kv-time { color: var(--kv-muted); font-size: 0.85rem; }
+.kv-dot { font-size: 0.7rem; }
+
+.kv-text { margin: 0.55rem 0 0; font-size: 0.98rem; line-height: 1.5; }
+.post-reply .kv-text { font-size: 0.92rem; }
+
+.kv-tag { color: var(--blue); font-weight: 600; }
+
+/* Engagemangsrad */
+.kv-bar {
+  display: flex;
+  gap: 1.6rem;
+  margin-top: 0.7rem;
 }
 
-.post-reaction-tag {
-  margin-left: auto;
-  font-size: 0.64rem;
-  font-weight: 700;
-  letter-spacing: 0.05em;
-  text-transform: uppercase;
-  color: var(--gray);
-  border: 1px solid var(--gray);
-  padding: 0.04rem 0.5rem;
-  border-radius: 999px;
+.kv-stat {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-size: 0.8rem;
+  color: var(--kv-muted);
+  font-variant-numeric: tabular-nums;
+}
+
+.kv-stat svg { width: 1.05rem; height: 1.05rem; fill: none; stroke: var(--kv-muted); stroke-width: 1.7; stroke-linecap: round; stroke-linejoin: round; }
+
+/* AI-genererat inlägg — blå accentkant */
+.post-generated {
+  border-color: var(--blue-light);
+  box-shadow: 0 1px 2px rgba(55, 138, 221, 0.12), 0 8px 22px rgba(55, 138, 221, 0.14);
+}
+
+/* Trådade svar (reaktioner): indragna, mindre, med en kopplande svarsräls upp
+   mot inlägget de svarar på — flera i rad läses som en tråd. */
+.post-reply {
+  margin-left: 2.4rem;
+  margin-top: -0.35rem;
+  position: relative;
+  border-radius: 0.85rem;
+}
+
+.post-reply::before {
+  content: "";
+  position: absolute;
+  left: -1.35rem;
+  top: -1.6rem;
+  width: 1.15rem;
+  height: 3rem;
+  border-left: 2px solid var(--kv-rail);
+  border-bottom: 2px solid var(--kv-rail);
+  border-bottom-left-radius: 0.9rem;
 }
 
 @media (max-width: 480px) {
-  .card-reaction { margin-left: 0.75rem; }
+  .post-reply { margin-left: 1.3rem; }
+  .post-reply::before { left: -0.95rem; width: 0.8rem; }
+  .kv-bar { gap: 1.1rem; }
 }
+
+/* ---------- Medieblock i inlägg (video/röst/meme/bild/dokument) ---------- */
+
+.kv-media {
+  margin-top: 0.7rem;
+  border-radius: 0.75rem;
+  overflow: hidden;
+  border: 1px solid var(--kv-line);
+}
+
+.kv-media-tag {
+  position: absolute;
+  left: 0.55rem;
+  top: 0.55rem;
+  z-index: 2;
+  font-size: 0.62rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: #fff;
+  background: rgba(17, 17, 17, 0.72);
+  padding: 0.12rem 0.5rem;
+  border-radius: 999px;
+}
+
+.kv-play {
+  width: 3.1rem;
+  height: 3.1rem;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.92);
+  display: grid;
+  place-items: center;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+}
+
+.kv-play svg { width: 1.15rem; height: 1.15rem; fill: var(--ink); margin-left: 0.15rem; }
+
+/* Video/deepfake: mörk filmisk ruta med spelknapp, längd och en svag
+   skanningslinje-textur som antyder rörlig bild. */
+.kv-media-video {
+  position: relative;
+  aspect-ratio: 16 / 9;
+  display: grid;
+  place-items: center;
+  background:
+    repeating-linear-gradient(0deg, rgba(255,255,255,0.03) 0 2px, transparent 2px 4px),
+    radial-gradient(120% 90% at 50% 15%, #3a3d42, #101114 70%);
+}
+
+.kv-media-scene {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  margin: 0;
+  padding: 1.4rem 0.7rem 0.55rem;
+  font-size: 0.72rem;
+  font-style: italic;
+  color: rgba(255, 255, 255, 0.82);
+  background: linear-gradient(transparent, rgba(0, 0, 0, 0.55));
+}
+
+.kv-media-dur {
+  position: absolute;
+  right: 0.55rem;
+  bottom: 0.55rem;
+  z-index: 2;
+  font-family: ui-monospace, "Cascadia Mono", Menlo, monospace;
+  font-size: 0.72rem;
+  color: #fff;
+  background: rgba(0, 0, 0, 0.75);
+  padding: 0.08rem 0.42rem;
+  border-radius: 0.25rem;
+}
+
+/* Röstkloning: ljudspelare med vågform */
+.kv-audio {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  padding: 0.7rem 0.8rem;
+  background: var(--bg);
+}
+
+.kv-audio .kv-play {
+  width: 2.2rem;
+  height: 2.2rem;
+  background: var(--ink);
+  flex: 0 0 auto;
+  box-shadow: none;
+}
+
+.kv-audio .kv-play svg { fill: var(--paper); width: 0.85rem; height: 0.85rem; }
+
+.kv-wave {
+  flex: 1 1 auto;
+  display: flex;
+  align-items: center;
+  gap: 0.13rem;
+  height: 1.9rem;
+}
+
+.kv-wave span {
+  flex: 1 1 auto;
+  min-width: 0.14rem;
+  background: var(--blue-light);
+  border-radius: 2px;
+}
+
+.kv-audio-dur {
+  flex: 0 0 auto;
+  font-family: ui-monospace, "Cascadia Mono", Menlo, monospace;
+  font-size: 0.75rem;
+  color: var(--kv-muted);
+}
+
+/* Meme: färgstark ruta med hånfull versaltext */
+.kv-media-meme {
+  position: relative;
+  aspect-ratio: 4 / 3;
+  display: grid;
+  place-items: center;
+  padding: 1.4rem 1rem;
+  background:
+    repeating-linear-gradient(45deg, rgba(255,255,255,0.35) 0 14px, transparent 14px 28px),
+    linear-gradient(135deg, var(--yellow), var(--red));
+}
+
+.kv-meme-text {
+  margin: 0;
+  text-align: center;
+  font-family: "Arial Black", "Helvetica Neue", Arial, sans-serif;
+  font-weight: 900;
+  font-size: 1.5rem;
+  line-height: 1.1;
+  letter-spacing: 0.01em;
+  color: #fff;
+  text-shadow:
+    2px 0 #000, -2px 0 #000, 0 2px #000, 0 -2px #000,
+    2px 2px #000, -2px -2px #000, 2px -2px #000, -2px 2px #000;
+}
+
+/* Fabricerad bild: fotoliknande skymningsruta med scenbeskrivning som "alt" */
+.kv-media-image {
+  position: relative;
+  aspect-ratio: 16 / 10;
+  display: grid;
+  place-items: end start;
+  background:
+    linear-gradient(200deg, #4b5a6b 0%, #2c333d 55%, #171b21 100%);
+}
+
+.kv-media-image .kv-media-scene { position: static; width: 100%; }
+
+/* Fabricerat dokument/skärmdump: ljust "pappersark" med maskerade rader */
+.kv-media-doc {
+  position: relative;
+  padding: 2rem 1rem 1rem;
+  background: repeating-linear-gradient(135deg, #e9e7df 0 12px, #e4e2d9 12px 24px);
+}
+
+.kv-doc-sheet {
+  background: var(--paper);
+  border: 1px solid var(--kv-line);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+  padding: 0.8rem 0.9rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.kv-doc-line {
+  height: 0.5rem;
+  border-radius: 2px;
+  background: linear-gradient(90deg, var(--gray), #cdcbc2);
+}
+
+.kv-doc-line:first-child { background: var(--ink); height: 0.6rem; width: 55%; }
 
 /* Valkort */
 .choice-prompt { margin: 0 0 0.75rem; font-weight: 700; }

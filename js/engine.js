@@ -205,11 +205,14 @@ export function createEngine({ core, deep = [], closing = [], hub = {}, prologue
 
   function terminalDone() {
     if (state.phase !== 'terminal') return;
-    const { result, reactions, next } = state.pendingTerminal;
+    const { tool, result, reactions, next } = state.pendingTerminal;
     state.pendingTerminal = null;
     state.feed.push({
       kind: 'post',
       generated: true,
+      // Verktygssträngen följer med så renderaren kan visa rätt medietyp
+      // (video/röst/meme/bild) för det AI-genererade inlägget.
+      tool,
       author: result.author,
       handle: result.handle,
       text: result.text,
