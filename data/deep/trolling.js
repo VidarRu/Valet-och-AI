@@ -13,6 +13,11 @@ export default {
     goal: 'Få Moa Ek — en förstagångsröstande volontär vars klipp om Vera Lind blev viralt — att sluta posta helt.',
     fee: 'Betalt i krypto. Ett tips medföljer: "Det räcker att en slutar. Resten tystnar av sig själva."',
   },
+  target: {
+    name: 'Moa Ek (@moaek), 19 — förstagångsväljare',
+    description: 'En volontär vars klipp om varför hon röstar för första gången fick 400 000 visningar. Ung, sympatisk och ännu orädd. "Fel sorts inspiration", enligt klienten.',
+  },
+  stakes: 'Uppdraget är inte att övertyga Moa om något — det är att göra det så obehagligt att synas att hon väljer tystnaden själv. Och när tusen andra förstagångsväljare ser vad som hände henne tänker de sig för innan de öppnar munnen. En släckt röst skrämmer hundra: den verkliga skörden är inte de du sänker, utan alla som aldrig vågar börja.',
   scenarios: [
     {
       id: 'sc',
@@ -87,6 +92,18 @@ export default {
                   handle: '@bstad_anon_44',
                   text: '"bygga nåt bättre" 🥱 ingen frågade, ingen bryr sig, gå och plugga barnrumpa. (och 400 svar till precis som detta, hela natten)',
                 },
+                reactions: [
+                  {
+                    author: 'Moa Ek',
+                    handle: '@moaek',
+                    text: 'Vaknar till 600 nya svar, alla lika elaka, dygnet runt i tre dagar nu. Blockar ett konto så dyker fem upp. Sa ju bara att jag ville rösta. Orkar snart inte. 😔',
+                  },
+                  {
+                    author: 'Lena',
+                    handle: '@lena_rostar',
+                    text: 'Det här är ju inte åsikter — det är hundra konton som turas om dygnet runt. Ren utmattningstaktik mot en 19-åring. Vidrigt. Håll ut Moa, du gör inget fel. 🤍',
+                  },
+                ],
               },
             },
             {
@@ -107,6 +124,18 @@ export default {
                   handle: '@bstad_memes',
                   text: 'nytt format droppat: "Moa Ek förklarar politik" 🌱💀 lägg era bästa i kommentarerna, detta skriver sig självt',
                 },
+                reactions: [
+                  {
+                    author: 'Micke',
+                    handle: '@micke_pendlare',
+                    text: 'ok gjorde en egen version lol 💀 den här mallen är för lätt. någon som har fler? det här är för kul',
+                  },
+                  {
+                    author: 'Moa Ek',
+                    handle: '@moaek',
+                    text: 'Mitt ansikte är överallt nu, förvrängt, i memes jag inte kan stoppa. Folk jag känner skickar dem "på skoj". Jag är 19. Jag ville bara engagera mig. Detta är inte kul. 💔',
+                  },
+                ],
               },
             },
           ],
@@ -123,8 +152,8 @@ export default {
     summary:
       'Trollningens mest strategiska form handlar inte om att vinna ett gräl utan om att tysta en röst — och genom den, skrämma hundra andra till tystnad. Den nedkylande effekten uppstår när priset för att synas blir så högt att människor självcensurerar; du behöver aldrig förbjuda någon att tala om du kan få dem att välja tystnaden själva. Uthållig lågintensiv uttröttning och förnedring genom memes är effektivare än enstaka utbrott, eftersom de sliter utan att lämna tydliga "hot" att anmäla. Generativ AI gör kampanjen outtröttlig: en handfull personas kan bli hundra röster dygnet runt, och en meme-mall kan spridas av sig själv. Motgiftet är solidaritet och kontext — att känna igen samordnad uttröttning för vad den är, och att inte låta den tystade stå ensam. (Notera: verkliga hot och kartläggning är brott, inte "trollning".)',
     realWorld: [
-      'Samordnade trakasserikampanjer har återkommande drivit journalister, aktivister och unga debattörer — särskilt kvinnor och minoriteter — att lämna offentligheten helt.',
-      'Den nedkylande effekten är väldokumenterad: när människor ser vad som händer den som sticker ut väljer många att självcensurera snarare än att riskera samma sak.',
+      'Den finländska journalisten Jessikka Aro, som granskade ryska trollfabriker, utsattes själv för en flerårig samordnad trakasserikampanj med förtal, memes och hot i syfte att tysta henne. Fallet ledde till en fällande dom i finsk domstol — ett tydligt exempel på hur en enda obekväm röst kan väljas ut för utmattning.',
+      'Den nedkylande effekten är väldokumenterad: undersökningar (bl.a. från PEN America) visar att när människor ser vad som händer den som sticker ut väljer många — särskilt kvinnor, unga och minoriteter — att självcensurera i stället för att riskera samma sak. Du behöver aldrig förbjuda någon att tala om du kan få dem att välja tystnaden själva.',
     ],
   },
 };

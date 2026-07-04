@@ -78,6 +78,7 @@ Hierarki: **Modul (uppdrag) → Scenario → Steg → Val**. Definierat och vali
 
 ```
 Modul   { id, type:'core'|'deep', badge, title, client:{name,description,goal,fee},
+          target?:{name,description}, stakes?:'…',        // VALFRI extra uppdragskontext
           scenarios:[...], debrief:{ summary, realWorld:[...] } }
 Scenario{ id, steps:[...] }
 Steg    { id, type:'tutor'|'post'|'choice', ... }
@@ -86,9 +87,16 @@ Steg    { id, type:'tutor'|'post'|'choice', ... }
   choice { prompt, options:[...] }
 Val     { id, label, feedback (OBLIGATORISK = feedbacklager 1),
           effects?:{followers,credibility (heltal)},
-          terminal?:{ tool, lines:[...], result:{author,handle,text} },
+          terminal?:{ tool, lines:[...], result:{author,handle,text},
+                      reactions?:[{author,handle,text}, …] },  // fler sociala medie-svar
           next?:'stegId'|'end' }
 ```
+
+`target`/`stakes` renderas som egna block på uppdragskortet (måltavla = röd
+kant, insats = gul). `terminal.reactions` matas in i flödet EFTER det
+AI-genererade resultatkortet, som vanliga (icke-genererade) inläggskort med
+taggen "Reaktion" — typiskt en förstärkare, en drabbad röst och en
+faktagranskare som anar oråd (tre reaktioner i stället för en).
 
 Hårda regler som schemat tvingar fram (det som brast i förra versionen):
 - **Varje val måste ha `feedback`** (handledarens direktkommentar = lager 1).
@@ -145,16 +153,30 @@ legojobb.
 Varje uppdrag: intro/taktik (tutor) → kontextinlägg → strategival → metodval (terminal)
 → genererat resultatkort → wrap → debrief (lager 2 med verkliga exempel).
 
-**Verkliga fall som vävs in i debriefer/avslutning** (från briefens researchunderlag):
-Philadelphia (fabricerade GenAI-artiklar), Nederländerna (~400 syntetiska bilder),
-Argentina (AI-bildmaterial), Irland 2025 (deepfake-avhoppsvideo), samt nyansen i
-avslutningen: AI:s uppmätta valpåverkan har hittills varit begränsad (Indien;
-EU:s prebunking 2024 fungerade väl) — motvikt mot ren teknikskräck.
+**Verkliga fall som vävs in i debriefer/avslutning** — nu KONKRETA med plats/
+delstat/år/namn (efter beställarens önskemål "säg i vilken delstat valet var"):
+Philadelphia i Pennsylvania (ChatGPT-fabricerade nyhetsartiklar, Bilal-kampanjen),
+robocall i **New Hampshire** jan 2024 (röstklonad Biden), Slovakien 2023 (falskt
+ljudklipp), IRA 2016 (USA, wedge-innehåll), Doppelganger/Spamouflage (2024),
+"2000 Mules" (USA 2022), "Stop the Steal"/6 jan 2021, Argentina 2023 (Massa/Milei),
+Nederländerna (~400 syntetiska bilder), Irland 2025 (RTÉ-liknande deepfake-avhopp),
+Maria Ressa (Filippinerna), Jessikka Aro (Finland), QAnon, Southport 2024,
+Boston 2013, "Merchants of Doubt", lögnarens utdelning (Chesney & Citron 2018).
+Avslutningens nyans: AI:s uppmätta valpåverkan har hittills varit begränsad
+(Indien 2024; EU:s prebunking 2024) — motvikt mot ren teknikskräck.
+VIKTIGT: alla verkliga exempel ska förbli faktiskt korrekta — hitta inte på år/namn.
 
 ---
 
 ## 8. Nyckelmekanik i motorn
 
+- **Prolog** (`state.stage === 'prologue'`): en berättande ram FÖRE första
+  uppdraget som etablerar spelet (den shady lobbyfirman **Ekokammaren** rekryterar
+  spelaren, EKO introduceras, ett litet moraliskt kval, och att man samlar ett
+  märke/"badge" per taktik). Exporteras som `prologue` i `data/index.js` och spelas
+  genom SAMMA steg-maskineri som ett uppdrag (tutor/post/choice), men har ingen
+  badge och ingen debrief. Öppnar med ett `kind:'title'`-kort. När prologens
+  scenario tar slut anropar `movePointer` → `startCore()` → första kärnuppdraget.
 - **Faser** (`state.phase`): `playing` → `terminal` → `module-debrief` → `hub` → `finished`.
 - **Statusrad**: följartal, blå trovärdighetsstapel, uppdragsräknare.
 - **Terminalläge**: triggas av val med `terminal`-fält; typewriter skriver fiktiva
@@ -207,7 +229,12 @@ Idéer för att fördjupa spelet ytterligare, grovt sorterade efter värde/insat
 - **Trovärdighetsmätaren har i dag ingen konsekvens** (den bara sjunker). Ge den tyngd:
   t.ex. spärra de mest riskabla valen när den är låg, låt EKO kommentera olika, eller
   ett alternativt "du blev avslöjad"-slut om den bottnar. Det gör dilemmana skarpare.
-- **Titel-/startskärm** som ramar in spelet innan man kastas in i första uppdraget.
+- ~~**Titel-/startskärm** som ramar in spelet~~ — KLART (prolog + titelkort, se avsnitt 8).
+- ~~**Fler val/beslut per uppdrag** och **fler reaktioner** på besluten~~ — KLART: varje
+  kärnuppdrag har fått ett tredje val, och metodutfall ger nu tre sociala
+  medie-reaktioner (`terminal.reactions`). Fördjupningarna har fått reaktioner +
+  target/stakes men behållit två val (de är redan längre). Ev. framtida: lägg ett
+  tredje val även i fördjupningarna för symmetri.
 - **localStorage:** spara badges/progress mellan sessioner, låt spelaren återuppta.
 
 **Innehåll**

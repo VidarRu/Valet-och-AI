@@ -13,6 +13,11 @@ export default {
     goal: 'En allvarlig olycka vid det nya hamnbygget skedde för en timme sedan. Utnyttja sorgen och förvirringen innan orsaken är utredd.',
     fee: '200 000 kr. "Fönstret är öppet i kanske sex timmar", står det i uppdraget. "Sen kommer fakta."',
   },
+  target: {
+    name: 'Den kollektiva chocken efter hamnolyckan',
+    description: 'För en timme sedan rasade ett ställningsbygge vid hamnprojektet. Människor är skadade, orsaken okänd. Måltavlan är inte en person utan glappet mellan tragedin och den utredda sanningen — de timmar då en chockad stad desperat söker mening och någon att skylla på.',
+  },
+  stakes: 'Din klient vet att den som ger sorgen en berättelse FÖRST äger den. Fakta kommer långsamt och möter då en publik som redan bestämt sig. Fönstret är kanske sex timmar. Att koppla en färsk katastrof till en politisk fiende medan folk fortfarande är i chock är den mest kraftfulla — och den mest cyniska — känsloknappen som finns.',
   scenarios: [
     {
       id: 'sc',
@@ -94,6 +99,18 @@ export default {
                   handle: '@bstad_sorjer',
                   text: 'Detta borde ALDRIG ha hänt. Medan politikerna skar i säkerheten betalade vanligt folk priset. Dela för dem som inte längre kan tala. 🕯️ [bild: rök och räddningsfordon]',
                 },
+                reactions: [
+                  {
+                    author: 'Familjen Sjö',
+                    handle: '@sjo_bjorkstad',
+                    text: 'Min svåger jobbar där. Kan inte sluta gråta. Om det här är nedskärningarnas fel så ska NÅGON stå till svars. Delar. Vila i frid. 🕯️💔',
+                  },
+                  {
+                    author: 'Nordmarks Nyheter',
+                    handle: '@nordmark_nytt',
+                    text: 'VARNING: bilden som sprids från olyckan är inte ett äkta foto — den är AI-genererad. Orsaken till raset är fortfarande under utredning och inga slutsatser om ansvar kan dras ännu. Dela inte fabricerade bilder från en pågående tragedi.',
+                  },
+                ],
               },
             },
             {
@@ -114,6 +131,18 @@ export default {
                   handle: '@trygghet_nu',
                   text: 'Våra tankar är hos alla som drabbats i dag. Men vi är skyldiga offren en fråga: hur många varningar ignorerades för att spara pengar? Ni förtjänar svar. 🤍',
                 },
+                reactions: [
+                  {
+                    author: 'Micke',
+                    handle: '@micke_pendlare',
+                    text: 'Känner en av dem som skadades. Ni har rätt — någon måste ha ignorerat varningar. Man blir så förbannad. Tack för att ni vågar ställa frågan när ingen annan gör det. 🤍',
+                  },
+                  {
+                    author: 'Idris Hane',
+                    handle: '@prof_hane',
+                    text: 'Utredningen har inte ens börjat. Att redan nu antyda ett samband med en viss budget, riktat till just de sörjande, är att utnyttja människors chock. Låt räddningsarbetet och utredarna göra sitt innan någon pekar finger.',
+                  },
+                ],
               },
             },
           ],
@@ -130,8 +159,8 @@ export default {
     summary:
       'Den vassaste känslotaktiken rider på verkliga händelser. Efter en katastrof uppstår ett fönster — timmarna mellan tragedin och den utredda sanningen — då människor i chock desperat söker mening och en skyldig. Den som levererar berättelsen först äger den, för fakta anländer långsamt och möter då en publik som redan bestämt sig. Sorgekappan ("våra tankar är hos offren, men vi måste fråga…") gör anklagelsen oangriplig. Generativ AI gör kapningen omedelbar: syntetiska bilder och skräddarsydda "medkännande frågor" kan spridas inom minuter, långt före verifieringen. Detta är också den taktik som lättast slår tillbaka — att utnyttja verkliga offer är en gräns även cyniker råkar illa ut för att korsa. Motgiftet: var extra misstänksam mot berättelser som anländer före fakta och känns designade för att kanalisera din sorg åt ett bestämt håll.',
     realWorld: [
-      'Efter attentat och olyckor sprids ofta felaktiga påståenden om förövare och orsaker inom de första timmarna — och de första, känsloladdade versionerna fäster ofta hårdare än de senare rättelserna.',
-      'Att "news-jacka" pågående tragedier för att koppla dem till en politisk fiende innan orsaken är känd är ett återkommande grepp, numera förstärkt av snabbt genererade bilder och riktade budskap.',
+      'Efter knivattacken i Southport i England i juli 2024, där tre barn dödades, spreds inom några timmar falska påståenden om att gärningsmannen var en muslimsk asylsökande. Den känsloladdade felaktiga versionen hann före fakta, bidrog till våldsamma upplopp runt om i Storbritannien — och stämde inte. Den första versionen fäste hårdare än rättelsen.',
+      'Efter bombdådet vid Boston Marathon 2013 pekade internetanvändare (bland annat på Reddit) i sorgen och ivern ut en oskyldig, försvunnen student som misstänkt — ett oskyldigt liv drogs in i tragedin innan sanningen kom fram. Att "news-jacka" en pågående katastrof är ett återkommande grepp, i dag förstärkt av snabbt AI-genererade bilder och riktade budskap som kan spridas inom minuter.',
     ],
   },
 };
