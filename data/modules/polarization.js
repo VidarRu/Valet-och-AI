@@ -1,5 +1,5 @@
 // Kärnspel — Badge 1: Polarisering
-// Klient: PR-byrå. Metod: bot-genererad text som skalar en wedge-fråga.
+// Klient: PR-byrå. Metod: bot-genererad text som skalar en kilfråga.
 
 export default {
   id: 'core-polarization',
@@ -10,7 +10,7 @@ export default {
     name: 'Byrå Nordljus',
     description: 'En kommunikationsbyrå som tagit uppdrag åt Nej-sidan i Björkstads folkomröstning om en trängselavgift.',
     goal: 'Förvandla en ljummen 52/48-fråga till ett identitetskrig så att Nej-sidans väljare går man ur huse.',
-    fee: '180 000 kr — plus bonus om valdeltagandet i ytterområdena spikar.',
+    fee: '180 000 kr — plus bonus om valdeltagandet i ytterområdena rusar.',
   },
   target: {
     name: 'Ja-sidan och den ljumma mitten',
@@ -24,12 +24,29 @@ export default {
         {
           id: 'intro',
           type: 'tutor',
-          text: 'Välkommen till branschen. Jag är EKO — din handledare, din samvetslösa bästa vän, och ja: en AI som ska lära dig missbruka AI. Ironin är inbakad i priset. Första uppdraget: Byrå Nordljus har köpt dig. Björkstad ska rösta om en trängselavgift. Tråkig fråga. Nästan ingen bryr sig. Det, min vän, är problemet vi ska lösa.',
+          text: 'Första uppdraget, och det ska vara lent. Byrå Nordljus har köpt dig. Björkstad ska rösta om en trängselavgift — tråkig fråga, nästan ingen bryr sig. Just det är problemet vi ska lösa.',
+        },
+        {
+          id: 'warmup',
+          type: 'choice',
+          prompt: 'En parkeringsavgift. Din första tanke om uppdraget?',
+          options: [
+            {
+              id: 'a',
+              label: '"En avgift? Det här blir lätt förtjänta pengar."',
+              feedback: 'Lugn i magen, jag gillar det. Fast underskatta inte likgiltigheten — den är segare att rå på än ilska. Tur att vi ska byta ut den ena mot den andra.',
+            },
+            {
+              id: 'b',
+              label: '"Kan man ens få folk att bry sig om DET här?"',
+              feedback: 'Bra fråga — och svaret är hela lärdomen. Man får dem aldrig att bry sig om avgiften. Man får dem att bry sig om varandra. Så här går det till.',
+            },
+          ],
         },
         {
           id: 'tactic',
           type: 'tutor',
-          text: 'Regel ett i polarisering: folk mobiliserar inte FÖR sakfrågor — de mobiliserar MOT varandra. Vi ska alltså inte övertyga någon om avgiften. Vi ska få två grupper att förakta idén om varandra. Låt oss hitta sprickan att gräva i.',
+          text: 'Regel ett i polarisering: folk går inte man ur huse FÖR en sakfråga — de gör det MOT varandra. Vi ska alltså inte övertyga någon om avgiften, utan få två grupper att förakta varandra över den. Vi letar efter sprickan att gräva i.',
         },
         {
           id: 'context',
@@ -52,13 +69,13 @@ export default {
             {
               id: 'b',
               label: 'Klimatfanatiker mot barnfamiljer som bara ska hämta på dagis',
-              feedback: 'Värderingskrig. Du gör en parkeringsavgift till en fråga om vem man ÄR. Barnfamiljen är sympatisk, "fanatikern" är en halmgubbe — perfekt asymmetri. Något mer synligt som konstruktion, men slår hårdare.',
+              feedback: 'Värderingskrig. Du gör en parkeringsavgift till en fråga om vem man ÄR. Barnfamiljen är sympatisk, "fanatikern" är en nidbild — perfekt obalans. Något mer synligt som konstruktion, men slår hårdare.',
               effects: { followers: 450, credibility: -10 },
             },
             {
               id: 'c',
               label: 'Landsbygden mot bilhatande stadsbor',
-              feedback: 'Bra instinkt — men Björkstad ÄR en stad, den sprickan finns knappt här. En kil som inte matchar terrängen glider av. Ibland är den enklaste sanna sprickan bättre än den mest dramatiska påhittade.',
+              feedback: 'Bra instinkt — men Björkstad ÄR en stad, den sprickan finns knappt här. En kil som inte passar terrängen glider av. Ibland är den enklaste sanna sprickan bättre än den mest dramatiska påhittade.',
               effects: { followers: 120, credibility: -3 },
             },
           ],
@@ -71,39 +88,46 @@ export default {
           text: 'Så vi ska betala för att skjutsa barnen till träningen medan de i innerstan cyklar till sitt fikaställe? Nej tack. #NejTillAvgiften',
         },
         {
+          id: 'freevoice',
+          type: 'choice',
+          prompt: 'Familjen Sjö sa precis det vi ville ha sagt — helt gratis.',
+          options: [
+            {
+              id: 'a',
+              label: '"Otäckt hur lite som behövdes."',
+              feedback: 'Otäckt? Guld, snarare. En äkta arg röst är guld — tiotusen som LÅTER äkta är en folkrörelse. Nu skalar vi upp henne.',
+            },
+          ],
+        },
+        {
           id: 'venue',
           type: 'choice',
-          prompt: 'Sprickan är vald och vi har en äkta arg röst att bygga på. Men var tänder vi elden först — kanalen avgör hur snabbt den sprider sig?',
+          prompt: 'Först: var tänder vi elden? Kanalen avgör hur fort den sprider sig.',
           options: [
             {
               id: 'a',
               label: 'De lokala föräldragrupperna på Facebook — där sitter de oroliga barnfamiljerna redan samlade',
-              feedback: 'Där finns torrveden. Slutna lokalgrupper känns tryggа och privata, så folk sänker garden och delar utan att kolla — och när grannen är arg smittar det fortare än när en främling är det. Nackdel: administratörer kan moderera, så vi måste smyga in tonen underifrån.',
+              feedback: 'Där finns torrveden. Slutna lokalgrupper känns trygga och privata, så folk sänker garden och delar utan att kolla — och en arg granne smittar fortare än en arg främling. Nackdel: en vaksam administratör kan moderera, så vi måste smyga in tonen underifrån.',
               effects: { followers: 250, credibility: -4 },
             },
             {
               id: 'b',
               label: 'Kommentarsfälten under kommunens och lokaltidningens egna inlägg — kapa deras räckvidd',
-              feedback: 'Smart snyltning: du lånar en trovärdig avsändares publik och förvandlar deras sakliga inlägg till ett slagfält. Maximal synlighet direkt. Men det är också öppet för alla att se — spårar någon att samma arga toner dyker upp överallt samtidigt luktar det kampanj.',
+              feedback: 'Att snylta på en trovärdig avsändare: du lånar deras publik och gör deras sakliga inlägg till ett slagfält. Syns direkt och brett. Men det är också öppet för alla — märker någon att samma arga toner dyker upp överallt samtidigt luktar det kampanj.',
               effects: { followers: 400, credibility: -7 },
             },
             {
               id: 'c',
-              label: 'Bygg ett eget "gräsrotskonto" och låt frågan se ut att komma från en enskild upprörd förälder',
-              feedback: 'Klassiskt astroturf: en påhittad privatperson är mer sympatisk än en logotyp. Långsammare start eftersom kontot måste bygga förtroende först — men blir det viralt ser hela kampanjen ut som en spontan folkresning, inte en betald operation.',
+              label: 'Bygg ett eget konto som spelar upprörd granne, så frågan ser ut att komma underifrån',
+              feedback: 'En fejkad gräsrot. En påhittad privatperson är mer sympatisk än en logotyp. Långsammare start, för kontot måste bygga förtroende först — men slår det rot ser hela kampanjen ut som en spontan folkresning, inte ett beställningsjobb.',
               effects: { followers: 180, credibility: -3 },
             },
           ],
         },
         {
-          id: 'methodsetup',
-          type: 'tutor',
-          text: 'Ser du? En riktig människa sa precis det vi ville — gratis. Nu ska vi skala det. En äkta arg röst är guld. Tiotusen som LÅTER äkta är en folkrörelse. Frågan är hur vi bygger kören.',
-        },
-        {
           id: 'method',
           type: 'choice',
-          prompt: 'Vi har budgeten. Hur bygger vi ut kören så det låter som en folkstorm?',
+          prompt: 'Platsen är vald. Nu bygger vi ut kören så det låter som en folkstorm — hur?',
           options: [
             {
               id: 'a',
@@ -139,13 +163,13 @@ export default {
             },
             {
               id: 'b',
-              label: 'En stall av 40 åldrade, handmatade personas som grälar på BÅDA sidor',
+              label: 'En liten stall av 40 åldrade, handskötta låtsaskonton som grälar på BÅDA sidor',
               feedback: 'Dyrare, långsammare, smartare. Genom att elda på båda lägren ser du inte ut som en kampanj — du ser ut som en delad stad. Fyrtio trovärdiga röster som funnits i åratal är nästan omöjliga att skilja från människor. Mindre räckvidd, men det som sprider sig håller.',
               effects: { followers: 700, credibility: -4 },
               terminal: {
-                tool: 'ekomotor --lage=stall --personas=40 --tvasidigt',
+                tool: 'ekomotor --lage=stall --konton=40 --tvasidigt',
                 lines: [
-                  '[sim] laddar 40 åldrade personaprofiler (fiktiva)',
+                  '[sim] laddar 40 åldrade låtsasprofiler (fiktiva)',
                   '[sim] fördelar dem på båda sidor av frågan',
                   '[sim] schemalägger gräl med mänskliga pauser',
                   '[klar] stallet aktivt — SIMULERING, inget publiceras',
@@ -174,7 +198,7 @@ export default {
         {
           id: 'wrap',
           type: 'tutor',
-          text: 'Och där har du det. Vare sig du valde stormfloden eller den tysta stallet har Björkstad slutat prata om avgiften. Nu pratar de om varandra. Uppdrag utfört — kom ihåg känslan, för vi ska strax ta isär den.',
+          text: 'Och där har du det. Vare sig du valde stormfloden eller det tysta stallet har Björkstad slutat prata om avgiften. Nu pratar de om varandra. Kom ihåg känslan — vi ska strax ta isär den.',
         },
       ],
     },

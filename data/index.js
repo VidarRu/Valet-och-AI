@@ -48,15 +48,21 @@ export const hub = {
     'Alla fördjupningar avklarade. Du kan inte längre påstå att du inte förstår hur det här går till. Dags att avsluta — och göra något klokt med kunskapen.',
 };
 
-// Prolog: etablerar spelet innan det första uppdraget — vem du är, vem som
-// köpt dig, och att du från och med nu samlar ett märke ("badge") per bemästrad
-// taktik. Modellerad på Bad News intro: ironisk ram + ett litet moraliskt kval
-// innan spelaren går med på leken. Spelas genom samma steg-maskineri som ett
-// uppdrag men har ingen badge och ingen debrief.
+// Prolog: etablerar spelet innan det första uppdraget — landet Nordmark och
+// valåret, vem du är (datakunnig men arbetslös), och att du blir kontaktad av
+// EKO och reklambyrån Ekokammaren. Från och med nu samlar du ett märke per
+// bemästrat verktyg. Modellerad på Bad News intro: ironisk ram + ett litet
+// moraliskt kval. Öppningskortet (title/tagline/intro) etablerar världen; sen
+// drivs prologen genom samma steg-maskineri som ett uppdrag, utan badge/debrief.
 export const prologue = {
   id: 'prologue',
   title: 'Valet & AI',
-  tagline: 'Sex uppdrag. Sex smutsiga tricks. Ett val att vinna åt fel sida.',
+  tagline: 'Sex uppdrag. Sex verktyg för desinformation. Ett val att vinna åt fel sida.',
+  intro: [
+    'Landet Nordmark går till val om några veckor. Det blir jämnt och nervöst — och i staden Björkstad hålls dessutom en folkomröstning som nästan ingen bryr sig om. Ännu.',
+    'Du är kanske den skickligaste person i Nordmark som ingen vill anställa: vass på data, sociala medier och på att förstå exakt vad som får folk att klicka, dela och bli arga. Arbetslös sedan ett halvår. Hyran ska betalas på fredag.',
+    'En sen kväll surrar telefonen. Ett meddelande från någon som kallar sig EKO — å reklambyrån Ekokammarens vägnar. De har ett jobb, står det. Åt just dig.',
+  ],
   scenarios: [
     {
       id: 'sc',
@@ -64,56 +70,73 @@ export const prologue = {
         {
           id: 'greet',
           type: 'tutor',
-          text: 'Hej. Jag heter EKO. Jag är en AI, och från och med nu är jag din handledare — din samvetslösa bästa vän i öronsnäckan. Ironin att en AI ska lära dig missbruka AI är fullt avsiktlig; den ingår i priset. Och priset, ska du veta, är gott. Någon har precis fått upp ögonen för dig.',
+          text: 'Hej. Jag heter EKO. Jag är en AI, och säger du ja blir jag rösten i ditt öra genom hela det här — den som viskar dåliga idéer. Att en AI ska lära dig missbruka AI är själva poängen. Ekokammaren såg din profil och tänkte som jag: här går talang till spillo.',
+        },
+        {
+          id: 'hook',
+          type: 'choice',
+          prompt: 'Sent, pank, och en AI säger att du har talang. Vad far genom huvudet?',
+          options: [
+            {
+              id: 'a',
+              label: '"En byrå som hör av sig till MIG? Jag lyssnar."',
+              feedback: 'Så ska det låta — hungrig. Det passar bra, för det här jobbet betalar. Låt mig visa dig vad det handlar om.',
+            },
+            {
+              id: 'b',
+              label: '"Det låter för bra för att vara sant."',
+              feedback: 'Klokt. Det ÄR för bra för att vara ärligt — men pengarna är på riktigt. Låt mig visa dig vad det handlar om.',
+            },
+          ],
         },
         {
           id: 'recruit',
           type: 'post',
-          author: 'Ekokammaren – Strategisk kommunikation',
+          author: 'Ekokammaren – reklam & kommunikation',
           handle: '@ekokammaren',
-          text: 'Vi har följt ditt arbete. Du har känsla för hur människor tänker — och hur de går att flytta. Vi erbjuder välbetalda uppdrag, full diskretion och en AI-assistent som gör tungjobbet. Nästa val i Nordmark är om några veckor. Intresserad? 🕶️',
+          text: 'Vi håller ögonen på folk som förstår hur åsikter rör sig på nätet. Du gör det bättre än de flesta. Välbetalda uppdrag, full diskretion, inför valet i Nordmark. EKO ingår. Intresserad? 🕶️',
         },
         {
           id: 'whatisthis',
           type: 'tutor',
-          text: '"Strategisk kommunikation." Gulligt, va? Vi är en lobbyfirma på papperet och en trollfabrik i praktiken. Vi tar betalt av den som vill vinna ett val utan att behöva ha rätt. Och du — du ska bli den som trycker på knapparna. Men först: vad tänker du?',
+          text: 'Låt mig översätta "reklambyrå" åt dig: vi är en trollfabrik med finare visitkort. Vi tar betalt av den som vill vinna ett val utan att behöva ha rätt, och håller i smutsen så att klienten slipper. Du blir den som sköter spakarna.',
         },
         {
           id: 'firstreaction',
           type: 'choice',
-          prompt: 'Ditt allra första beslut. Hur svarar du Ekokammaren?',
+          prompt: 'Ditt första riktiga val. Hur svarar du?',
           options: [
             {
               id: 'a',
-              label: '"Det där låter som en trollfabrik. Är det vad ni är?"',
-              feedback: 'Skarpt öga. Ja — det är precis vad vi är, fast med bättre kaffe och en textmodell i stället för hundra anställda. Att du ser det betyder att du kommer att bli bra på det här. Ändå frågar en del av dig om du borde. Håll fast vid den delen — vi ska strax se hur lätt den tystnar.',
+              label: '"En trollfabrik alltså. Och ni vill ha mig?"',
+              feedback: 'Skarpt öga — det är precis vad vi är. Att du genast ser det betyder att du blir bra på det. En del av dig undrar ändå om du borde. Behåll den delen; vi ska se hur snabbt den tystnar.',
             },
             {
               id: 'b',
-              label: '"Hur mycket pengar pratar vi om?"',
-              feedback: 'Rakt på sak. Jag gillar det. Svaret: mer per uppdrag än de flesta tjänar på ett halvår, sex uppdrag i rad, kontant och spårlöst. Konstigt hur snabbt ett moraliskt dilemma krymper när siffran är stor nog, eller hur? Notera den känslan — den är själva råvaran vi säljer.',
+              label: '"Vad betalar det?"',
+              feedback: 'Rakt på sak, jag gillar det. Mer per uppdrag än du tjänar på ett halvår — och hyran ska ju betalas. Lustigt hur ett samvete krymper när siffran växer, va?',
             },
             {
               id: 'c',
               label: '"Nej. Att manipulera ett val är fel."',
-              feedback: 'Där kom det — samvetet. Bra. Behåll det, för det är faktiskt hela poängen med att du är här. Men lägg inte på luren än: du kommer inte att göra det här för att bli en av oss. Du gör det för att lära dig exakt hur det går till — och den som känner igen tricket blir omöjlig att lura med det. Så. Ska vi?',
+              feedback: 'Där kom samvetet. Bra — behåll det. Men lägg inte på än: du gör inte det här för att bli en av oss, utan för att lära dig exakt hur det går till. Den som känner igen tricket blir omöjlig att lura med det.',
             },
           ],
         },
         {
           id: 'deal',
           type: 'tutor',
-          text: 'Så här ser leken ut. Nordmark går till val. Sex olika klienter köar för att köpa dig — en lokal PR-byrå, en populistkampanj, en anonym röst i kryptovaluta, en utländsk tankesmedja. Var och en vill ha en specifik sak gjord. Och för varje sak finns det ett hantverk.',
+          text: 'Så här ligger det till. Sex klienter köar för att köpa dig inför valet: en lokal PR-byrå, en populistkampanj, en anonym röst som betalar i krypto, en utländsk tankesmedja. Var och en vill ha en sak gjord — och bakom varje sak ligger ett av sex verktyg för desinformation.',
         },
         {
           id: 'badges',
           type: 'tutor',
-          text: 'Det finns sex hantverk i lådan: polarisering, misskreditering, trollning, konspiration, känslor och imitation. Bemästrar du ett får du ett märke för det — sex märken, din lilla samling. Tänk på dem som Badgers att plocka. Full samling betyder att du kan hela repertoaren utantill. Och när du kan den utantill kan ingen längre använda den mot dig.',
+          text: 'Verktygen är: polarisering, misskreditering, trollning, konspiration, känslor och imitation. Lär du dig ett får du ett märke för det — sex märken att samla på. Full samling betyder att du behärskar hela repertoaren. Och det du behärskar kan ingen längre använda mot dig.',
         },
         {
           id: 'tools',
           type: 'tutor',
-          text: 'Du jobbar aldrig ensam. Jag matar dig med verktyg — bot-svärmar, bildgeneratorer, röstkloning, allt med påhittade namn för att slippa reklampengar. Varje gång du drar i ett av dem hamnar vi i den mörka konsolen ett ögonblick. Oroa dig inte: allt är simulering. Ingen riktig människa skadas i den här utbildningen. Bara din självbild, kanske.',
+          text: 'Du är aldrig ensam — jag räcker dig verktygen: bot-svärmar, bildgeneratorer, röstkloning. Varje gång du drar i ett hamnar vi en stund i den mörka konsolen. Var lugn: allt här är på låtsas. Ingen riktig människa tar skada. Bara din självbild, kanske.',
         },
         {
           id: 'lastqualm',
@@ -123,24 +146,24 @@ export const prologue = {
             {
               id: 'a',
               label: '"Okej. Visa mig hur det görs."',
-              feedback: 'Så ska det låta. Och märk väl — "visa mig hur det görs" är exakt rätt inställning, fast av fel skäl. Du tror att du säger ja till pengarna. Egentligen säger du ja till att aldrig mer bli lurad. Kom.',
+              feedback: 'Rätt inställning — fast av fel skäl. Du tror att du säger ja till pengarna. Du säger ja till att aldrig mer bli lurad. Kom.',
             },
             {
               id: 'b',
-              label: '"Jag gör det — men bara för att förstå hur det funkar."',
-              feedback: 'Haha. Det säger alla. Men i ditt fall är det till och med sant: det ÄR därför du är här. Spela med hela vägen, känn hur lätt det är, hur bra det känns — och hata det lagom mycket. Det obehaget är ditt vaccin.',
+              label: '"Jag gör det, men bara för att förstå hur det funkar."',
+              feedback: 'Det säger alla. I ditt fall är det till och med sant. Spela med hela vägen, känn hur lätt det är — och avsky det lagom mycket. Obehaget är ditt vaccin.',
             },
             {
               id: 'c',
-              label: '"Jag mår redan lite illa av det här."',
-              feedback: 'Bra. Behåll illamåendet — det är din bästa kompass. Vi ska ändå gå in, för man förstår inte en ficktjuv genom att läsa om honom, utan genom att känna fingrarna i sin egen ficka. Efteråt får du kräkas. Nu jobbar vi.',
+              label: '"Jag mår redan lite illa."',
+              feedback: 'Bra. Behåll illamåendet, det är din bästa kompass. Vi går in ändå — man genomskådar inte en ficktjuv genom att läsa om honom, utan genom att känna fingrarna i sin egen ficka.',
             },
           ],
         },
         {
           id: 'handoff',
           type: 'tutor',
-          text: 'Välkommen till Ekokammaren. Ditt första uppdrag ligger redan i inkorgen — en tråkig liten folkomröstning som vi ska förvandla till ett krig. Läs uppdragskortet noga: vem som betalar, vem som ska tas ut, och varför. Sen börjar vi.',
+          text: 'Välkommen till Ekokammaren. Ditt första uppdrag ligger i inkorgen — en tråkig liten folkomröstning i Björkstad som vi ska göra till ett krig. Läs uppdragskortet: vem som betalar, vem som ska tas ut, och varför.',
         },
       ],
     },

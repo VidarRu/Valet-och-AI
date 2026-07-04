@@ -226,6 +226,16 @@ button {
   color: #e9e7df;
 }
 
+.title-intro {
+  margin: 1rem 0 0;
+  font-size: 0.98rem;
+  line-height: 1.6;
+  text-align: left;
+  color: #e9e7df;
+}
+
+.title-intro:first-of-type { margin-top: 1.25rem; }
+
 /* Fördjupningskort — blå accent skiljer dem från kärnuppdragen */
 .card-mission-deep { box-shadow: 4px 4px 0 var(--blue); }
 .card-mission-deep .mission-number { color: var(--blue); }

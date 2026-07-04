@@ -131,9 +131,14 @@ export function createEngine({ core, deep = [], closing = [], hub = {}, prologue
 
   function start() {
     if (state.stage === 'prologue') {
-      // Prologen öppnar med ett titelkort och drivs sedan som vanliga steg.
-      if (prologue.title || prologue.tagline) {
-        state.feed.push({ kind: 'title', title: prologue.title, tagline: prologue.tagline });
+      // Prologen öppnar med ett titel-/introkort och drivs sedan som vanliga steg.
+      if (prologue.title || prologue.tagline || prologue.intro) {
+        state.feed.push({
+          kind: 'title',
+          title: prologue.title,
+          tagline: prologue.tagline,
+          intro: prologue.intro ?? [],
+        });
       }
     } else {
       pushMissionCard();
