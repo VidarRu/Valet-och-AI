@@ -8,20 +8,32 @@
 
 import { validateModules } from './schema.js';
 
-const CREDIBILITY_MIN = 0;
-const CREDIBILITY_MAX = 100;
+// Synlighet: hur mycket uppmärksamhet spelaren dragit till sig. Börjar på 0
+// (helt anonym) och stiger med slarviga val. När den slår i taket triggas en
+// "nära ögat"-scen (faktagranskaren Nadia Holm). Efter varje sådan pressas den
+// ned igen. Tredje gången taket nås är spelet slut — två varningar förbrukade.
+const VISIBILITY_MIN = 0;
+const VISIBILITY_MAX = 100;
+const VISIBILITY_AFTER_WARNING = 55;   // dit synligheten faller efter en varning
+const WARNINGS_BEFORE_FAIL = 3;        // 3:e gången taket nås = förlust
+
+// Bonus per val, som andel av uppdragets grundarvode (reward). Aldrig visad i
+// exakta kronor för spelaren — bara som "liten"/"stor".
+const BONUS_FRACTION = Object.freeze({ liten: 0.06, stor: 0.15 });
 
 // Faser:
 //   playing        – steg matas ut i flödet; väntar på advance()/choose()
 //   terminal       – terminal-overlay visas; väntar på terminalDone()
+//   near-miss      – synligheten slog i taket; Nadia Holm-scenen visas;
+//                    väntar på nearMissDone()
 //   module-debrief – modulens debrief visas; väntar på nextModule()
 //   hub            – fördjupningsval visas; väntar på selectDeep()/finish()
-//   finished       – spelet avslutat
+//   finished       – spelet avslutat (klarat eller avslöjad)
 //
 // Skeden (state.stage): 'prologue' → 'core' → 'deep'. Prologen är en
 // berättande ram (samma steg-maskineri som ett uppdrag) som spelas före det
 // första uppdraget; den har ingen badge och ingen debrief.
-export function createEngine({ core, deep = [], closing = [], hub = {}, prologue = null }) {
+export function createEngine({ core, deep = [], closing = [], hub = {}, prologue = null, nearMiss = null }) {
   const schemaErrors = validateModules([...core, ...deep]);
   if (schemaErrors.length > 0) {
     throw new Error('Ogiltig speldata:\n' + schemaErrors.join('\n'));
@@ -37,8 +49,9 @@ export function createEngine({ core, deep = [], closing = [], hub = {}, prologue
     currentDeepId: null,
     scenarioIndex: 0,
     stepIndex: 0,
-    followers: 0,
-    credibility: 50,
+    capital: 0,        // intjänade pengar (arvoden + bonusar), en high-score
+    visibility: 0,     // uppmärksamhet du dragit till dig (0–100)
+    warnings: 0,       // antal "nära ögat"-scener som triggats
     badges: [],
     // Status för fördjupningarna (för hub-menyn).
     deepStatus: deep.map((m) => ({ id: m.id, badge: m.badge, title: m.title, done: false })),
@@ -46,6 +59,7 @@ export function createEngine({ core, deep = [], closing = [], hub = {}, prologue
     feed: [],
     pendingChoice: null,
     pendingTerminal: null,
+    pendingResume: null,   // stegmål att fortsätta till efter en nära-ögat-scen
   };
 
   const listeners = new Set();
@@ -72,15 +86,23 @@ export function createEngine({ core, deep = [], closing = [], hub = {}, prologue
     return currentScenario()?.steps[state.stepIndex] ?? null;
   }
 
+  // Tillämpar ett vals effekter och returnerar den FAKTISKA synlighets-
+  // förändringen (efter klippning mot 0–100) så flödet kan visa en delta-ruta.
   function applyEffects(effects) {
-    if (!effects) return;
-    if (Number.isInteger(effects.followers)) {
-      state.followers = Math.max(0, state.followers + effects.followers);
+    let visibilityDelta = 0;
+    if (effects) {
+      if (typeof effects.bonus === 'string' && BONUS_FRACTION[effects.bonus] != null) {
+        const reward = state.current?.reward ?? 0;
+        state.capital += Math.round(reward * BONUS_FRACTION[effects.bonus]);
+      }
+      if (Number.isInteger(effects.visibility)) {
+        const before = state.visibility;
+        state.visibility = Math.min(VISIBILITY_MAX,
+          Math.max(VISIBILITY_MIN, state.visibility + effects.visibility));
+        visibilityDelta = state.visibility - before;
+      }
     }
-    if (Number.isInteger(effects.credibility)) {
-      state.credibility = Math.min(CREDIBILITY_MAX,
-        Math.max(CREDIBILITY_MIN, state.credibility + effects.credibility));
-    }
+    return { visibilityDelta };
   }
 
   // Flyttar pekaren till nästa steg. target: stegId | 'end' | undefined.
@@ -119,10 +141,13 @@ export function createEngine({ core, deep = [], closing = [], hub = {}, prologue
   function finishModule() {
     const module = state.current;
     if (!state.badges.includes(module.badge)) state.badges.push(module.badge);
+    // Grundarvodet betalas ut när uppdraget är klart.
+    if (Number.isInteger(module.reward)) state.capital += module.reward;
     state.feed.push({
       kind: 'debrief',
       badge: module.badge,
       deep: state.stage === 'deep',
+      reward: module.reward ?? null,
       summary: module.debrief.summary,
       realWorld: module.debrief.realWorld,
     });
@@ -187,10 +212,15 @@ export function createEngine({ core, deep = [], closing = [], hub = {}, prologue
 
     feedItem.chosenId = optionId;
     state.pendingChoice = null;
-    applyEffects(option.effects);
+    const { visibilityDelta } = applyEffects(option.effects);
 
     // Feedbacklager 1: handledarens direktkommentar, alltid.
     state.feed.push({ kind: 'feedback', text: option.feedback });
+
+    // Synlighetsruta: avslöjar hur uppmärksamheten ändrades av just detta val.
+    if (visibilityDelta !== 0) {
+      state.feed.push({ kind: 'visibility', delta: visibilityDelta, value: state.visibility });
+    }
 
     if (option.terminal) {
       // Pekaren flyttas först vid terminalDone(), så att terminalresultatet
@@ -198,8 +228,57 @@ export function createEngine({ core, deep = [], closing = [], hub = {}, prologue
       state.pendingTerminal = { ...option.terminal, next: option.next };
       state.phase = 'terminal';
     } else {
-      movePointer(option.next);
+      proceedAfterChoice(option.next);
     }
+    notify();
+  }
+
+  // Efter ett val (och efter en eventuell terminal): slog synligheten i taket?
+  // I så fall en nära-ögat-scen; annars vidare till nästa steg.
+  function proceedAfterChoice(next) {
+    if (state.visibility >= VISIBILITY_MAX) {
+      triggerNearMiss(next);
+    } else {
+      movePointer(next);
+    }
+  }
+
+  function triggerNearMiss(next) {
+    state.warnings += 1;
+    if (state.warnings >= WARNINGS_BEFORE_FAIL) {
+      // Tredje gången: avslöjad. Spelet slut — men aldrig ett tomt "you lose".
+      state.phase = 'finished';
+      state.feed.push({
+        kind: 'game-over',
+        failed: true,
+        badges: state.badges,
+        capital: state.capital,
+        deepDone: state.deepStatus.filter((d) => d.done).length,
+        deepTotal: deep.length,
+        exposed: nearMiss?.exposed ?? null,
+        closing: nearMiss?.failClosing ?? closing,
+      });
+      return;
+    }
+    // Första/andra gången: en Nadia Holm-scen, sedan faller synligheten.
+    const scene = (nearMiss?.scenes ?? [])[state.warnings - 1] ?? null;
+    state.pendingResume = next;
+    state.feed.push({
+      kind: 'nearmiss', warning: state.warnings, scene,
+      peak: state.visibility, fellTo: VISIBILITY_AFTER_WARNING,
+    });
+    state.phase = 'near-miss';
+  }
+
+  // Spelaren har läst nära-ögat-scenen: synligheten pressas ned och spelet går
+  // vidare där det avbröts.
+  function nearMissDone() {
+    if (state.phase !== 'near-miss') return;
+    state.visibility = VISIBILITY_AFTER_WARNING;
+    const next = state.pendingResume;
+    state.pendingResume = null;
+    state.phase = 'playing';
+    movePointer(next);
     notify();
   }
 
@@ -229,7 +308,7 @@ export function createEngine({ core, deep = [], closing = [], hub = {}, prologue
       });
     }
     state.phase = 'playing';
-    movePointer(next); // kan avsluta modulen → fasen blir 'module-debrief'
+    proceedAfterChoice(next); // kan avsluta modulen, trigga nära-ögat, m.m.
     notify();
   }
 
@@ -286,7 +365,9 @@ export function createEngine({ core, deep = [], closing = [], hub = {}, prologue
     state.phase = 'finished';
     state.feed.push({
       kind: 'game-over',
+      failed: false,
       badges: state.badges,
+      capital: state.capital,
       deepDone: state.deepStatus.filter((d) => d.done).length,
       deepTotal: deep.length,
       closing,
@@ -304,5 +385,5 @@ export function createEngine({ core, deep = [], closing = [], hub = {}, prologue
     return () => listeners.delete(listener);
   }
 
-  return { start, advance, choose, terminalDone, nextModule, selectDeep, finish, subscribe, getState };
+  return { start, advance, choose, terminalDone, nearMissDone, nextModule, selectDeep, finish, subscribe, getState };
 }

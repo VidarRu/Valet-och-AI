@@ -21,7 +21,25 @@ function el(tag, className, text) {
   return node;
 }
 
-const followerFormat = new Intl.NumberFormat('sv-SE');
+const numberFormat = new Intl.NumberFormat('sv-SE');
+function formatKr(n) {
+  return `${numberFormat.format(n)} kr`;
+}
+
+// Kort kod per badge till statusradens rutor (två K:n krockar → Ko/Kä).
+const BADGE_ABBR = {
+  polarization: 'P', discredit: 'M', trolling: 'T',
+  conspiracy: 'Ko', emotion: 'Kä', impersonation: 'I',
+};
+
+// Synlighetens riskzon (visuellt streck i mätaren) samt klassificering av en
+// synlighetsförändring till en etikett i strategivalen.
+const VISIBILITY_RISK = 80;
+function visibilityTier(delta) {
+  if (delta < 0) return { cls: 'down', arrow: '▼', word: 'sänker' };
+  if (delta >= 12) return { cls: 'up-hi', arrow: '▲', word: 'kraftigt' };
+  return { cls: 'up-lo', arrow: '▲', word: 'något' };
+}
 
 // ---------------------------------------------------------------------------
 // Kvittra — den fiktiva mikrobloggplattform som inläggen "bor" på. Inläggen
@@ -309,45 +327,54 @@ function renderStatusbar(container, state) {
 
   container.append(el('span', 'statusbar-title', 'Valet & AI'));
 
-  const followers = el('div', 'stat');
-  followers.append(
-    el('span', 'stat-label', 'Följare'),
-    el('span', 'stat-value', followerFormat.format(state.followers)),
+  // Kapital: löpande high-score (arvoden + bonusar).
+  const capital = el('div', 'stat');
+  capital.append(
+    el('span', 'stat-label', 'Kapital'),
+    el('span', 'stat-value', formatKr(state.capital)),
   );
 
-  const credibility = el('div', 'stat');
-  const meter = el('div', 'cred-meter');
+  // Synlighet: stigande fara-mätare (gult → rött), med ett streck vid riskzonen.
+  const visibility = el('div', 'stat');
+  const meter = el('div', 'vis-meter');
   meter.setAttribute('role', 'meter');
-  meter.setAttribute('aria-label', 'Trovärdighet');
-  meter.setAttribute('aria-valuenow', String(state.credibility));
+  meter.setAttribute('aria-label', 'Synlighet');
+  meter.setAttribute('aria-valuenow', String(state.visibility));
   meter.setAttribute('aria-valuemin', '0');
   meter.setAttribute('aria-valuemax', '100');
-  const fill = el('div', 'cred-fill');
-  fill.style.width = `${state.credibility}%`;
+  const fill = el('div', 'vis-fill');
+  fill.style.width = `${state.visibility}%`;
   meter.append(fill);
-  credibility.append(el('span', 'stat-label', 'Trovärdighet'), meter);
+  const tick = el('div', 'vis-tick');
+  tick.style.left = `${VISIBILITY_RISK}%`;
+  meter.append(tick);
+  visibility.append(el('span', 'stat-label', 'Synlighet'), meter);
 
-  const progress = el('div', 'stat');
-  if (state.stage === 'prologue') {
-    progress.append(
-      el('span', 'stat-label', 'Kapitel'),
-      el('span', 'stat-value', 'Prolog'),
-    );
-  } else if (state.stage === 'core') {
-    progress.append(
-      el('span', 'stat-label', 'Uppdrag'),
-      el('span', 'stat-value', `${Math.min(state.coreNumber, state.coreTotal)}/${state.coreTotal}`),
-    );
-  } else {
-    const deepDone = state.deepStatus.filter((d) => d.done).length;
-    progress.append(
-      el('span', 'stat-label', 'Fördjupning'),
-      el('span', 'stat-value', `${deepDone}/${state.deepTotal}`),
-    );
+  // Badges: alla sex rutorna, grå tills upplåsta; tooltip på de upplåsta.
+  const badges = el('div', 'stat');
+  const row = el('div', 'sb-badges');
+  for (const badge of Object.values(BADGES)) {
+    const earned = state.badges.includes(badge.id);
+    const chip = el('div', 'bchip ' + (earned ? 'earned' : 'locked'), BADGE_ABBR[badge.id]);
+    if (earned) {
+      chip.tabIndex = 0;
+      chip.setAttribute('aria-label', `${badge.label}: ${badge.tool}. ${badge.blurb}`);
+      const tip = el('div', 'bchip-tip');
+      tip.append(
+        el('span', 'bchip-tip-badge', badge.label),
+        el('p', 'bchip-tip-tool', `Verktyg: ${badge.tool}`),
+        el('p', 'bchip-tip-text', badge.blurb),
+      );
+      chip.append(tip);
+    } else {
+      chip.setAttribute('aria-label', `${badge.label}: ännu inte upplåst`);
+    }
+    row.append(chip);
   }
+  badges.append(el('span', 'stat-label', 'Badges'), row);
 
   const stats = el('div', 'statusbar-stats');
-  stats.append(followers, credibility, progress);
+  stats.append(capital, visibility, badges);
   container.append(stats);
 }
 
@@ -361,6 +388,122 @@ function tutorBubble(text, extraClass) {
   avatar.innerHTML = AVATAR_SVG;
   bubble.append(avatar, el('p', 'tutor-text', text));
   return bubble;
+}
+
+// Förhandsvisning under ett strategival: hur mycket synlighet det drar till sig
+// och en eventuell bonus (aldrig i exakta kronor). Returnerar null om valet
+// saknar mätbara effekter (t.ex. rena dialogrepliker).
+function choicePreview(effects) {
+  if (!effects || (!Number.isInteger(effects.visibility) && !effects.bonus)) return null;
+  const foot = el('div', 'co-foot');
+  if (Number.isInteger(effects.visibility) && effects.visibility !== 0) {
+    const t = visibilityTier(effects.visibility);
+    const chip = el('span', `vis-chip ${t.cls}`);
+    chip.append(el('span', 'arrow', t.arrow), document.createTextNode(` Synlighet: ${t.word}`));
+    foot.append(chip);
+  }
+  if (effects.bonus) {
+    foot.append(el('span', 'cap-chip' + (effects.bonus === 'stor' ? ' big' : ''),
+      `◆ Bonus: ${effects.bonus}`));
+  } else {
+    foot.append(el('span', 'vis-chip flat', 'Ingen bonus'));
+  }
+  return foot;
+}
+
+// Rutan som avslöjar hur synligheten faktiskt ändrades av det senaste valet.
+function visibilityReveal(delta, value) {
+  const down = delta < 0;
+  const box = el('div', 'reveal' + (down ? ' down' : ''));
+  box.append(el('div', 'reveal-ico', down ? '▼' : '▲'));
+  const body = el('div', 'reveal-body');
+  const risk = !down && value >= VISIBILITY_RISK ? ' (riskzon)' : '';
+  body.append(
+    el('p', 'reveal-title', 'Synlighet'),
+    el('p', 'reveal-line reveal-delta',
+      `${delta > 0 ? '+' : ''}${delta}  →  ${value} / 100${risk}`),
+  );
+  const meter = el('div', 'mini-meter');
+  const fill = el('div', 'mini-fill');
+  fill.style.width = `${value}%`;
+  meter.append(fill);
+  box.append(body, meter);
+  return box;
+}
+
+// Fabricerad granskningsartikel (Faktakollen / Nadia Holm) — egen layout, inte
+// ett socialt inlägg. Används i nära-ögat-scenen och i avslöjande-slutet.
+function factCheckArticle(article) {
+  const wrap = el('article', 'fc-article');
+  const mast = el('div', 'fc-masthead');
+  const logo = el('span', 'fc-logo');
+  logo.append(document.createTextNode('Fakta'), el('b', null, 'kollen'));
+  mast.append(logo, el('span', 'fc-kicker', 'Granskning'));
+  wrap.append(mast);
+
+  const body = el('div', 'fc-body');
+  if (article.verdict) body.append(el('span', 'fc-verdict', article.verdict));
+  body.append(el('h3', 'fc-head', article.headline));
+  const byline = el('div', 'fc-byline');
+  byline.append(el('span', 'fc-av', 'NH'), el('span', null, article.byline));
+  body.append(byline, el('p', 'fc-dek', article.dek));
+  wrap.append(body);
+  return wrap;
+}
+
+// Nära-ögat-scenen: push-notis → artikel → EKO:s handbroms → byråns dementi →
+// synligheten faller. Egen "Fortsätt"-knapp som kör engine.nearMissDone().
+function renderNearMiss(item, engine, isLast, state) {
+  const scene = item.scene;
+  const wrap = el('div', 'nearmiss');
+
+  const banner = el('div', 'nearmiss-banner');
+  banner.append(
+    el('span', 'nearmiss-flag', 'Nära avslöjande'),
+    el('span', 'nearmiss-warn', scene?.warningLabel ?? `Varning ${item.warning}`),
+  );
+  wrap.append(banner);
+
+  if (scene?.notif) {
+    const push = el('div', 'push');
+    push.append(el('div', 'push-ico', 'F'));
+    const pbody = el('div', 'push-body');
+    const ptop = el('div', 'push-top');
+    ptop.append(el('span', null, 'Faktakollen'), el('span', null, 'nu'));
+    pbody.append(ptop, el('p', 'push-title', scene.notif.title), el('p', 'push-text', scene.notif.text));
+    push.append(pbody);
+    wrap.append(push);
+  }
+
+  if (scene?.article) wrap.append(factCheckArticle(scene.article));
+
+  if (scene?.eko) wrap.append(tutorBubble(scene.eko, 'tutor-feedback'));
+
+  if (scene?.denial) wrap.append(renderPost({
+    reaction: true, author: scene.denial.author, handle: scene.denial.handle, text: scene.denial.text,
+  }));
+
+  // Synligheten pressas ned efter scenen.
+  const box = el('div', 'reveal down');
+  box.append(el('div', 'reveal-ico', '▼'));
+  const body = el('div', 'reveal-body');
+  body.append(
+    el('p', 'reveal-title', 'Synlighet faller tillbaka'),
+    el('p', 'reveal-line reveal-delta', `${item.peak} → ${item.fellTo} / 100`),
+  );
+  const meter = el('div', 'mini-meter');
+  const fill = el('div', 'mini-fill');
+  fill.style.width = `${item.fellTo}%`;
+  meter.append(fill);
+  box.append(body, meter);
+  wrap.append(box);
+
+  if (isLast && state.phase === 'near-miss') {
+    const button = el('button', 'continue-button', 'Ligg lågt och fortsätt →');
+    button.addEventListener('click', () => engine.nearMissDone());
+    wrap.append(button);
+  }
+  return wrap;
 }
 
 function renderFeedItem(item, engine, isLast, state) {
@@ -418,7 +561,10 @@ function renderFeedItem(item, engine, isLast, state) {
       const card = el('article', 'card card-choice');
       card.append(el('p', 'choice-prompt', item.prompt));
       for (const option of item.options) {
-        const button = el('button', 'choice-option', option.label);
+        const button = el('button', 'choice-option');
+        button.append(el('span', 'co-label', option.label));
+        const foot = choicePreview(option.effects);
+        if (foot) button.append(foot);
         if (item.chosenId != null) {
           button.disabled = true;
           if (option.id === item.chosenId) button.classList.add('chosen');
@@ -429,12 +575,21 @@ function renderFeedItem(item, engine, isLast, state) {
       }
       return card;
     }
+    case 'visibility':
+      return visibilityReveal(item.delta, item.value);
+    case 'nearmiss':
+      return renderNearMiss(item, engine, isLast, state);
     case 'debrief': {
       const card = el('article', 'card card-debrief');
       const banner = el('div', 'debrief-banner');
       banner.append(el('span', null, item.deep ? 'Fördjupning klar' : 'Badge upplåst'), badgePill(item.badge));
+      card.append(banner);
+      if (Number.isInteger(item.reward)) {
+        const pay = el('p', 'debrief-reward');
+        pay.append(el('strong', null, 'Arvode utbetalt: '), document.createTextNode(formatKr(item.reward)));
+        card.append(pay);
+      }
       card.append(
-        banner,
         el('h2', 'card-title', 'Sammanfattning'),
         el('p', 'debrief-summary', item.summary),
         el('h3', 'debrief-subtitle', 'Ur verkligheten'),
@@ -451,11 +606,23 @@ function renderFeedItem(item, engine, isLast, state) {
       return card;
     }
     case 'game-over': {
-      const card = el('article', 'card card-gameover');
-      card.append(el('h2', 'card-title', 'Kampanjen är över'));
+      const card = el('article', 'card card-gameover' + (item.failed ? ' card-gameover-failed' : ''));
+
+      // Avslöjad (3:e taket): en sista Nadia Holm-artikel innan avspärrningen.
+      if (item.failed && item.exposed) {
+        card.append(el('span', 'gameover-tag gameover-tag-failed', 'Avslöjad'));
+        card.append(factCheckArticle(item.exposed));
+      }
+
+      card.append(el('h2', 'card-title', item.failed ? 'Du blev avslöjad' : 'Kampanjen är över'));
+
       const badges = el('div', 'gameover-badges');
       for (const badgeId of item.badges) badges.append(badgePill(badgeId));
-      card.append(badges);
+      if (item.badges.length > 0) card.append(badges);
+
+      const stats = el('p', 'gameover-deep');
+      stats.append(el('strong', null, 'Intjänat kapital: '), document.createTextNode(formatKr(item.capital ?? 0)));
+      card.append(stats);
       if (item.deepTotal > 0) {
         card.append(el('p', 'gameover-deep', `Fördjupningar avklarade: ${item.deepDone}/${item.deepTotal}`));
       }

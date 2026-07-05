@@ -20,6 +20,8 @@ import deepConspiracy from './deep/conspiracy.js';
 import deepEmotion from './deep/emotion.js';
 import deepImpersonation from './deep/impersonation.js';
 
+export { nearMiss } from './nearmiss.js';
+
 export const core = [
   polarization,
   discredit,

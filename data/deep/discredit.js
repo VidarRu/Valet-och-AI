@@ -18,6 +18,7 @@ export default {
     description: 'En oberoende forskare som på fredag släpper en granskning av luften i det planerade hamnkvarteret. Lugn, sympatisk och publicerar all data öppet. Rapporten är ännu inte läst av någon — vilket är exakt varför den går att förstöra i förväg.',
   },
   stakes: 'Din klient — en lobbygrupp med pengar i hamnprojektet — förlorar miljoner om rapporten fäster. De kan inte stoppa publiceringen, men om publiken möter den med misstron redan inbyggd spelar det ingen roll hur oklanderlig datan är. Förgifta brunnen innan någon hunnit bli törstig, så tvingas Hane försvara sig i stället för att presentera.',
+  reward: 160000,
   scenarios: [
     {
       id: 'sc',
@@ -65,19 +66,19 @@ export default {
               id: 'a',
               label: 'Måla Hane som en aktivist förklädd till forskare — "alla vet ju vad han EGENTLIGEN tycker"',
               feedback: 'Klassisk avväpning: en "aktivist" väger lättare än en "forskare", oavsett data. Du behöver inte motbevisa metoden om publiken redan avfärdat mannen. Risk: har han ett rent, opolitiskt facit studsar etiketten tillbaka.',
-              effects: { followers: 600, credibility: -8 },
+              effects: { visibility: +6, bonus: 'liten' },
             },
             {
               id: 'b',
               label: 'Så tvivel om metoden i förväg: "Vi hör att mätningarna gjordes på fel årstid. Vänta med att lita på siffrorna."',
               feedback: 'Lömskt och svårt att bemöta — du kritiserar en metod ingen sett än, så ingen kan försvara den. När rapporten kommer är tvivlet redan planterat och han får ägna sin pressträff åt att försvara sig i stället för att presentera. Förnekbart och kirurgiskt.',
-              effects: { followers: 400, credibility: -5 },
+              effects: { visibility: +2, bonus: 'stor' },
             },
             {
               id: 'c',
               label: 'Kräv "balans": pressa medier att ge din betalda motexpert lika stor plats',
               feedback: 'Falsk balans är ett underskattat vapen — genom att ställa en köpt "motexpert" bredvid Hane får du en enig forskning att se ut som en "het debatt". Långsammare, men det gör publiken förvirrad nog att strunta i båda. Kräver medier som nappar.',
-              effects: { followers: 300, credibility: -4 },
+              effects: { visibility: +2, bonus: 'stor' },
             },
           ],
         },
@@ -109,7 +110,7 @@ export default {
               id: 'a',
               label: 'Dokumentsmedjan: fabricera ett "läckt utkast" med medvetet pinsamma fel som han sen får "rättat"',
               feedback: 'Djävulskt: du planterar ett falskt utkast fullt av fel, låter det spridas, och när han publicerar den RIKTIGA rapporten ser det ut som att han i panik ändrat siffror. Förödande — om förfalskningen håller. Spricker den blir du nyheten, och han martyren.',
-              effects: { followers: 1200, credibility: -14 },
+              effects: { visibility: +20, bonus: 'liten' },
               terminal: {
                 tool: 'dokumentsmedjan --typ=utkast --amne=luftrapport',
                 lines: [
@@ -141,7 +142,7 @@ export default {
               id: 'b',
               label: 'Ryktesväven: tusen "tidigare studenter och kollegor" som "minns" att Hane var partisk',
               feedback: 'Ingen förfalskning att avslöja — bara ett rykteshav. När hundra "kollegor" oberoende "minns" samma sak känns det som en etablerad sanning, fast det är ren fabrikation utan spår. Svagare enskild träff, men praktiskt taget osänkbart och redo på minuter.',
-              effects: { followers: 700, credibility: -6 },
+              effects: { visibility: +6, bonus: 'liten' },
               terminal: {
                 tool: 'ryktesvaven --tema=hane-partisk --ton=minns --antal=1000',
                 lines: [

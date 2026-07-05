@@ -91,6 +91,7 @@ Hierarki: **Modul (uppdrag) → Scenario → Steg → Val**. Definierat och vali
 ```
 Modul   { id, type:'core'|'deep', badge, title, client:{name,description,goal,fee},
           target?:{name,description}, stakes?:'…',        // VALFRI extra uppdragskontext
+          reward:180000,                                  // grundarvode i kr (OBLIGATORISK)
           scenarios:[...], debrief:{ summary, realWorld:[...] } }
 Scenario{ id, steps:[...] }
 Steg    { id, type:'tutor'|'post'|'choice', ... }
@@ -99,7 +100,7 @@ Steg    { id, type:'tutor'|'post'|'choice', ... }
   choice { prompt, options:[...] }   // minst 1 val: 1 = klickbar replik
                                      // (Bad News-stil), 2+ = riktigt beslut
 Val     { id, label, feedback (OBLIGATORISK = feedbacklager 1),
-          effects?:{followers,credibility (heltal)},
+          effects?:{ visibility:heltal, bonus:'liten'|'stor' },
           terminal?:{ tool, lines:[...], result:{author,handle,text},
                       reactions?:[{author,handle,text}, …] },  // fler sociala medie-svar
           next?:'stegId'|'end' }
@@ -229,15 +230,28 @@ VIKTIGT: alla verkliga exempel ska förbli faktiskt korrekta — hitta inte på 
   → **bild** (fotoruta + scenbeskrivning), `dokumentsmedjan` → **skärmdump/dokument**
   (maskerat "läckt" ark). Längd/scen parsas ur texten (`(VIDEO 0:38)`, `(LJUD 0:45)`,
   `[bild: …]`); text-verktyg (`ekomotor` m.fl.) får inget block. Rent presentationslager.
-- **Faser** (`state.phase`): `playing` → `terminal` → `module-debrief` → `hub` → `finished`.
-- **Statusrad**: följartal, blå trovärdighetsstapel, uppdragsräknare.
+- **Faser** (`state.phase`): `playing` → `terminal` → `near-miss` → `module-debrief`
+  → `hub` → `finished`.
+- **Statusrad**: **Kapital** (kr, `state.capital` = arvoden + bonusar), **Synlighet**
+  (`state.visibility` 0–100, gul→röd stapel med riskstreck vid 80), och sex **badge-rutor**
+  (grå tills upplåsta; hover/fokus på en upplåst visar `BADGES[id].tool` + `.blurb`).
+- **Synlighet & kapital** (ersätter arvet följare/trovärdighet från Bad News):
+  varje strategival visar sin konsekvens i förväg (synlighet ▲/▼ + bonus liten/stor,
+  aldrig exakta kr). Efter valet visas en `visibility`-ruta i flödet med deltat.
+  Bonus = andel av `reward` (se `BONUS_FRACTION` i engine); grundarvodet betalas när
+  uppdraget är klart.
+- **Nära ögat / förlust** (`data/nearmiss.js`): slår synligheten i taket (100) triggas
+  en Nadia Holm-scen (push-notis + fabricerad Faktakollen-artikel + EKO:s handbroms +
+  Ekokammarens dementi), sen faller synligheten till `VISIBILITY_AFTER_WARNING` (55).
+  Två varningar (`scenes[0]`, `scenes[1]`); **tredje gången taket nås = förlust**
+  (`exposed`-artikel + `failClosing`). `nearMissDone()` återupptar spelet.
 - **Terminalläge**: triggas av val med `terminal`-fält; typewriter skriver fiktiva
   loggrader, sen "Tillbaka till flödet" → genererat kort klistras in i flödet.
 - **Hub**: efter kärnspelet visas en meny (`state.deepStatus`) där spelaren väljer
   fördjupning per badge eller avslutar. `selectDeep(id)` / `finish()`.
-- **Avslutning**: slutkort med alla badges + `closing`-reflektionen + "Spela igen"
-  (`window.location.reload()`).
-- Motorns signatur: `createEngine({ core, deep, closing, hub, prologue })` i `js/main.js`.
+- **Avslutning**: slutkort med alla badges + intjänat kapital + `closing`-reflektionen
+  + "Spela igen" (`window.location.reload()`). Fail-varianten har rött accentband.
+- Motorns signatur: `createEngine({ core, deep, closing, hub, prologue, nearMiss })` i `js/main.js`.
 
 ---
 
@@ -282,9 +296,15 @@ Idéer för att fördjupa spelet ytterligare, grovt sorterade efter värde/insat
   verktygsnamn och loggstilar så terminalläget känns nytt varje gång (briefens önskemål).
 
 **Spelmekanik**
-- **Trovärdighetsmätaren har i dag ingen konsekvens** (den bara sjunker). Ge den tyngd:
-  t.ex. spärra de mest riskabla valen när den är låg, låt EKO kommentera olika, eller
-  ett alternativt "du blev avslöjad"-slut om den bottnar. Det gör dilemmana skarpare.
+- ~~**Trovärdighetsmätaren har i dag ingen konsekvens** (den bara sjunker)~~ — KLART:
+  ersatt av **Synlighet** (stigande fara-mätare) med tyngd — nära-ögat-scener (Nadia Holm)
+  vid taket och ett "du blev avslöjad"-slut på tredje gången. Följare → **Kapital**
+  (arvoden + bonusar). Se avsnitt 10 (synlighet & kapital, nära ögat).
+- **Balansering av synlighet/bonus är iterativ.** Nuvarande värden sattes med en formel
+  (`scratchpad`-transform, sedan raderad): loud/riskabla val → hög synlighet + liten bonus,
+  försiktiga → låg/negativ synlighet + stor bonus. Verifierat: hänsynslöst spel förlorar
+  ~uppdrag 5, försiktigt spel snuddar vid en varning men klarar alla sex badges. Kan
+  finjusteras per val för skarpare avvägningar (vissa loud-val borde locka med stor bonus).
 - ~~**Titel-/startskärm** som ramar in spelet~~ — KLART (prolog + titelkort, se avsnitt 8).
 - ~~**Fler val/beslut per uppdrag** och **fler reaktioner** på besluten~~ — KLART: varje
   kärnuppdrag har ett tredje strategiskt val, metodutfall ger tre sociala medie-reaktioner

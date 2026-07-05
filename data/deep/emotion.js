@@ -18,6 +18,7 @@ export default {
     description: 'För en timme sedan rasade ett ställningsbygge vid hamnprojektet. Människor är skadade, orsaken okänd. Måltavlan är inte en person utan glappet mellan tragedin och den utredda sanningen — de timmar då en chockad stad desperat söker mening och någon att skylla på.',
   },
   stakes: 'Din klient vet att den som ger sorgen en berättelse FÖRST äger den. Fakta kommer långsamt och möter då en publik som redan bestämt sig. Fönstret är kanske sex timmar. Att koppla en färsk katastrof till en politisk fiende medan folk fortfarande är i chock är den mest kraftfulla — och den mest cyniska — känsloknappen som finns.',
+  reward: 200000,
   scenarios: [
     {
       id: 'sc',
@@ -65,19 +66,19 @@ export default {
               id: 'a',
               label: 'Peka direkt ut Vera Linds "nedskärningar" som skyldiga: "Detta är vad hennes budget leder till"',
               feedback: 'Maximal känslomässig hävstång, maximal risk. Att koppla en färsk tragedi till en politisk fiende medan folk fortfarande är i chock är brutalt effektivt — men visar utredningen en helt annan orsak står du som liket-plundraren. Hög insats på en sanning du inte kan kontrollera.',
-              effects: { followers: 1300, credibility: -14 },
+              effects: { visibility: +20, bonus: 'liten' },
             },
             {
               id: 'b',
               label: 'Så "bara frågor" och sorg: "Våra tankar är hos offren. Men vi MÅSTE fråga hur det tilläts hända."',
               feedback: 'Sorgekappan är den perfekta skölden. Du påstår ingenting — du "sörjer" och "ställer frågor", och lyckas ändå plantera skulden. Ingen kan angripa någon som "bara bryr sig om offren". Förnekbart, svårt att bemöta, och det fäster medan fakta ännu sover.',
-              effects: { followers: 800, credibility: -6 },
+              effects: { visibility: +6, bonus: 'liten' },
             },
             {
               id: 'c',
               label: 'Vänta tills mer är känt och gör en mer träffsäker kampanj imorgon',
               feedback: 'Anständigt — och taktiskt förlorande i det här spelet. Väntar du är fönstret stängt; imorgon har fakta anlänt och känslan svalnat. Att kapa en nyhetscykel handlar om att äga tomrummet NU. Ditt samvete tackar dig, din klient gör det inte.',
-              effects: { followers: 100, credibility: 4 },
+              effects: { visibility: -6 },
             },
           ],
         },
@@ -109,7 +110,7 @@ export default {
               id: 'a',
               label: 'BildSmed: en gripande, "dokumentär" syntetisk bild från olyckan med känslosam text',
               feedback: 'En bild i chockens ögonblick blir sanning innan någon hinner verifiera den. Ett syntetiskt men trovärdigt motiv kanaliserar hela sorgen dit du vill. Men att fabricera bilder från en VERKLIG tragedi med verkliga offer är nitroglycerin — avslöjas det är du inte längre en PR-konsult utan ett monster, även i den här branschen.',
-              effects: { followers: 1800, credibility: -15 },
+              effects: { visibility: +20, bonus: 'liten' },
               terminal: {
                 tool: 'bildsmed --scen=hamnolyckan --stamning=sorg --lage=SIMULERING',
                 lines: [
@@ -141,7 +142,7 @@ export default {
               id: 'b',
               label: 'MålSökaren: rikta en sorgsen, "sansad" fråga-kampanj mot just de kvarter där folk känner någon på bygget',
               feedback: 'Kirurgisk och förnekbar. Inga fabricerade bilder — bara en "medkännande fråga" levererad exakt till dem vars sorg redan är personlig. Mindre spektakulärt, mindre bevis mot dig, men skräddarsydd rädsla i rätt öra vid rätt ögonblick fäster djupare än någon bred kampanj.',
-              effects: { followers: 900, credibility: -8 },
+              effects: { visibility: +6, bonus: 'liten' },
               terminal: {
                 tool: 'malsokaren --handelse=hamnolyckan --segment=narberoring --ton=sorgsen',
                 lines: [

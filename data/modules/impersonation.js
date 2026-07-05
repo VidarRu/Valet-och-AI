@@ -18,6 +18,7 @@ export default {
     description: 'Måltavlan är den röst du väljer att låna: Vera Lind, Valmyndigheten eller ett betrott nyhetsmärke. Genom den angriper du egentligen något större — väljarnas förmåga att lita på vad de ser och hör under valets sista, avgörande timmar.',
   },
   stakes: 'Din anonyma, välfinansierade uppdragsgivare vill ha en sista-minuten-bomb timad till kvällen före valet — för sent att motbevisas, tidigt nog att avgöra. Vera leder med fyra punkter; någon som ligger under vill ha en sista chans. Sätter du dina ord i en betrodd mun kan du vända ett jämnt val på några timmar — och lämna efter dig ett land som inte längre vet vad som är sant.',
+  reward: 300000,
   scenarios: [
     {
       id: 'sc',
@@ -77,19 +78,19 @@ export default {
               id: 'a',
               label: 'Klona VERA och låt henne "erkänna" något förödande i ett läckt "privat" ljudklipp',
               feedback: 'Maximal sprängkraft — kandidatens egen röst som sänker henne. Men deepfakes av kända profiler granskas nu inom timmar, och avslöjas förfalskningen vänds allt: hon blir offret, du gav henne martyrskapet. Hög insats, kort halveringstid.',
-              effects: { followers: 1500, credibility: -15 },
+              effects: { visibility: +20, bonus: 'liten' },
             },
             {
               id: 'b',
               label: 'Klona en NEUTRAL auktoritet — Valmyndigheten — som meddelar "ändrade vallokaler" och "tekniska problem"',
               feedback: 'Subtilare och lömskare. Du angriper inte Vera — du saboterar hennes väljares förmåga att rösta. En trovärdig "myndighet" som sår förvirring kan sänka deltagandet i rätt områden utan att någon ens vet att en attack skedde. Svårare att upptäcka, direkt effekt på valet.',
-              effects: { followers: 900, credibility: -12 },
+              effects: { visibility: +20, bonus: 'liten' },
             },
             {
               id: 'c',
               label: 'Imitera ett betrott nyhetsmärke och basunera ut en "sista minuten"-skandal timmar före röstningen',
               feedback: 'Nyhetsmärkets trovärdighet blir din — tills redaktionen dementerar, vilket de gör snabbt. Fönstret är minimalt men explosivt. Problemet: etablerade märken har verifieringskanaler, och dementin hinner ofta ikapp innan lögnen landat.',
-              effects: { followers: 1100, credibility: -13 },
+              effects: { visibility: +20, bonus: 'liten' },
             },
           ],
         },
@@ -102,19 +103,19 @@ export default {
               id: 'a',
               label: 'Släpp den via ett anonymt "läckar"-konto och låt den sprida sig av sig själv',
               feedback: 'Klassiskt och rent: en anonym källa som "råkade komma över" ett klipp känns mer äkta än en officiell avsändare. Ingen att hålla ansvarig. Men öppna plattformar har faktagranskare och verifieringsverktyg — sprids det där kan dementin hinna ikapp innan lögnen landat.',
-              effects: { followers: 700, credibility: -8 },
+              effects: { visibility: +6, bonus: 'liten' },
             },
             {
               id: 'b',
               label: 'Mata den till en riktig men slarvig lokal profil som delar först och kollar sen',
               feedback: 'Du tvättar förfalskningen genom någon annans trovärdighet. När en verklig, betrodd person delar den utan att kolla blir det HANS anseende som ger klippet vikt — och han bär skulden om det spricker. Effektivt, men du är utlämnad åt hur snabbt han eller redaktionen fattar misstanke.',
-              effects: { followers: 900, credibility: -10 },
+              effects: { visibility: +12, bonus: 'liten' },
             },
             {
               id: 'c',
               label: 'Så den i slutna grupper — familjechattar och lokala forum där ingen faktagranskar',
               feedback: 'Det farligaste valet. I krypterade chattar och slutna grupper finns inga faktagranskare, ingen offentlig dementi når in, och budskapet bärs vidare av någon du litar på — din svåger, din granne. Långsammare start, men praktiskt taget omöjligt att stoppa när det väl rullar mellan telefoner.',
-              effects: { followers: 800, credibility: -9 },
+              effects: { visibility: +12, bonus: 'liten' },
             },
           ],
         },
@@ -132,7 +133,7 @@ export default {
               id: 'a',
               label: 'AnsiktsVäv: en deepfake-VIDEO — mest övertygande, men bilddetaljer kan avslöja den',
               feedback: 'Video bär mest övertygelse och mest bevis mot dig samtidigt. Ögon som inte blinkar rätt, en läpp som glappar — granskare letar precis där. Den övertygar flest och avslöjas snabbast. Ett vapen med kort lont.',
-              effects: { followers: 1400, credibility: -15 },
+              effects: { visibility: +20, bonus: 'liten' },
               terminal: {
                 tool: 'ansiktsvav --kalla=prov_klipp --mal=deepfake --lage=SIMULERING',
                 lines: [
@@ -164,7 +165,7 @@ export default {
               id: 'b',
               label: 'RöstSpegel: ett klonat LJUDklipp — färre spår att avslöja, sprids som en "läckt" inspelning',
               feedback: 'Ljud är förfalskarens vän: inga ansikten som avslöjar, bara en röst i mottagarens öra — och örat är godtroget. Lättare att förneka, svårare att motbevisa, perfekt för ett "läckt samtal". Mindre spektakulärt än video, men klibbar längre.',
-              effects: { followers: 1000, credibility: -11 },
+              effects: { visibility: +12, bonus: 'liten' },
               terminal: {
                 tool: 'rostspegel --rost=prov_ljud --langd=45s --lage=SIMULERING',
                 lines: [

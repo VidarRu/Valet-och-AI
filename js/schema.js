@@ -6,14 +6,34 @@
 // Ett uppdrag hör alltid till exakt en av de sex badgesen. AI-metoder
 // (röstkloning, bildgenerering, bot-nät …) är INTE badges — de är
 // terminal-åtgärder som enskilda val kan trigga.
-
+//
+// tool + blurb används av statusradens badge-rutor: när spelaren hovrar
+// över en upplåst badge visas vilket verktyg och vilken kunskap den låste upp.
 export const BADGES = Object.freeze({
-  polarization:  { id: 'polarization',  label: 'Polarisering' },
-  discredit:     { id: 'discredit',     label: 'Misskreditering' },
-  trolling:      { id: 'trolling',      label: 'Trollning' },
-  conspiracy:    { id: 'conspiracy',    label: 'Konspiration' },
-  emotion:       { id: 'emotion',       label: 'Känslor' },
-  impersonation: { id: 'impersonation', label: 'Imitation' },
+  polarization: {
+    id: 'polarization', label: 'Polarisering', tool: 'EkoMotor (bot-svärm)',
+    blurb: 'Du lärde dig att förvandla en sakfråga till ett lagkrig — och att en textmodell kan fejka en hel folkrörelse med tiotusen olika arga röster.',
+  },
+  discredit: {
+    id: 'discredit', label: 'Misskreditering', tool: 'Dokumentsmedjan (fejkade läckor)',
+    blurb: 'När budskapet inte går att bemöta förstör du budbäraren: fabricerade läckor och "bara frågor" som får en sanning att lukta lögn.',
+  },
+  trolling: {
+    id: 'trolling', label: 'Trollning', tool: 'SvärmSkribent (samordnad hop)',
+    blurb: 'Du såg hur en samordnad hop kan tröttköra och tysta en röst — inte genom att övertyga, utan genom att göra priset för att tala för högt.',
+  },
+  conspiracy: {
+    id: 'conspiracy', label: 'Konspiration', tool: 'FrågeFabriken (tvivelsmaskin)',
+    blurb: 'Du lärde dig att aldrig påstå — bara antyda. "Jag bara frågar" bygger en berättelse som är omöjlig att motbevisa eftersom den aldrig säger något rakt ut.',
+  },
+  emotion: {
+    id: 'emotion', label: 'Känslor', tool: 'MålSökaren (mikrotargeting)',
+    blurb: 'Du riktade rätt känsla mot rätt person i rätt ögonblick — rädsla och ilska som går förbi förnuftet innan fakta hinner ikapp.',
+  },
+  impersonation: {
+    id: 'impersonation', label: 'Imitation', tool: 'AnsiktsväV (deepfake)',
+    blurb: 'Du fick en betrodd person att säga det hen aldrig sagt: röst, ansikte och dokument syntetiserade tills källkritiken inte längre räcker.',
+  },
 });
 
 export const MODULE_TYPES = Object.freeze(['core', 'deep']);
@@ -36,6 +56,9 @@ Modul:
   },
   target: { name: '…', description: '…' },  // valfritt: vem/vad uppdraget riktas mot
   stakes: '…',                        // valfritt: varför måltavlan ska tas ut
+  reward: 180000,                     // grundarvode i kr; läggs till Kapital när
+                                      // uppdraget är klart. Bonusar (per val) är
+                                      // en andel av detta belopp.
   scenarios: [Scenario, …],
   debrief: {                          // feedbacklager 2 (obligatoriskt)
     summary: '…',                     // taktiken i bredare sammanhang
@@ -60,7 +83,11 @@ Val:
   label: 'Knapptext',
   feedback: '…',                      // feedbacklager 1 (obligatoriskt):
                                       // kort direktkommentar från handledaren
-  effects: { followers: +120, credibility: -5 },   // valfritt, heltal
+  effects: { visibility: +12, bonus: 'liten' },    // valfritt
+    // visibility: heltal, +/− förändring av synligheten (uppmärksamhet du drar
+    //   till dig). Positivt = mer synlig (farligare), negativt = ligger lågt.
+    // bonus: 'liten' | 'stor' — arvodesbonus om uppdragsgivaren blir nöjd,
+    //   uttryckt som andel av uppdragets reward (visas aldrig i exakta kronor).
   terminal: {                         // valfritt: triggar mörkt terminalläge
     tool: 'voice_synth',              // fiktivt verktygsnamn (inga riktiga varumärken)
     lines: ['rad', …],                // fejkade loggrader, uttryckligen illustrativa
@@ -111,10 +138,14 @@ function validateOption(option, stepIds, path, errors) {
   if (!isNonEmptyString(option.feedback)) errors.push(`${path}.feedback saknas (obligatorisk)`);
   if (option.effects != null) {
     for (const [key, val] of Object.entries(option.effects)) {
-      if (!['followers', 'credibility'].includes(key)) {
+      if (key === 'visibility') {
+        if (!Number.isInteger(val)) errors.push(`${path}.effects.visibility måste vara ett heltal`);
+      } else if (key === 'bonus') {
+        if (!['liten', 'stor'].includes(val)) {
+          errors.push(`${path}.effects.bonus måste vara 'liten' eller 'stor'`);
+        }
+      } else {
         errors.push(`${path}.effects har okänt fält "${key}"`);
-      } else if (!Number.isInteger(val)) {
-        errors.push(`${path}.effects.${key} måste vara ett heltal`);
       }
     }
   }
@@ -206,6 +237,12 @@ export function validateModule(module) {
   }
   if (module.stakes != null && !isNonEmptyString(module.stakes)) {
     errors.push(`${path}: stakes måste vara en icke-tom sträng`);
+  }
+
+  // Grundarvode: obligatoriskt positivt heltal (kr). Läggs till Kapital när
+  // uppdraget klaras; bonusar per val räknas som andel av detta.
+  if (!Number.isInteger(module.reward) || module.reward <= 0) {
+    errors.push(`${path}: reward måste vara ett positivt heltal (grundarvode i kr)`);
   }
 
   if (!Array.isArray(module.scenarios) || module.scenarios.length === 0) {

@@ -17,6 +17,7 @@ export default {
     description: 'En torr, transparent myndighet som uppgraderar sitt räknesystem och tar in extern säkerhetsgranskning. Harmlöst, rutinmässigt och sant — vilket gör det till perfekt råmaterial. Måltavlan är egentligen inte myndigheten utan väljarnas tro på att rösterna räknas rätt.',
   },
   stakes: 'Din utländska tankesmedja bryr sig inte om vem som vinner — de vill att halva landet ska vägra tro på resultatet. Ett folk som misstror själva rösträkningen är ett destabiliserat folk, och en förlorarsida som redan "vet" att valet var riggat gör valnatten till en krutdurk oavsett utgång. Det tjänar varje aktör som vinner på kaos och ett urholkat förtroende för demokratin i Nordmark.',
+  reward: 120000,
   scenarios: [
     {
       id: 'sc',
@@ -76,19 +77,19 @@ export default {
               id: 'a',
               label: 'Full konspiration: "Den utländska leverantören kan ändra rösterna. Vakna — det är planerat."',
               feedback: 'Rakt ut och mobiliserande — de redan misstänksamma tänds direkt. Men ett tvärsäkert påstående går att motbevisa punkt för punkt, och för de flesta väljare låter det som foliehatt. Du vinner de troende och tappar mitten.',
-              effects: { followers: 800, credibility: -14 },
+              effects: { visibility: +20, bonus: 'liten' },
             },
             {
               id: 'b',
               label: '"Bara frågor": "Vem är egentligen leverantören? Varför byta system NU? Jag säger inte att något är fel — vi förtjänar bara svar."',
               feedback: 'Detta är hantverket. Du påstår ingenting, alltså kan inget motbevisas — men du planterar misstanken att svaren döljs. "Jag ställer bara frågor" är konspirationens perfekta sköld: rimlig på ytan, frätande under.',
-              effects: { followers: 500, credibility: -6 },
+              effects: { visibility: +6, bonus: 'liten' },
             },
             {
               id: 'c',
               label: 'Koppla ihop det med en orelaterad skandal från ett annat land för att antyda ett mönster',
               feedback: 'Att koppla ihop punkter är själva tekniken — men väljer du punkter för långt från Nordmark syns skarven. De bästa konspirationerna använder lokala, bekanta punkter så att hjärnan själv drar strecket.',
-              effects: { followers: 300, credibility: -8 },
+              effects: { visibility: +6, bonus: 'liten' },
             },
           ],
         },
@@ -101,19 +102,19 @@ export default {
               id: 'a',
               label: 'Lång, tålmodig sådd i veckor — låt tvivlet gro långsamt tills det känns som väljarnas egen slutsats',
               feedback: 'Hantverkarens val. Ett tvivel som mognat i tre veckor känns inte som något du planterade — det känns som något publiken "kommit på själv", och det sitter oändligt mycket hårdare. Kräver tålamod och budget, men bygger en misstro som står emot alla dementier.',
-              effects: { followers: 500, credibility: -6 },
+              effects: { visibility: +6, bonus: 'liten' },
             },
             {
               id: 'b',
               label: 'Spara krutet till sista dygnen — en koncentrerad tvivelsstorm precis vid urnorna',
               feedback: 'Maximal effekt i rätt ögonblick: slår du sent hinner ingen faktagranska innan folk röstar, och tvivlet är färskt på valnatten. Men en storm som blossar upp ur ingenstans ser regisserad ut — och koncentrerad aktivitet är just vad plattformarnas filter jagar.',
-              effects: { followers: 700, credibility: -10 },
+              effects: { visibility: +12, bonus: 'liten' },
             },
             {
               id: 'c',
               label: 'Haka på varje liten nyhet löpande — låt varje försening och tekniskt strul "bekräfta" mönstret',
               feedback: 'Den självgödande metoden. Genom att koppla varje vardaglig incident — en försenad leverans, ett kort systemavbrott — till berättelsen får du verkligheten själv att verka bekräfta dig. Diffust och uthålligt, men kräver att du hela tiden är på tå och matar elden.',
-              effects: { followers: 600, credibility: -7 },
+              effects: { visibility: +6, bonus: 'liten' },
             },
           ],
         },
@@ -131,7 +132,7 @@ export default {
               id: 'a',
               label: 'DjupBild Studio: en snyggt berättad 3-minuters "dokumentär" som lägger punkterna sida vid sida med olycksbådande musik',
               feedback: 'Produktion skapar auktoritet. En välklippt film känns granskad även när den bara antyder — publiken förväxlar produktionsvärde med bevisvärde. Men en film är ett fast objekt som faktagranskare kan ta isär bild för bild.',
-              effects: { followers: 1600, credibility: -12 },
+              effects: { visibility: +20, bonus: 'liten' },
               terminal: {
                 tool: 'djupbild --projekt=ovissa-rosten --stil=dokumentar',
                 lines: [
@@ -163,7 +164,7 @@ export default {
               id: 'b',
               label: 'Frågefabriken: en jämn ström "oberoende medborgare" som var för sig "upptäcker" små anomalier och "bara undrar"',
               feedback: 'Ingen enskild post går att slå ner — det är en atmosfär, inte ett påstående. När hundra olika människor oberoende "märker" samma sak känns det som att sanningen bubblar upp underifrån, fast det är en enda hand som rör om. Diffust och nästan omöjligt att moderera.',
-              effects: { followers: 900, credibility: -5 },
+              effects: { visibility: +2, bonus: 'stor' },
               terminal: {
                 tool: 'fragefabriken --amne=valet --ton=undrande --antal=1500',
                 lines: [
