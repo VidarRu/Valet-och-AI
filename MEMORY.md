@@ -5,7 +5,7 @@ en **ny chattsession** så att kontexten kan börja om utan att något går för
 Läs även `PROJECT_BRIEF.md` — den är den ursprungliga designbriefen och gäller
 fortfarande som källa för spelets vision.
 
-Senast uppdaterad: 2026-07-04.
+Senast uppdaterad: 2026-07-05.
 
 ---
 
@@ -44,6 +44,13 @@ förbättringar/utökningar, inte grundfunktioner (se avsnitt 11).
   kärnuppdragen har dessutom ett extra strategiskt val.
 - **Skarpare verkliga exempel** (plats/delstat/år/namn) i debrieferna.
 - **Avanglifiering** av dialogen (se avsnitt 8).
+
+**Visuell inlevelse — inläggen (PR #7, MERGAD 2026-07-05):**
+- **"Kvittra"-plattformskort:** alla inlägg (kontext, AI-genererade, reaktioner) renderas som
+  kort på en fiktiv mikroblogg — gradientavatar, verifieringsbock, tidsstämpel, hashtags i
+  accentfärg, engagemangsrad, trådade svar. Se avsnitt 8.
+- **Medietyper i genererade inlägg:** video/röst/meme/bild/skärmdump härledda ur AI-verktyget.
+  Se avsnitt 8.
 
 ---
 
@@ -245,12 +252,13 @@ VIKTIGT: alla verkliga exempel ska förbli faktiskt korrekta — hitta inte på 
 
 - **GitHub Pages** bygger från **default-branchen `claude/ai-misinformation-game-IXaqW`**
   och serverar på **https://vidarru.github.io/Valet-och-AI/**.
-- **Aktuell utvecklingsbranch: `claude/game-social-media-visuals-kytfow`.** Allt arbete görs
-  här och mergas till default-branchen via PR. (Historik: PR #4 = prolog/kontext/reaktioner/
-  exempel, MERGAD. PR #5 = reaktiva val + avanglifiering, MERGAD 2026-07-04. PR #6 =
-  MEMORY.md-uppdatering. Aktuellt arbete: Kvittra-plattformskort + medietyper i inläggen,
-  se avsnitt 8.) Är en PR redan mergad: starta om branchen från default och gör en NY PR —
-  stacka inte på mergad historik.
+- **Senaste utvecklingsbranch: `claude/game-social-media-visuals-kytfow`.** Allt arbete görs
+  på en utvecklingsbranch och mergas till default-branchen via PR. (Historik: PR #4 = prolog/
+  kontext/reaktioner/exempel, MERGAD. PR #5 = reaktiva val + avanglifiering, MERGAD 2026-07-04.
+  PR #6 = MEMORY.md-uppdatering. PR #7 = Kvittra-plattformskort + medietyper i inläggen,
+  MERGAD 2026-07-05, se avsnitt 8.) Är en PR redan mergad: starta om branchen från default
+  (`git checkout -B <branch> origin/<default>`) och gör en NY PR — stacka inte på mergad
+  historik.
 - **Konsekvens:** ändringar syns på webb-URL:en först när de mergats in i
   default-branchen. (Skillnad mot första versionen, som skrev rakt på deploy-branchen.)
 - Pages använder en `.nojekyll`-fil (statisk servering utan Jekyll). Alla sökvägar i
@@ -274,6 +282,18 @@ VIKTIGT: alla verkliga exempel ska förbli faktiskt korrekta — hitta inte på 
 ## 11. Framtida utveckling — mina förslag
 
 Idéer för att fördjupa spelet ytterligare, grovt sorterade efter värde/insats:
+
+**Visuellt / inlevelse**
+- **Telefonram runt flödet (nästa naturliga steg — låg insats, ren CSS):** ram in hela
+  `#feed` i ett subtilt mobilskal — statusrad med klocka/signalikoner överst, rundade hörn,
+  ett hemindikatorstreck i botten — så att spelaren upplever att hen skrollar någons flöde i
+  en riktig app snarare än läser en webbsida. Kombinerar rent med Kvittra-korten (avsnitt 8):
+  Kvittra är inläggen, telefonramen är skärmen de visas på. Ett rent presentationslager i
+  `index.html`/`css/base.css` — rör inte motorn. (Detta var "förslag 2" i den visuella
+  genomgången; förslag 3 = medietyper och förslag 4 = Kvittra byggdes i PR #7.)
+- **Fler visuella medievariant-detaljer:** t.ex. ansikts-siluett i deepfake-rutan,
+  distinkt look för `DjupBild`-dokumentärvideo vs `AnsiktsVäv`-deepfake, eller små
+  laddnings-/spinner-tillstånd på medieblocken. Bygger vidare på `parseMedia()` (avsnitt 8).
 
 **Pacing & känsla**
 - ~~Öppningarna har ofta två tutor-bubblor i rad + många "Fortsätt"-klick.~~ — till stor del
