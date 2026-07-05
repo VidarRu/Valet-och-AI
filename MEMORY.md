@@ -259,12 +259,13 @@ VIKTIGT: alla verkliga exempel ska förbli faktiskt korrekta — hitta inte på 
 
 - **GitHub Pages** bygger från **default-branchen `claude/ai-misinformation-game-IXaqW`**
   och serverar på **https://vidarru.github.io/Valet-och-AI/**.
-- **Aktuell utvecklingsbranch: `claude/game-social-media-visuals-kytfow`.** Allt arbete görs
-  här och mergas till default-branchen via PR. (Historik: PR #4 = prolog/kontext/reaktioner/
-  exempel, MERGAD. PR #5 = reaktiva val + avanglifiering, MERGAD 2026-07-04. PR #6 =
-  MEMORY.md-uppdatering. Aktuellt arbete: Kvittra-plattformskort + medietyper i inläggen,
-  se avsnitt 8.) Är en PR redan mergad: starta om branchen från default och gör en NY PR —
-  stacka inte på mergad historik.
+- **Aktuell utvecklingsbranch: `claude/game-mechanics-overhaul-wsffe0` (PR #8, ÖPPEN).**
+  Allt arbete görs här och mergas till default-branchen via PR. (Historik: PR #4 =
+  prolog/kontext/reaktioner/exempel, MERGAD. PR #5 = reaktiva val + avanglifiering,
+  MERGAD 2026-07-04. PR #6 = MEMORY.md-uppdatering. Kvittra-plattformskort + medietyper
+  i inläggen. **PR #8 (öppen) = spelmekanik-ombygge: följare/trovärdighet → kapital/
+  synlighet + nära-ögat-scener, se avsnitt 8.**) Är en PR redan mergad: starta om
+  branchen från default och gör en NY PR — stacka inte på mergad historik.
 - **Konsekvens:** ändringar syns på webb-URL:en först när de mergats in i
   default-branchen. (Skillnad mot första versionen, som skrev rakt på deploy-branchen.)
 - Pages använder en `.nojekyll`-fil (statisk servering utan Jekyll). Alla sökvägar i
@@ -299,7 +300,7 @@ Idéer för att fördjupa spelet ytterligare, grovt sorterade efter värde/insat
 - ~~**Trovärdighetsmätaren har i dag ingen konsekvens** (den bara sjunker)~~ — KLART:
   ersatt av **Synlighet** (stigande fara-mätare) med tyngd — nära-ögat-scener (Nadia Holm)
   vid taket och ett "du blev avslöjad"-slut på tredje gången. Följare → **Kapital**
-  (arvoden + bonusar). Se avsnitt 10 (synlighet & kapital, nära ögat).
+  (arvoden + bonusar). Se avsnitt 8 (synlighet & kapital, nära ögat).
 - **Balansering av synlighet/bonus är iterativ.** Nuvarande värden sattes med en formel
   (`scratchpad`-transform, sedan raderad): loud/riskabla val → hög synlighet + liten bonus,
   försiktiga → låg/negativ synlighet + stor bonus. Verifierat: hänsynslöst spel förlorar
