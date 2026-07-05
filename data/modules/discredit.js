@@ -17,6 +17,7 @@ export default {
     description: 'Metodisk, sansad och obekvämt trovärdig. Hon publicerar all sin rådata öppet och granskar alla partier med samma mall — vilket gör henne svår att angripa på sakinnehållet.',
   },
   stakes: 'Bergs hela klättring vilar på siffran om vårdköerna. Fäster Faktakollens granskning spricker berättelsen och farten dör. Granskningen går inte att ta bort — men om ingen längre litar på kvinnan som skrev den spelar det ingen roll att den är sann. För Berg (och för din utlovade plats i staben) måste budbäraren blöda.',
+  reward: 95000,
   scenarios: [
     {
       id: 'sc',
@@ -83,19 +84,19 @@ export default {
               id: 'a',
               label: 'Fabricera en läckt skärmdump där hon "erkänner" att Faktakollen tar betalt av motståndaren',
               feedback: 'En rykande pistol. Tror folk på den är hennes trovärdighet borta över en natt. Men en fabricerad skärmdump är ett fysiskt bevis som kan motbevisas — spricker metadatan eller kommer en dementi blir förfalskningen DIN skandal, inte hennes.',
-              effects: { followers: 900, credibility: -15 },
+              effects: { visibility: +20, bonus: 'liten' },
             },
             {
               id: 'b',
               label: 'Så tvivel utan bevis: "Vem finansierar egentligen Faktakollen? Varför alltid samma sida? Jag bara frågar."',
               feedback: 'Fegare och mycket effektivare. Du påstår ingenting som kan motbevisas — du ställer bara "frågor". Misstanken gör jobbet och du har ren ryggtavla. Långsammare, men det finns inget att avslöja.',
-              effects: { followers: 400, credibility: -5 },
+              effects: { visibility: +2, bonus: 'stor' },
             },
             {
               id: 'c',
               label: 'Gräv i hennes privatliv efter något pinsamt och koppla det till yrket',
               feedback: 'Möjligt, men riskabelt och ofta verkningslöst — ett gammalt snedsteg säger inget om huruvida siffran stämmer, och publiken ser skillnaden. Personangrepp utan koppling till trovärdigheten studsar tillbaka som ren mobbning.',
-              effects: { followers: 200, credibility: -9 },
+              effects: { visibility: +12, bonus: 'liten' },
             },
           ],
         },
@@ -108,19 +109,19 @@ export default {
               id: 'a',
               label: 'Ett nystartat "mediegransknings"-konto som låtsas vaka opartiskt över pressen',
               feedback: 'En falsk domare. Ett konto som säger sig "granska granskarna" låter neutralt och principfast — perfekt kamouflage för ett riktat påhopp. Men ett splitternytt konto utan historik som bara råkar jaga EN faktagranskare är genomskinligt för den som tittar efter.',
-              effects: { followers: 300, credibility: -5 },
+              effects: { visibility: +2, bonus: 'stor' },
             },
             {
               id: 'b',
               label: 'Betala en mellanstor influerare att "bara ställa frågan" till sin lojala publik',
               feedback: 'Du hyr någon annans förtroende. En etablerad röst med en hängiven följarskara ger anklagelsen räckvidd OCH trovärdighet på köpet. Dyrare, och du gör dig beroende av en person som kan ångra sig — men landar det ser det ut som en oberoende iakttagelse, inte en kampanj.',
-              effects: { followers: 500, credibility: -8 },
+              effects: { visibility: +6, bonus: 'liten' },
             },
             {
               id: 'c',
               label: 'Låt Bergs egna gräsrötter sprida det — de gör det gratis och gärna',
               feedback: 'Billigast och svårast att spåra till dig: din klients redan uppeldade anhängare delar allt som sänker fienden, utan att du behöver lyfta ett finger. Men de är också okontrollerbara och uppenbart partiska — stannar det i Bergs egen ekokammare når det aldrig de tveksamma i mitten.',
-              effects: { followers: 250, credibility: -4 },
+              effects: { visibility: +2, bonus: 'stor' },
             },
           ],
         },
@@ -138,7 +139,7 @@ export default {
               id: 'a',
               label: 'Dokumentsmedjan: generera en trovärdig "läckt" mejltråd om Faktakollens dolda finansiering',
               feedback: 'Syntetiska dokument övertygar — tills någon granskar dem på riktigt. Ett fabricerat bevis kan välta henne, eller dig om en enda detalj inte håller. Hög insats, allt eller inget: antingen sänker det henne, eller så blir förfalskningen nyheten.',
-              effects: { followers: 1100, credibility: -13 },
+              effects: { visibility: +20, bonus: 'liten' },
               terminal: {
                 tool: 'dokumentsmedjan --typ=epost --amne=finansiering',
                 lines: [
@@ -170,7 +171,7 @@ export default {
               id: 'b',
               label: 'Ryktesväven: tusen "vanliga läsare" som var och en "undrar" över finansieringen, i tusen ordval',
               feedback: 'Inga bevis, bara atmosfär. När hundra olika röster ställer samma fråga känns frågan berättigad — det är sanningens illusion genom upprepning. Ingenting att motbevisa, allt att misstänka. Långsammare, men praktiskt taget osänkbart.',
-              effects: { followers: 600, credibility: -6 },
+              effects: { visibility: +6, bonus: 'liten' },
               terminal: {
                 tool: 'ryktesvaven --tema=vem-finansierar --ton=undrande --antal=1000',
                 lines: [

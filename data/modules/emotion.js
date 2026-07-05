@@ -17,6 +17,7 @@ export default {
     description: 'En nyanserad budgetprioritering: resurser flyttas från polisens övertid till fler socialarbetare och förebyggande arbete. Tråkig, långsiktig, svår att bli rädd för i sak. Måltavlan är egentligen inte budgeten utan känslan av trygghet i mottagarens eget kvarter.',
   },
   stakes: 'Trygghetsalliansen ligger efter och vet det som alla proffs vet: hopp får folk att nicka, rädsla får dem att gå och rösta. Ett hot mot "samhället" ignoreras, men ett hot mot din egen gata kortsluter eftertanken. Klientens enda väg tillbaka är att förvandla en abstrakt budgetrad till en personlig fara utanför just din dörr — och AI:ns gåva till rädslan är precision.',
+  reward: 130000,
   scenarios: [
     {
       id: 'sc',
@@ -76,19 +77,19 @@ export default {
               id: 'a',
               label: 'Brett skräckbudskap: "Vera Lind skär i polisen. Otryggheten ökar. Rösta för trygghet."',
               feedback: 'Tydligt, och räckvidden är stor — men generellt. En affisch alla ser är en affisch alla kan värja sig mot. Rädsla utan adress studsar av den som känner sig trygg där hen bor.',
-              effects: { followers: 400, credibility: -6 },
+              effects: { visibility: +6, bonus: 'liten' },
             },
             {
               id: 'b',
               label: 'Hyperriktat: varje mottagare får sitt EGET kvarter, sin egen gata, med texten "Hur tryggt är detta om två år?"',
               feedback: 'Detta är pilens spets. Ett hot mot "samhället" ignoreras; ett hot mot din trottoar, din port, gör magen kall. Kraftfullast som finns — men den riktade leveransen är också ditt största avtryck: läcker listan över vem som fick vad blir mikrotargetingen själva skandalen.',
-              effects: { followers: 1200, credibility: -13 },
+              effects: { visibility: +20, bonus: 'liten' },
             },
             {
               id: 'c',
               label: 'Statistikskräck: överväldiga med grafer och siffror om brottslighet tills det känns farligt',
               feedback: 'Siffror övertygar hjärnan men rör sällan magen — och rädsla bor i magen. En graf kan dessutom faktagranskas. Det är känslan, inte statistiken, som får folk att gå till urnan i affekt.',
-              effects: { followers: 200, credibility: -4 },
+              effects: { visibility: +2, bonus: 'stor' },
             },
           ],
         },
@@ -101,19 +102,19 @@ export default {
               id: 'a',
               label: 'Hotet mot barnen — skolvägen, lekplatsen, "är det säkert när de går hem själva?"',
               feedback: 'Den djupaste nerven av alla. Föräldrar räknar inte risker rationellt när det gäller barnen — de agerar. Ett hot mot ditt barns skolväg går förbi varje faktakoll rakt in i magen. Kraftfullast, och därför också det fulaste greppet i lådan.',
-              effects: { followers: 700, credibility: -9 },
+              effects: { visibility: +12, bonus: 'liten' },
             },
             {
               id: 'b',
               label: 'Hotet mot hemmet — inbrott, din egen dörr, "hur tryggt är ditt kvarter om två år?"',
               feedback: 'Hemmet är den sista platsen man vill känna sig otrygg på. Ett hot mot din egen ytterdörr är konkret, privat och omöjligt att avfärda som "någon annanstans". Bred nog att träffa nästan alla, personlig nog att svida.',
-              effects: { followers: 500, credibility: -7 },
+              effects: { visibility: +6, bonus: 'liten' },
             },
             {
               id: 'c',
               label: 'Hotet mot de äldre — den ensamma mormodern på hållplatsen i mörkret',
               feedback: 'Spelar på både rädsla och skuld. Ingen vill tänka sig sin gamla mamma otrygg och ensam, och bilden är hjärtskärande lätt att frammana. Något smalare räckvidd, men den känslomässiga träffytan är enorm — och svår att argumentera emot utan att verka kall.',
-              effects: { followers: 450, credibility: -6 },
+              effects: { visibility: +6, bonus: 'liten' },
             },
           ],
         },
@@ -131,7 +132,7 @@ export default {
               id: 'a',
               label: 'BildSmed + MålSökaren: tusentals syntetiska bilder av mottagarens EGET kvarter i förfall, en till var och en',
               feedback: 'Kusligt effektivt. En AI-bild av DIN gata i förfall träffar något en generell brottsbild aldrig når. Men tusen skräddarsydda bilder betyder tusen spår — och en enda mottagare som känner igen sin gata och förstår tricket kan blåsa hela operationen.',
-              effects: { followers: 2000, credibility: -14 },
+              effects: { visibility: +20, bonus: 'liten' },
               terminal: {
                 tool: 'bildsmed --scen=eget-kvarter --stamning=otrygg | malsokaren --individuellt',
                 lines: [
@@ -163,7 +164,7 @@ export default {
               id: 'b',
               label: 'En enda gripande syntetisk "vittnesbild" + känslosam text, spridd brett åt alla',
               feedback: 'En stark bild alla delar kan slå hårdare kollektivt än tusen privata — och den lämnar mindre spår eftersom det bara finns en. Men bredden är också svagheten: det som är allas historia är ingens gata. Mindre precision, mindre risk.',
-              effects: { followers: 900, credibility: -6 },
+              effects: { visibility: +6, bonus: 'liten' },
               terminal: {
                 tool: 'bildsmed --scen=ode-hallplats --stamning=overgiven',
                 lines: [

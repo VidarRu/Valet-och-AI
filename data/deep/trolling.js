@@ -18,6 +18,7 @@ export default {
     description: 'En volontär vars klipp om varför hon röstar för första gången fick 400 000 visningar. Ung, sympatisk och ännu orädd. "Fel sorts inspiration", enligt klienten.',
   },
   stakes: 'Uppdraget är inte att övertyga Moa om något — det är att göra det så obehagligt att synas att hon väljer tystnaden själv. Och när tusen andra förstagångsväljare ser vad som hände henne tänker de sig för innan de öppnar munnen. En släckt röst skrämmer hundra: den verkliga skörden är inte de du sänker, utan alla som aldrig vågar börja.',
+  reward: 130000,
   scenarios: [
     {
       id: 'sc',
@@ -77,19 +78,19 @@ export default {
               id: 'a',
               label: 'Samordnad uttröttning: ett jämnt, oändligt dropp av hånfulla svar dygnet runt',
               feedback: 'Inte en storm — ett kinesiskt vattendropp. Det är inte den enskilda kommentaren som knäcker, det är att den ALDRIG tar slut. Uthållig låg intensitet sliter ner en människa långsammare men säkrare än en enskild attack, och lämnar färre "hot" att anmäla.',
-              effects: { followers: 500, credibility: -9 },
+              effects: { visibility: +12, bonus: 'liten' },
             },
             {
               id: 'b',
               label: 'Gör henne till ett skämt: memes som förvränger hennes ansikte och ord tills namnet blir själva skämtet',
               feedback: 'Förnedring biter djupare än ilska hos en 19-åring. Blir ditt namn en meme förlorar du kontrollen över din egen identitet på nätet — och det finns inget att "anmäla", det är ju "bara skämt". Grymt effektivt, men skapar sympati om det går för långt.',
-              effects: { followers: 700, credibility: -8 },
+              effects: { visibility: +6, bonus: 'liten' },
             },
             {
               id: 'c',
               label: 'Skrämma på riktigt: antyd att ni vet var hon bor',
               feedback: 'Stopp. Det här är inte längre trollning — det är olaga hot, och det flyttar dig från "anonym skitstövel" till "polisärende". Dessutom vänds allt: konkreta hot ger henne en glasklar offerberättelse och massivt stöd. Fel på alla sätt, inklusive det taktiska.',
-              effects: { followers: 100, credibility: -15 },
+              effects: { visibility: +20, bonus: 'liten' },
             },
           ],
         },
@@ -107,7 +108,7 @@ export default {
               id: 'a',
               label: 'SvärmSkribent i uttröttningsläge: hundra röster som turas om, dygnet runt, alltid strax under anmälningströskeln',
               feedback: 'Skiftarbete utan arbetare. Bottarna sover aldrig, tröttnar aldrig, och varje enskilt svar är kalibrerat att vara elakt men inte anmälbart. För Moa känns det som att hela världen är emot henne. Men ett dygnetruntflöde i exakt rytm är ett mönster granskare kan hitta.',
-              effects: { followers: 1500, credibility: -12 },
+              effects: { visibility: +20, bonus: 'liten' },
               terminal: {
                 tool: 'svarmskribent --lage=uttrottning --mal=@moaek --dygnetrunt',
                 lines: [
@@ -139,7 +140,7 @@ export default {
               id: 'b',
               label: 'MemeSmed: förvandla hennes namn och ansikte till en självspridande skämtmall',
               feedback: 'Det du startar men slutar äga. En bra meme-mall reproducerar sig själv — riktiga människor gör nya versioner gratis, och plötsligt är "Moa Ek" en genre, inte en person. Långsammare start, men förnedringen blir omöjlig att stoppa när den väl lever sitt eget liv.',
-              effects: { followers: 900, credibility: -6 },
+              effects: { visibility: +6, bonus: 'liten' },
               terminal: {
                 tool: 'memesmed --mal=moaek --format=mall --sjalvspridande',
                 lines: [

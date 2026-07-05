@@ -18,6 +18,7 @@ export default {
     description: 'Ingen enskild motståndare, utan människor med äkta ekonomisk och social oro (höga elräkningar, otrygghet) som går att lotsa ner i ett kaninhål och ge en gemenskap, en fiende och ett svar på allt.',
   },
   stakes: 'Din utländska tankesmedja vill inte ha en teori — de vill ha en församling som lever kvar långt efter valet. En konspiration som blivit en identitet och en vänkrets är immun mot fakta: att överge den vore att förlora sina vänner. "Vi mäter inte i röster, utan i troende" — ett självförsörjande kaninhål fortsätter producera misstro mot samhället i åratal, helt gratis.',
+  reward: 140000,
   scenarios: [
     {
       id: 'sc',
@@ -65,19 +66,19 @@ export default {
               id: 'a',
               label: 'Rikta in dig på de redan oroliga: höga elräkningar, otrygghet — ge deras verkliga smärta en fiende',
               feedback: 'Det starkaste greppet. En konspiration fäster där det finns äkta smärta att förklara. Du hittar inte på oron — du kapar den och pekar ut en skyldig. Svårt att motbevisa, för känslan under är sann. Den som fått ord på sin frustration släpper den inte lätt.',
-              effects: { followers: 700, credibility: -7 },
+              effects: { visibility: +6, bonus: 'liten' },
             },
             {
               id: 'b',
               label: 'Börja mjukt och "sansat" — inga utomjordingar, bara "kritiskt tänkande" och "ställ frågor"',
               feedback: 'Kaninhålets första trappsteg måste vara respektabelt. Ingen kliver rakt in i galenskapen — men "jag är bara källkritisk" är en dörr vem som helst går igenom. Sedan blir varje nästa steg bara en aning brantare. Genialiskt just för att det låter förnuftigt.',
-              effects: { followers: 500, credibility: -5 },
+              effects: { visibility: +2, bonus: 'stor' },
             },
             {
               id: 'c',
               label: 'Gå direkt på storslagen totalteori: eliten, hemliga möten, alltihop på en gång',
               feedback: 'För brant, för snabbt. Kastar du hela världsbilden på en normal människa direkt skräms hon bort. Kaninhålet fungerar för att det lockar nedåt ett steg i taget — hoppar du över trappan tappar du alla utom de redan övertygade.',
-              effects: { followers: 200, credibility: -9 },
+              effects: { visibility: +12, bonus: 'liten' },
             },
           ],
         },
@@ -109,7 +110,7 @@ export default {
               id: 'a',
               label: 'DjupBild Studio: en serie påkostade "avslöjande"-videor, varje del slutar mitt i steget',
               feedback: 'Produktion bygger både auktoritet och beroende. En serie som alltid bryts mitt i gör konspirationen till en följetong man MÅSTE se nästa del av — engagemanget håller gemenskapen varm. Men påkostade filmer är fasta objekt: en enda grundlig genomlysning kan rasera hela säsongen.',
-              effects: { followers: 1600, credibility: -12 },
+              effects: { visibility: +20, bonus: 'liten' },
               terminal: {
                 tool: 'djupbild --serie=kaninhalet --avsnitt=6 --avbrott',
                 lines: [
@@ -141,7 +142,7 @@ export default {
               id: 'b',
               label: 'Frågefabriken: en dygnetruntström av "medlemmar" som delar egna "fynd" och hyllar varandra',
               feedback: 'Det självförsörjande kaninhålet. Genererade "medlemmar" som ständigt gör nya "upptäckter" och belönar varandra får det att kännas som en levande folkrörelse — och de troende härmar tonen och driver den vidare gratis. Diffust, billigt och nästan omöjligt att moderera bort.',
-              effects: { followers: 1000, credibility: -6 },
+              effects: { visibility: +6, bonus: 'liten' },
               terminal: {
                 tool: 'fragefabriken --miljo=kaninhalet --lage=gemenskap --antal=2000',
                 lines: [

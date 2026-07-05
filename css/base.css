@@ -86,8 +86,9 @@ button {
   font-variant-numeric: tabular-nums;
 }
 
-/* Trovärdighetsmätare: blå fylld stapel */
-.cred-meter {
+/* Synlighetsmätare: stigande fara — gult → rött. Streck markerar riskzonen. */
+.vis-meter {
+  position: relative;
   width: 6.5rem;
   height: 0.85rem;
   background: #333;
@@ -95,11 +96,103 @@ button {
   overflow: hidden;
 }
 
-.cred-fill {
+.vis-fill {
   height: 100%;
-  background: linear-gradient(180deg, var(--blue-light), var(--blue));
+  background: linear-gradient(90deg, var(--yellow), #E8A13A 55%, var(--red));
   transition: width 0.5s ease;
 }
+
+.vis-tick {
+  position: absolute;
+  top: -2px;
+  bottom: -2px;
+  width: 2px;
+  background: var(--paper);
+  opacity: 0.7;
+}
+
+/* Badge-rutor i statusraden */
+.sb-badges { display: flex; align-items: center; gap: 0.28rem; }
+
+.bchip {
+  position: relative;
+  width: 1.5rem;
+  height: 1.5rem;
+  border-radius: 6px;
+  display: grid;
+  place-items: center;
+  font-weight: 800;
+  font-size: 0.72rem;
+  line-height: 1;
+  border: 2px solid var(--ink);
+}
+
+.bchip.earned {
+  background: var(--red);
+  color: var(--paper);
+  box-shadow: 2px 2px 0 rgba(0, 0, 0, 0.35);
+  cursor: help;
+}
+
+.bchip.locked {
+  background: #2a2a2a;
+  color: #6f6f6f;
+  border-color: #4a4a4a;
+  border-style: dashed;
+}
+
+/* Tooltip: verktyg + kunskap som badgen låste upp */
+.bchip-tip {
+  position: absolute;
+  top: calc(100% + 0.55rem);
+  right: 0;
+  width: 16rem;
+  z-index: 20;
+  background: var(--paper);
+  color: var(--ink);
+  border: 2px solid var(--ink);
+  box-shadow: var(--shadow);
+  padding: 0.7rem 0.8rem;
+  text-align: left;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-4px);
+  transition: opacity 0.12s ease, transform 0.12s ease;
+  pointer-events: none;
+}
+
+.bchip:hover .bchip-tip,
+.bchip:focus-visible .bchip-tip {
+  opacity: 1;
+  visibility: visible;
+  transform: none;
+}
+
+.bchip-tip::before {
+  content: "";
+  position: absolute;
+  top: -8px;
+  right: 0.5rem;
+  border: 7px solid transparent;
+  border-bottom-color: var(--ink);
+}
+
+.bchip-tip-badge {
+  display: inline-block;
+  background: var(--red);
+  color: var(--paper);
+  border: 2px solid var(--ink);
+  border-radius: 999px;
+  padding: 0.05rem 0.6rem;
+  font-size: 0.66rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  margin-bottom: 0.4rem;
+}
+
+.bchip-tip-tool { font-size: 0.8rem; font-weight: 700; margin: 0 0 0.2rem; }
+.bchip-tip-text { font-size: 0.78rem; line-height: 1.45; margin: 0; color: #333; }
 
 /* ---------- Flödet ---------- */
 
@@ -121,7 +214,7 @@ button {
 
 @media (prefers-reduced-motion: reduce) {
   .enter { animation: none; }
-  .cred-fill { transition: none; }
+  .vis-fill { transition: none; }
 }
 
 .card {
@@ -729,6 +822,211 @@ button {
   background: #EBF3FC;
 }
 
+/* Förhandsvisning av valets konsekvenser (synlighet + bonus) */
+.co-label { display: block; }
+
+.co-foot {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  flex-wrap: wrap;
+  margin-top: 0.5rem;
+}
+
+.vis-chip,
+.cap-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+  padding: 0.1rem 0.5rem;
+  border-radius: 999px;
+  border: 1.5px solid;
+}
+
+.vis-chip .arrow { font-size: 0.8rem; line-height: 1; }
+.vis-chip.up-hi { color: #a4241f; border-color: #a4241f; background: #fbe7e5; }
+.vis-chip.up-lo { color: #9a6a12; border-color: #d69a3a; background: #fbf1dd; }
+.vis-chip.flat  { color: #4c4a44; border-color: var(--gray); background: #f2f0ea; }
+.vis-chip.down  { color: #1f6f49; border-color: #2FA36B; background: #e4f3ea; }
+.cap-chip { color: #235c93; border-color: var(--blue); background: #e7f0fb; }
+.cap-chip.big { color: #1f5a37; border-color: #2FA36B; background: #e4f3ea; }
+
+/* Synlighetsruta: avslöjar hur synligheten ändrades av valet */
+.reveal {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  background: var(--paper);
+  border: 2px solid var(--ink);
+  border-left: 6px solid #E8A13A;
+  box-shadow: var(--shadow);
+  padding: 0.7rem 0.85rem;
+}
+
+.reveal.down { border-left-color: #2FA36B; }
+
+.reveal-ico {
+  flex: none;
+  width: 1.6rem;
+  text-align: center;
+  font-size: 1.15rem;
+  font-weight: 800;
+  color: var(--red);
+}
+
+.reveal.down .reveal-ico { color: #2FA36B; }
+.reveal-body { flex: 1; min-width: 0; }
+
+.reveal-title {
+  font-size: 0.64rem;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--gray);
+  margin: 0 0 0.1rem;
+}
+
+.reveal-line { margin: 0; font-size: 0.92rem; font-weight: 700; }
+.reveal-delta { font-variant-numeric: tabular-nums; }
+
+.mini-meter {
+  flex: none;
+  width: 5rem;
+  height: 0.6rem;
+  background: #e6e3db;
+  border: 1px solid var(--gray);
+  overflow: hidden;
+}
+
+.mini-fill { height: 100%; background: linear-gradient(90deg, var(--yellow), #E8A13A 55%, var(--red)); }
+
+/* ---------- Nära-ögat-scenen ---------- */
+.nearmiss { display: flex; flex-direction: column; gap: 1rem; }
+
+.nearmiss-banner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  background: var(--red);
+  color: var(--paper);
+  border: 2px solid var(--ink);
+  box-shadow: var(--shadow);
+  padding: 0.5rem 0.85rem;
+}
+
+.nearmiss-flag { font-weight: 800; text-transform: uppercase; letter-spacing: 0.04em; font-size: 0.9rem; }
+.nearmiss-warn { font-size: 0.66rem; font-weight: 800; letter-spacing: 0.1em; text-transform: uppercase; opacity: 0.9; }
+
+/* Push-notis */
+.push {
+  display: flex;
+  gap: 0.65rem;
+  align-items: flex-start;
+  background: rgba(20, 19, 15, 0.94);
+  color: #f4f2ea;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: 14px;
+  padding: 0.7rem 0.85rem;
+  box-shadow: 0 8px 22px rgba(0, 0, 0, 0.28);
+}
+
+.push-ico {
+  flex: none;
+  width: 2.1rem;
+  height: 2.1rem;
+  border-radius: 7px;
+  background: var(--blue);
+  display: grid;
+  place-items: center;
+  font-weight: 800;
+  color: #fff;
+}
+
+.push-body { flex: 1; min-width: 0; }
+
+.push-top {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.64rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  opacity: 0.7;
+  margin-bottom: 0.12rem;
+}
+
+.push-title { font-weight: 800; font-size: 0.9rem; margin: 0 0 0.1rem; }
+.push-text { margin: 0; font-size: 0.82rem; opacity: 0.85; }
+
+/* Fabricerad granskningsartikel (Faktakollen / Nadia Holm) */
+.fc-article {
+  background: var(--paper);
+  color: var(--ink); /* ärver annars vit text i det mörka slutkortet */
+  border: 2px solid var(--ink);
+  box-shadow: var(--shadow);
+  overflow: hidden;
+}
+
+.fc-masthead {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: var(--ink);
+  color: var(--paper);
+  padding: 0.4rem 0.85rem;
+}
+
+.fc-logo { font-weight: 800; letter-spacing: 0.02em; text-transform: uppercase; font-size: 0.9rem; }
+.fc-logo b { color: var(--blue-light); }
+.fc-kicker { margin-left: auto; font-size: 0.6rem; font-weight: 800; letter-spacing: 0.14em; text-transform: uppercase; color: var(--yellow); }
+.fc-body { padding: 1rem 1.1rem 1.15rem; }
+
+.fc-verdict {
+  display: inline-flex;
+  align-items: center;
+  background: var(--red);
+  color: var(--paper);
+  border: 2px solid var(--ink);
+  font-size: 0.64rem;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 0.15rem 0.6rem;
+  margin-bottom: 0.6rem;
+}
+
+.fc-head { font-size: 1.25rem; font-weight: 800; line-height: 1.18; letter-spacing: -0.01em; margin: 0 0 0.5rem; }
+
+.fc-byline {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.78rem;
+  color: #6b6a63;
+  margin-bottom: 0.7rem;
+  padding-bottom: 0.6rem;
+  border-bottom: 1px solid #d8d5cb;
+}
+
+.fc-av {
+  flex: none;
+  width: 1.7rem;
+  height: 1.7rem;
+  border-radius: 999px;
+  background: conic-gradient(from 40deg, #6a8, #479, #6a8);
+  border: 1.5px solid var(--ink);
+  display: grid;
+  place-items: center;
+  color: #fff;
+  font-weight: 800;
+  font-size: 0.7rem;
+}
+
+.fc-dek { font-size: 0.94rem; line-height: 1.5; margin: 0; }
+
 /* Fortsätt-knapp */
 .continue-button {
   align-self: center;
@@ -826,6 +1124,33 @@ button {
 }
 
 .gameover-replay:hover { background: #f6bd5c; }
+
+/* Avslöjad-slut: rött accentband och taggen ovanför artikeln */
+.card-gameover-failed { border-color: var(--red); box-shadow: 4px 4px 0 var(--red); }
+.card-gameover-failed .card-title { color: var(--red); }
+
+.gameover-tag {
+  display: inline-block;
+  font-size: 0.66rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  padding: 0.15rem 0.6rem;
+  border: 2px solid var(--paper);
+  border-radius: 999px;
+  margin-bottom: 0.7rem;
+}
+
+.gameover-tag-failed { background: var(--red); color: var(--paper); border-color: var(--red); }
+.card-gameover .fc-article { margin-bottom: 1rem; }
+
+/* Arvode-rad i debriefen */
+.debrief-reward {
+  margin: 0 0 0.4rem;
+  font-size: 0.92rem;
+  color: #1f6f49;
+  font-variant-numeric: tabular-nums;
+}
 
 /* ---------- Terminal-overlay (mörkt läge) ---------- */
 
@@ -929,7 +1254,9 @@ button {
 
 @media (max-width: 480px) {
   .statusbar-stats { gap: 0.4rem 0.9rem; }
-  .cred-meter { width: 4.5rem; }
+  .vis-meter { width: 4.5rem; }
+  .bchip { width: 1.35rem; height: 1.35rem; font-size: 0.66rem; }
+  .bchip-tip { width: 13rem; }
   #feed { padding: 1rem 0.75rem 3rem; }
   .card { padding: 0.9rem 1rem; }
   .debrief-banner { margin: -0.9rem -1rem 0.8rem; padding: 0.55rem 1rem; }
