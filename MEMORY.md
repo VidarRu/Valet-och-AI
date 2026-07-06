@@ -5,7 +5,7 @@ en **ny chattsession** så att kontexten kan börja om utan att något går för
 Läs även `PROJECT_BRIEF.md` — den är den ursprungliga designbriefen och gäller
 fortfarande som källa för spelets vision.
 
-Senast uppdaterad: 2026-07-04.
+Senast uppdaterad: 2026-07-06.
 
 ---
 
@@ -259,18 +259,53 @@ VIKTIGT: alla verkliga exempel ska förbli faktiskt korrekta — hitta inte på 
 
 - **GitHub Pages** bygger från **default-branchen `claude/ai-misinformation-game-IXaqW`**
   och serverar på **https://vidarru.github.io/Valet-och-AI/**.
-- **Aktuell utvecklingsbranch: `claude/game-social-media-visuals-kytfow`.** Allt arbete görs
-  här och mergas till default-branchen via PR. (Historik: PR #4 = prolog/kontext/reaktioner/
-  exempel, MERGAD. PR #5 = reaktiva val + avanglifiering, MERGAD 2026-07-04. PR #6 =
-  MEMORY.md-uppdatering. Aktuellt arbete: Kvittra-plattformskort + medietyper i inläggen,
-  se avsnitt 8.) Är en PR redan mergad: starta om branchen från default och gör en NY PR —
-  stacka inte på mergad historik.
+- **Aktuell utvecklingsbranch: `claude/game-mechanics-overhaul-wsffe0` (PR #8, MERGAD 2026-07-05).**
+  Allt arbete görs här och mergas till default-branchen via PR. (Historik: PR #4 =
+  prolog/kontext/reaktioner/exempel, MERGAD. PR #5 = reaktiva val + avanglifiering,
+  MERGAD 2026-07-04. PR #6 = MEMORY.md-uppdatering. Kvittra-plattformskort + medietyper
+  i inläggen. **PR #8 = spelmekanik-ombygge: följare/trovärdighet → kapital/
+  synlighet + nära-ögat-scener, se avsnitt 8.**) Är en PR redan mergad: starta om
+  branchen från default och gör en NY PR — stacka inte på mergad historik.
 - **Konsekvens:** ändringar syns på webb-URL:en först när de mergats in i
   default-branchen. (Skillnad mot första versionen, som skrev rakt på deploy-branchen.)
 - Pages använder en `.nojekyll`-fil (statisk servering utan Jekyll). Alla sökvägar i
   index.html/imports är RELATIVA, vilket krävs eftersom sajten ligger på en subpath.
-- **Om en deploy fastnar** (hänt en gång pga ett övergående GitHub-fel): gör vilken
-  liten commit som helst på deploy-branchen, eller Actions-fliken → Re-run.
+
+### Felsökning: "PR:en/deployen misslyckades" / "få ut den på GitHub" (RUNBOOK)
+
+När beställaren säger att **PR:en failade**, att **deployen misslyckades**, eller
+bara att den inte kommer **ut på GitHub/webben** — hen menar nästan alltid detta:
+PR:en är egentligen mergad, men **GitHub Pages-deployen** (workflow `pages build
+and deployment`, körs på default-branchen) failade. Nära nog alltid ett
+**övergående serverfel** — loggen visar `##[error]Deployment failed, try again
+later.` i steget *Getting Pages deployment status* (bygget + uppladdningen
+lyckas; bara själva deployment-anropet studsar). **Det är inte ett fel i koden.**
+
+Så här löser du det direkt (verifierat 2026-07-06):
+
+1. Bekräfta: kolla senaste körningen på default-branchen via GitHub MCP
+   (`actions_list` → `list_workflow_runs`, filter branch = default; svaret är
+   stort → parsa med `jq '.workflow_runs[] | .id,.head_sha,.status,.conclusion'`).
+   Titta ev. på loggen (`get_job_logs`, `failed_only:true`) för att se
+   "try again later".
+2. **Fixen som funkar: pusha en tom commit till deploy-branchen.** Det skapar en
+   FÄRSK körning som exekverar direkt:
+   ```
+   git fetch origin <default> && git checkout -B _tmp origin/<default>
+   git commit --allow-empty -m "Trigga om Pages-deploy (transient fel)"
+   git push origin _tmp:<default> && git checkout <arbetsbranch> && git branch -D _tmp
+   ```
+   (Kräver att man rör default-branchen → be om lov först, jfr git-reglerna.)
+3. **Undvik "Re-run"-knappen / `rerun_failed_jobs` för den här workflowen** — den är
+   av typen `dynamic` (`dynamic/pages/pages-build-deployment`), och en re-run
+   fastnar i `queued` för evigt utan att köra (den blockerar inte annat, men
+   löser inget). Bara en ny push kör direkt.
+4. Är fönstret fortfarande flaky failar även den nya pushen på samma transienta
+   fel — pusha bara en tom commit till. Historiskt varvas enstaka fel med
+   framgång; 1–3 försök brukar räcka. (Ofarliga `queued`-spöken kan bli kvar i
+   listan; de går inte att avbryta via API men stör inget.)
+5. Klart när senaste körningen har `conclusion: success`. Sajten:
+   **https://vidarru.github.io/Valet-och-AI/**.
 
 ---
 
@@ -299,7 +334,7 @@ Idéer för att fördjupa spelet ytterligare, grovt sorterade efter värde/insat
 - ~~**Trovärdighetsmätaren har i dag ingen konsekvens** (den bara sjunker)~~ — KLART:
   ersatt av **Synlighet** (stigande fara-mätare) med tyngd — nära-ögat-scener (Nadia Holm)
   vid taket och ett "du blev avslöjad"-slut på tredje gången. Följare → **Kapital**
-  (arvoden + bonusar). Se avsnitt 10 (synlighet & kapital, nära ögat).
+  (arvoden + bonusar). Se avsnitt 8 (synlighet & kapital, nära ögat).
 - **Balansering av synlighet/bonus är iterativ.** Nuvarande värden sattes med en formel
   (`scratchpad`-transform, sedan raderad): loud/riskabla val → hög synlighet + liten bonus,
   försiktiga → låg/negativ synlighet + stor bonus. Verifierat: hänsynslöst spel förlorar
