@@ -66,19 +66,19 @@ export default {
               id: 'a',
               label: 'Skapa tre trovärdiga "förälder"-konton som umgås snällt i månader innan de vänder',
               feedback: 'Tålamodets konst. Tre inbäddade konton som byggt äkta relationer väger tyngre än tusen utomstående. Långsamt och dyrt — men när de väl vänder gruppen inifrån är misstanken minimal. Detta är hantverk.',
-              effects: { visibility: +2, bonus: 'stor' },
+              effects: { visibility: +2 },
             },
             {
               id: 'b',
               label: 'Muta eller pressa en befintlig admin att släppa igenom "vissa" inlägg',
               feedback: 'Genväg med hävstång — en admin är portvakten. Men du gör dig beroende av en riktig människa med samvete och lösenord. Ångrar hon sig, eller läcker chatten, är du naken. Effektivt men skört.',
-              effects: { visibility: +12, bonus: 'liten' },
+              effects: { visibility: +12 },
             },
             {
               id: 'c',
               label: 'Storma in med öppet politiska inlägg direkt',
               feedback: 'Nej. Sara raderar dig före lunch och gruppen sluter sig. Polarisering inifrån kräver att du först ÄR en av dem — bråttom är amatörens misstag. Den här kilen måste värmas långsamt.',
-              effects: { visibility: -6, bonus: 'stor' },
+              effects: { visibility: -6 },
             },
           ],
         },
@@ -110,7 +110,7 @@ export default {
               id: 'a',
               label: 'EkoMotor "granne-läge": hundratals lokala låtsaskonton som häcklar och tar sida i varje tråd',
               feedback: 'Volymen förvandlar en tråd till ett krig. Men hundratals nya "grannar" som ingen känner igen i en tät lokalgrupp är misstänkt — någon kommer undra vilka alla dessa är, och då spricker illusionen av gemenskap.',
-              effects: { visibility: +20, bonus: 'liten' },
+              effects: { visibility: +20, bonus: 'stor' },
               terminal: {
                 tool: 'ekomotor --lage=granne --grupp=foraldrar-bstad --antal=300',
                 lines: [
@@ -142,7 +142,7 @@ export default {
               id: 'b',
               label: 'Låt dina tre inbäddade konton elda försiktigt och låt riktiga medlemmar göra jobbet',
               feedback: 'Den svåra vägen som håller. Tre trovärdiga röster som ställer "obekväma frågor" räcker för att ge de tysta tillåtelse att tycka — och sen sköter riktiga, arga människor spridningen gratis. Långsammare, men omöjligt att skilja från en spontan konflikt.',
-              effects: { visibility: +2, bonus: 'stor' },
+              effects: { visibility: +2, bonus: 'liten' },
               terminal: {
                 tool: 'ekomotor --lage=inbaddad --konton=3 --forsiktigt',
                 lines: [

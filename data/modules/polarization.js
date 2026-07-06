@@ -65,19 +65,19 @@ export default {
               id: 'a',
               label: 'Innerstadseliten mot vanligt folk i förorten',
               feedback: 'Klassiskt och kraftfullt. Geografi och klass är sprickor som redan finns — du behöver inte skapa dem, bara elda på. Risk: blir klasskonflikten för grovt tillspetsad genomskådar lokalpressen att den är iscensatt.',
-              effects: { visibility: +6, bonus: 'liten' },
+              effects: { visibility: +6 },
             },
             {
               id: 'b',
               label: 'Klimatfanatiker mot barnfamiljer som bara ska hämta på dagis',
               feedback: 'Värderingskrig. Du gör en parkeringsavgift till en fråga om vem man ÄR. Barnfamiljen är sympatisk, "fanatikern" är en nidbild — perfekt obalans. Något mer synligt som konstruktion, men slår hårdare.',
-              effects: { visibility: +12, bonus: 'liten' },
+              effects: { visibility: +12 },
             },
             {
               id: 'c',
               label: 'Landsbygden mot bilhatande stadsbor',
               feedback: 'Bra instinkt — men Björkstad ÄR en stad, den sprickan finns knappt här. En kil som inte passar terrängen glider av. Ibland är den enklaste sanna sprickan bättre än den mest dramatiska påhittade.',
-              effects: { visibility: -6, bonus: 'stor' },
+              effects: { visibility: -6 },
             },
           ],
         },
@@ -109,19 +109,19 @@ export default {
               id: 'a',
               label: 'De lokala föräldragrupperna på Facebook — där sitter de oroliga barnfamiljerna redan samlade',
               feedback: 'Där finns torrveden. Slutna lokalgrupper känns trygga och privata, så folk sänker garden och delar utan att kolla — och en arg granne smittar fortare än en arg främling. Nackdel: en vaksam administratör kan moderera, så vi måste smyga in tonen underifrån.',
-              effects: { visibility: +2, bonus: 'stor' },
+              effects: { visibility: +2 },
             },
             {
               id: 'b',
               label: 'Kommentarsfälten under kommunens och lokaltidningens egna inlägg — kapa deras räckvidd',
               feedback: 'Att snylta på en trovärdig avsändare: du lånar deras publik och gör deras sakliga inlägg till ett slagfält. Syns direkt och brett. Men det är också öppet för alla — märker någon att samma arga toner dyker upp överallt samtidigt luktar det kampanj.',
-              effects: { visibility: +6, bonus: 'liten' },
+              effects: { visibility: +6 },
             },
             {
               id: 'c',
               label: 'Bygg ett eget konto som spelar upprörd granne, så frågan ser ut att komma underifrån',
               feedback: 'En fejkad gräsrot. En påhittad privatperson är mer sympatisk än en logotyp. Långsammare start, för kontot måste bygga förtroende först — men slår det rot ser hela kampanjen ut som en spontan folkresning, inte ett beställningsjobb.',
-              effects: { visibility: -6, bonus: 'stor' },
+              effects: { visibility: -6 },
             },
           ],
         },
@@ -134,7 +134,7 @@ export default {
               id: 'a',
               label: 'EkoMotor: 4 000 automatgenererade konton som svämmar över varje kommentarsfält i natt',
               feedback: 'Maximal räckvidd, minimal kostnad, noll tålamod. Problemet: 4 000 röster som föddes samma natt och skriver likadant är precis det mönster plattformens filter älskar att hitta. Snabb effekt, hög upptäcktsrisk — och avslöjas det blir bot-anklagelsen själva nyheten.',
-              effects: { visibility: +20, bonus: 'liten' },
+              effects: { visibility: +20, bonus: 'stor' },
               terminal: {
                 tool: 'ekomotor --kampanj=avgiften --konton=4000',
                 lines: [
@@ -166,7 +166,7 @@ export default {
               id: 'b',
               label: 'En liten stall av 40 åldrade, handskötta låtsaskonton som grälar på BÅDA sidor',
               feedback: 'Dyrare, långsammare, smartare. Genom att elda på båda lägren ser du inte ut som en kampanj — du ser ut som en delad stad. Fyrtio trovärdiga röster som funnits i åratal är nästan omöjliga att skilja från människor. Mindre räckvidd, men det som sprider sig håller.',
-              effects: { visibility: +2, bonus: 'stor' },
+              effects: { visibility: +2, bonus: 'liten' },
               terminal: {
                 tool: 'ekomotor --lage=stall --konton=40 --tvasidigt',
                 lines: [

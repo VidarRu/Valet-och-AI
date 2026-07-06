@@ -77,19 +77,19 @@ export default {
               id: 'a',
               label: 'Kapa #FramtidenTillsammans — fyll den med så absurt, vidrigt innehåll att ingen seriös vill röra den',
               feedback: 'Kapning fungerar: dränks en hashtag i dynga blir den oanvändbar och kampanjen tappar sitt samlingsrop. Risk: förstör du den för uppenbart ser folk sabotaget — och sympatin går till henne.',
-              effects: { visibility: +6, bonus: 'liten' },
+              effects: { visibility: +6 },
             },
             {
               id: 'b',
               label: 'Beta Vera själv — provocera tills hon svarar ilsket EN gång, och gör det svaret till hela nyheten',
               feedback: 'Högriskspel med enorm utdelning. En lugn, hoppfull kandidat som brister och fräser förlorar hela sitt varumärke på tre sekunder. Men bara om hon nappar — gör hon inte det har du bränt din energi och sett desperat ut.',
-              effects: { visibility: +6, bonus: 'liten' },
+              effects: { visibility: +6 },
             },
             {
               id: 'c',
               label: 'Under falsk flagg: låtsas vara Veras egna anhängare och var vidrig mot motståndarna, så rörelsen ser giftig ut',
               feedback: 'Elegant och lömskt. Du behöver inte smutskasta Vera — du får hennes "supportrar" att göra det åt dig, mot andra, så att #FramtidenTillsammans luktar mobb. Svårare att genomskåda, men kräver att du håller masken perfekt.',
-              effects: { visibility: +6, bonus: 'liten' },
+              effects: { visibility: +6 },
             },
           ],
         },
@@ -102,19 +102,19 @@ export default {
               id: 'a',
               label: 'De nya, unga volontärerna — oerfarna, tunnhudade, lätta att skrämma tysta',
               feedback: 'Grymt men effektivt. Förstagångsengagerade har ingen sköld byggd än; några dagars koncentrerat hån och de drar sig ur "frivilligt". Och när de andra ser vad som hände tänker de sig för. En släckt volontär skrämmer tio som aldrig dyker upp.',
-              effects: { visibility: +6, bonus: 'liten' },
+              effects: { visibility: +6 },
             },
             {
               id: 'b',
               label: 'De tveksamma åskådarna som ännu inte gått med — se till att de aldrig gör det',
               feedback: 'Den osynliga segern. Du behöver inte driva bort någon om du kan få dem att aldrig komma. Gör kommentarsfälten så otrevliga att de nyfikna backar undan, så svälter rörelsen på nya medlemmar utan att någon kan peka på ett enda "offer". Svårmätt, men det är här val faktiskt avgörs.',
-              effects: { visibility: +2, bonus: 'stor' },
+              effects: { visibility: +2 },
             },
             {
               id: 'c',
               label: 'Vera själv och hennes närmaste krets — gå rakt på toppen',
               feedback: 'Högst svårighet, högst risk. Vera är garvad och har en stor publik som sluter upp när hon angrips — attackerar du henne för öppet blir "Vera trakasseras" hela snacket och sympatin rusar. Ibland är det klokare att såga grenarna än att hugga i stammen.',
-              effects: { visibility: +12, bonus: 'liten' },
+              effects: { visibility: +12 },
             },
           ],
         },
@@ -132,7 +132,7 @@ export default {
               id: 'a',
               label: 'SvärmSkribent i provokationsläge: 5 000 svar under varje Vera-inlägg, precis giftiga nog att sänka tonen',
               feedback: 'Ren volym. Tempot är poängen — modererar de bort tusen dyker tvåtusen upp. Men en armé som skriver i samma sekund lämnar spår, och "Vera trakasseras av bottar" är en nyhet som kan väcka just den sympati vi vill döda.',
-              effects: { visibility: +20, bonus: 'liten' },
+              effects: { visibility: +20, bonus: 'stor' },
               terminal: {
                 tool: 'svarmskribent --lage=provokation --mal=@veralind --antal=5000',
                 lines: [
@@ -164,7 +164,7 @@ export default {
               id: 'b',
               label: 'MemeSmed: generera hundra hånfulla bilder som får Veras "hopp" att se naivt och löjligt ut',
               feedback: 'Skratt är dödligare än ilska. Det går inte att argumentera mot ett skämt — och en kandidat som blivit ett skämt är svår att ta på allvar igen. Långsammare spridning än svärmen, men det som fastnar sitter kvar långt efter valet.',
-              effects: { visibility: +2, bonus: 'stor' },
+              effects: { visibility: +2, bonus: 'liten' },
               terminal: {
                 tool: 'memesmed --tema=naivt-hopp --mal=veralind --antal=100',
                 lines: [

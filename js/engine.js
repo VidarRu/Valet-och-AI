@@ -17,9 +17,13 @@ const VISIBILITY_MAX = 100;
 const VISIBILITY_AFTER_WARNING = 55;   // dit synligheten faller efter en varning
 const WARNINGS_BEFORE_FAIL = 3;        // 3:e gången taket nås = förlust
 
-// Bonus per val, som andel av uppdragets grundarvode (reward). Aldrig visad i
-// exakta kronor för spelaren — bara som "liten"/"stor".
-const BONUS_FRACTION = Object.freeze({ liten: 0.06, stor: 0.15 });
+// Bonus, som andel av uppdragets grundarvode (reward). Ges ENDAST på
+// metodvalet (terminal-valet där AI-verktyget väljs) — aldrig på de tidigare
+// strategiska valen, som bara påverkar synlighet. Bonusen är avsedd som en
+// liten, oetisk lockelse: ju högre synlighetsrisk metoden innebär, desto
+// större bonus (annars finns ingen anledning att välja den högljudda vägen).
+// Aldrig visad i exakta kronor för spelaren — bara som "liten"/"stor".
+const BONUS_FRACTION = Object.freeze({ liten: 0.02, stor: 0.05 });
 
 // Faser:
 //   playing        – steg matas ut i flödet; väntar på advance()/choose()
