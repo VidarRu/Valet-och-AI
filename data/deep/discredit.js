@@ -66,19 +66,19 @@ export default {
               id: 'a',
               label: 'Måla Hane som en aktivist förklädd till forskare — "alla vet ju vad han EGENTLIGEN tycker"',
               feedback: 'Klassisk avväpning: en "aktivist" väger lättare än en "forskare", oavsett data. Du behöver inte motbevisa metoden om publiken redan avfärdat mannen. Risk: har han ett rent, opolitiskt facit studsar etiketten tillbaka.',
-              effects: { visibility: +6, bonus: 'liten' },
+              effects: { visibility: +6 },
             },
             {
               id: 'b',
               label: 'Så tvivel om metoden i förväg: "Vi hör att mätningarna gjordes på fel årstid. Vänta med att lita på siffrorna."',
               feedback: 'Lömskt och svårt att bemöta — du kritiserar en metod ingen sett än, så ingen kan försvara den. När rapporten kommer är tvivlet redan planterat och han får ägna sin pressträff åt att försvara sig i stället för att presentera. Förnekbart och kirurgiskt.',
-              effects: { visibility: +2, bonus: 'stor' },
+              effects: { visibility: +2 },
             },
             {
               id: 'c',
               label: 'Kräv "balans": pressa medier att ge din betalda motexpert lika stor plats',
               feedback: 'Falsk balans är ett underskattat vapen — genom att ställa en köpt "motexpert" bredvid Hane får du en enig forskning att se ut som en "het debatt". Långsammare, men det gör publiken förvirrad nog att strunta i båda. Kräver medier som nappar.',
-              effects: { visibility: +2, bonus: 'stor' },
+              effects: { visibility: +2 },
             },
           ],
         },
@@ -110,7 +110,7 @@ export default {
               id: 'a',
               label: 'Dokumentsmedjan: fabricera ett "läckt utkast" med medvetet pinsamma fel som han sen får "rättat"',
               feedback: 'Djävulskt: du planterar ett falskt utkast fullt av fel, låter det spridas, och när han publicerar den RIKTIGA rapporten ser det ut som att han i panik ändrat siffror. Förödande — om förfalskningen håller. Spricker den blir du nyheten, och han martyren.',
-              effects: { visibility: +20, bonus: 'liten' },
+              effects: { visibility: +20, bonus: 'stor' },
               terminal: {
                 tool: 'dokumentsmedjan --typ=utkast --amne=luftrapport',
                 lines: [

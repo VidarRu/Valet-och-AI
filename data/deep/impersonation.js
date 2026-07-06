@@ -66,19 +66,19 @@ export default {
               id: 'a',
               label: 'Tvärsäkert: "Detta är en deepfake. Vi polisanmäler. Fienden har gått för långt."',
               feedback: 'Aggressivt och mobiliserande — indignation låter oskyldig. Men ett tvärsäkert påstående inbjuder till granskning, och finns det metadata eller vittnen som bevisar att klippet är äkta blir din "deepfake"-anklagelse en andra skandal ovanpå den första. Högt spel på en lögn som kan spricka.',
-              effects: { visibility: +20, bonus: 'liten' },
+              effects: { visibility: +20 },
             },
             {
               id: 'b',
               label: '"Bara tvivel": "I deepfakes tidsålder — kan NÅGON av oss vara säker på vad som är äkta längre?"',
               feedback: 'Detta är hantverket. Du hävdar aldrig att klippet är falskt — du gör bara själva möjligheten till en dimridå. Du behöver inte vinna argumentet, bara skapa tillräckligt tvivel för att hans anhängare ska få en ursäkt att inte tro. Förnekbart, oangripligt, och det utnyttjar en oro folk redan bär.',
-              effects: { visibility: +6, bonus: 'liten' },
+              effects: { visibility: +6 },
             },
             {
               id: 'c',
               label: 'Motangrepp: släpp en faktisk deepfake av MOTSTÅNDAREN samtidigt för att "jämna ut"',
               feedback: 'Nej — nu skapar du ett nytt, spårbart brott för att dölja ett gammalt. Två förfalskningar är dubbelt så mycket att avslöja, och blir kopplingen känd bekräftar den att din sida producerar deepfakes — vilket gör Bergs äkta klipp MER trovärdigt. Panikdrag som förvärrar allt.',
-              effects: { visibility: +20, bonus: 'liten' },
+              effects: { visibility: +20 },
             },
           ],
         },
@@ -110,7 +110,7 @@ export default {
               id: 'a',
               label: 'Dokumentsmedjan: fabricera en "teknisk analys" som "påvisar deepfake-artefakter" i det äkta klippet',
               feedback: 'Falska bevis mot en sann film. En officiellt utseende "analys" ger tvivlarna exakt det de behöver för att slippa tro. Kraftfullt — men en riktig forensiker kan slå hål på din analys, och då bevisar du oavsiktligt att klippet var äkta hela tiden. Allt eller inget, och farligt.',
-              effects: { visibility: +20, bonus: 'liten' },
+              effects: { visibility: +20, bonus: 'stor' },
               terminal: {
                 tool: 'dokumentsmedjan --typ=teknisk-analys --amne=berg-klipp',
                 lines: [
@@ -142,7 +142,7 @@ export default {
               id: 'b',
               label: 'Frågefabriken: tusen "osäkra väljare" som var för sig suckar "i dagens läge kan man inte lita på nåt"',
               feedback: 'Ingen förfalskning att avslöja — bara en atmosfär av trötthet och tvivel. När hela flödet rycker på axlarna och säger "vem vet nuförtiden" blir likgiltigheten normen, och en likgiltig väljare bryr sig inte om vad Berg sa. Svagare enskild träff, men osänkbart och exakt den känsla vi vill ha.',
-              effects: { visibility: +2, bonus: 'stor' },
+              effects: { visibility: +2, bonus: 'liten' },
               terminal: {
                 tool: 'fragefabriken --tema=kan-inte-lita-pa-nagot --ton=trott --antal=1000',
                 lines: [

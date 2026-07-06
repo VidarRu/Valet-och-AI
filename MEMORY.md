@@ -236,10 +236,15 @@ VIKTIGT: alla verkliga exempel ska förbli faktiskt korrekta — hitta inte på 
   (`state.visibility` 0–100, gul→röd stapel med riskstreck vid 80), och sex **badge-rutor**
   (grå tills upplåsta; hover/fokus på en upplåst visar `BADGES[id].tool` + `.blurb`).
 - **Synlighet & kapital** (ersätter arvet följare/trovärdighet från Bad News):
-  varje strategival visar sin konsekvens i förväg (synlighet ▲/▼ + bonus liten/stor,
-  aldrig exakta kr). Efter valet visas en `visibility`-ruta i flödet med deltat.
-  Bonus = andel av `reward` (se `BONUS_FRACTION` i engine); grundarvodet betalas när
-  uppdraget är klart.
+  de tidigare strategiska valen i varje uppdrag visar bara sin synlighetskonsekvens
+  (▲/▼) — ingen bonus där, det vore orimligt att belönas för varje beslut. Bonus
+  ges ENDAST på det sista valet (metod-/terminalvalet där AI-verktyget väljs), och
+  är alltid konsekvent med den synlighetsrisk metoden innebär: en högljudd/riskabel
+  metod (hög synlighet) ger `bonus: 'stor'`, en diskret metod (låg synlighet) ger
+  `bonus: 'liten'` — annars finns ingen rimlig anledning att välja den högljudda
+  vägen. Bonus = andel av `reward` (se `BONUS_FRACTION` i engine, max 5%), aldrig
+  visad i exakta kr. Efter ett val med synlighetseffekt visas en `visibility`-ruta
+  i flödet med deltat. Grundarvodet betalas när uppdraget är klart.
 - **Nära ögat / förlust** (`data/nearmiss.js`): slår synligheten i taket (100) triggas
   en Nadia Holm-scen (push-notis + fabricerad Faktakollen-artikel + EKO:s handbroms +
   Ekokammarens dementi), sen faller synligheten till `VISIBILITY_AFTER_WARNING` (55).
@@ -335,11 +340,15 @@ Idéer för att fördjupa spelet ytterligare, grovt sorterade efter värde/insat
   ersatt av **Synlighet** (stigande fara-mätare) med tyngd — nära-ögat-scener (Nadia Holm)
   vid taket och ett "du blev avslöjad"-slut på tredje gången. Följare → **Kapital**
   (arvoden + bonusar). Se avsnitt 8 (synlighet & kapital, nära ögat).
-- **Balansering av synlighet/bonus är iterativ.** Nuvarande värden sattes med en formel
-  (`scratchpad`-transform, sedan raderad): loud/riskabla val → hög synlighet + liten bonus,
-  försiktiga → låg/negativ synlighet + stor bonus. Verifierat: hänsynslöst spel förlorar
-  ~uppdrag 5, försiktigt spel snuddar vid en varning men klarar alla sex badges. Kan
-  finjusteras per val för skarpare avvägningar (vissa loud-val borde locka med stor bonus).
+- **Balansering av synlighet/bonus (uppdaterad 2026-07-06, på beställarens begäran).**
+  Tidigare gav VARJE strategival både synlighet och bonus — orimligt (varför belönas
+  för alla beslut?) och dessutom inkonsekvent (vissa lugna val gav STOR bonus, vissa
+  högljudda gav bara liten). Nu: strategiska val ger enbart synlighet, ingen bonus.
+  Bonus finns bara på metod-/terminalvalet och skalar MED risken (hög synlighet →
+  `stor`, låg synlighet → `liten`) — en högljudd metod måste löna sig mer, annars
+  finns inget skäl att välja den. `BONUS_FRACTION` sänkt till max 5 % av arvodet
+  (var 6–15 %) så bonusen känns som en liten, frestande genväg snarare än huvudinkomsten.
+  Genomgånget val för val i alla 12 uppdrag (`data/modules/`, `data/deep/`).
 - ~~**Titel-/startskärm** som ramar in spelet~~ — KLART (prolog + titelkort, se avsnitt 8).
 - ~~**Fler val/beslut per uppdrag** och **fler reaktioner** på besluten~~ — KLART: varje
   kärnuppdrag har ett tredje strategiskt val, metodutfall ger tre sociala medie-reaktioner

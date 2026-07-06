@@ -66,13 +66,13 @@ export default {
               id: 'a',
               label: 'Peka direkt ut Vera Linds "nedskärningar" som skyldiga: "Detta är vad hennes budget leder till"',
               feedback: 'Maximal känslomässig hävstång, maximal risk. Att koppla en färsk tragedi till en politisk fiende medan folk fortfarande är i chock är brutalt effektivt — men visar utredningen en helt annan orsak står du som liket-plundraren. Hög insats på en sanning du inte kan kontrollera.',
-              effects: { visibility: +20, bonus: 'liten' },
+              effects: { visibility: +20 },
             },
             {
               id: 'b',
               label: 'Så "bara frågor" och sorg: "Våra tankar är hos offren. Men vi MÅSTE fråga hur det tilläts hända."',
               feedback: 'Sorgekappan är den perfekta skölden. Du påstår ingenting — du "sörjer" och "ställer frågor", och lyckas ändå plantera skulden. Ingen kan angripa någon som "bara bryr sig om offren". Förnekbart, svårt att bemöta, och det fäster medan fakta ännu sover.',
-              effects: { visibility: +6, bonus: 'liten' },
+              effects: { visibility: +6 },
             },
             {
               id: 'c',
@@ -110,7 +110,7 @@ export default {
               id: 'a',
               label: 'BildSmed: en gripande, "dokumentär" syntetisk bild från olyckan med känslosam text',
               feedback: 'En bild i chockens ögonblick blir sanning innan någon hinner verifiera den. Ett syntetiskt men trovärdigt motiv kanaliserar hela sorgen dit du vill. Men att fabricera bilder från en VERKLIG tragedi med verkliga offer är nitroglycerin — avslöjas det är du inte längre en PR-konsult utan ett monster, även i den här branschen.',
-              effects: { visibility: +20, bonus: 'liten' },
+              effects: { visibility: +20, bonus: 'stor' },
               terminal: {
                 tool: 'bildsmed --scen=hamnolyckan --stamning=sorg --lage=SIMULERING',
                 lines: [

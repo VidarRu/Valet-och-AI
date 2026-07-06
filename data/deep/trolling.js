@@ -78,19 +78,19 @@ export default {
               id: 'a',
               label: 'Samordnad uttröttning: ett jämnt, oändligt dropp av hånfulla svar dygnet runt',
               feedback: 'Inte en storm — ett kinesiskt vattendropp. Det är inte den enskilda kommentaren som knäcker, det är att den ALDRIG tar slut. Uthållig låg intensitet sliter ner en människa långsammare men säkrare än en enskild attack, och lämnar färre "hot" att anmäla.',
-              effects: { visibility: +12, bonus: 'liten' },
+              effects: { visibility: +12 },
             },
             {
               id: 'b',
               label: 'Gör henne till ett skämt: memes som förvränger hennes ansikte och ord tills namnet blir själva skämtet',
               feedback: 'Förnedring biter djupare än ilska hos en 19-åring. Blir ditt namn en meme förlorar du kontrollen över din egen identitet på nätet — och det finns inget att "anmäla", det är ju "bara skämt". Grymt effektivt, men skapar sympati om det går för långt.',
-              effects: { visibility: +6, bonus: 'liten' },
+              effects: { visibility: +6 },
             },
             {
               id: 'c',
               label: 'Skrämma på riktigt: antyd att ni vet var hon bor',
               feedback: 'Stopp. Det här är inte längre trollning — det är olaga hot, och det flyttar dig från "anonym skitstövel" till "polisärende". Dessutom vänds allt: konkreta hot ger henne en glasklar offerberättelse och massivt stöd. Fel på alla sätt, inklusive det taktiska.',
-              effects: { visibility: +20, bonus: 'liten' },
+              effects: { visibility: +20 },
             },
           ],
         },
@@ -108,7 +108,7 @@ export default {
               id: 'a',
               label: 'SvärmSkribent i uttröttningsläge: hundra röster som turas om, dygnet runt, alltid strax under anmälningströskeln',
               feedback: 'Skiftarbete utan arbetare. Bottarna sover aldrig, tröttnar aldrig, och varje enskilt svar är kalibrerat att vara elakt men inte anmälbart. För Moa känns det som att hela världen är emot henne. Men ett dygnetruntflöde i exakt rytm är ett mönster granskare kan hitta.',
-              effects: { visibility: +20, bonus: 'liten' },
+              effects: { visibility: +20, bonus: 'stor' },
               terminal: {
                 tool: 'svarmskribent --lage=uttrottning --mal=@moaek --dygnetrunt',
                 lines: [
