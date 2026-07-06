@@ -264,13 +264,14 @@ VIKTIGT: alla verkliga exempel ska förbli faktiskt korrekta — hitta inte på 
 
 - **GitHub Pages** bygger från **default-branchen `claude/ai-misinformation-game-IXaqW`**
   och serverar på **https://vidarru.github.io/Valet-och-AI/**.
-- **Aktuell utvecklingsbranch: `claude/game-mechanics-overhaul-wsffe0` (PR #8, MERGAD 2026-07-05).**
-  Allt arbete görs här och mergas till default-branchen via PR. (Historik: PR #4 =
+- **Senaste utvecklingsbranch: `claude/game-mechanics-rewards-loz3v1` (PR #9, MERGAD 2026-07-06).**
+  Allt arbete görs på en branch och mergas till default-branchen via PR. (Historik: PR #4 =
   prolog/kontext/reaktioner/exempel, MERGAD. PR #5 = reaktiva val + avanglifiering,
   MERGAD 2026-07-04. PR #6 = MEMORY.md-uppdatering. Kvittra-plattformskort + medietyper
-  i inläggen. **PR #8 = spelmekanik-ombygge: följare/trovärdighet → kapital/
-  synlighet + nära-ögat-scener, se avsnitt 8.**) Är en PR redan mergad: starta om
-  branchen från default och gör en NY PR — stacka inte på mergad historik.
+  i inläggen. PR #8 = spelmekanik-ombygge: följare/trovärdighet → kapital/
+  synlighet + nära-ögat-scener, se avsnitt 8. **PR #9 = bonuslogik konsekvent kopplad
+  till metodvalet i stället för varje strategival, se avsnitt 8/11.**) Är en PR redan
+  mergad: starta om branchen från default och gör en NY PR — stacka inte på mergad historik.
 - **Konsekvens:** ändringar syns på webb-URL:en först när de mergats in i
   default-branchen. (Skillnad mot första versionen, som skrev rakt på deploy-branchen.)
 - Pages använder en `.nojekyll`-fil (statisk servering utan Jekyll). Alla sökvägar i
