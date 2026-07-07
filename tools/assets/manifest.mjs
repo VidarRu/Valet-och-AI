@@ -20,12 +20,20 @@ const PORTRAIT_STYLE =
   'Nordmark — do not depict any real, identifiable public figure. ' +
   'No text, no watermark, no logos in frame.';
 
+// Ingen text: bildmodeller stavar/hittar på fel namn i småtext (tidigare
+// försök gav t.ex. "NORDMARK ADVERTISING & PR" istället för Ekokammaren),
+// och namnet står redan i inläggets kv-name intill avataren. Full-bleed,
+// inget eget cirkel-/badge-lager: koden beskär redan till en cirkel, så en
+// bild som SJÄLV ritar en mindre cirkel/ram ger dubbla, missriktade kanter.
 const LOGO_STYLE =
-  'Minimal flat vector logotype/emblem, designed to read clearly at a tiny ' +
-  'circular avatar size (2.5rem). Two or three colors max, no photographic ' +
-  'or 3D elements, no gradients besides a subtle flat one, plenty of ' +
-  'negative space. Fictional institution in the fictional Nordic country ' +
-  'of Nordmark. No watermark.';
+  'Abstract flat vector emblem/symbol only — NO letters, NO words, NO ' +
+  'initials, nothing that could be misread as text. Two or three flat ' +
+  'colors max, no photographic or 3D elements, no gradients besides a ' +
+  'subtle flat one. The design must fill the ENTIRE square canvas edge to ' +
+  'edge with color/art — no white or empty margin around the outside, no ' +
+  'circular badge, ring, border, or vignette drawn within the frame (the ' +
+  'square image itself will be cropped into a circle by code afterwards). ' +
+  'Fictional institution in the fictional Nordic country of Nordmark.';
 
 export const portraits = [
   {
@@ -158,31 +166,31 @@ export const logos = [
   {
     handle: 'nordmark_nytt',
     name: 'Nordmarks Nyheter',
-    prompt: `${LOGO_STYLE} A serious national news outlet: bold condensed sans-serif wordmark, deep navy blue, small newspaper-masthead feel.`,
+    prompt: `${LOGO_STYLE} A serious national news outlet: a sharp angular mark suggesting an open newspaper or a broadcast signal, deep navy blue on white.`,
   },
   {
     handle: 'faktakollen',
     name: 'Faktakollen',
-    prompt: `${LOGO_STYLE} A fact-checking outlet: the word "Fakta" in a plain weight next to "kollen" in a heavier weight, single blue accent, clean and trustworthy, two-tone mark.`,
+    prompt: `${LOGO_STYLE} A fact-checking outlet: a magnifying glass merged with a checkmark, single confident blue on white, clean and trustworthy.`,
   },
   {
     handle: 'valmyndigheten',
     name: 'Valmyndigheten',
-    prompt: `${LOGO_STYLE} A formal government election-authority emblem: restrained circular seal, muted blue and gold, bureaucratic and dignified, no photographic elements.`,
+    prompt: `${LOGO_STYLE} A formal government election authority: a ballot mark or a laurel-flanked star, muted blue and gold, bureaucratic and dignified.`,
   },
   {
     handle: 'ekokammaren',
     name: 'Ekokammaren – reklam & kommunikation',
-    prompt: `${LOGO_STYLE} A sleek advertising/PR agency: dark charcoal with a single cold accent color, modern minimal wordmark plus a small geometric mark, feels expensive and a little cold.`,
+    prompt: `${LOGO_STYLE} A sleek advertising/PR agency: a small geometric mark like an abstract speech-bubble or megaphone shape, dark charcoal with a single cold accent color, feels expensive and a little cold.`,
   },
   {
     handle: 'bstad_uni',
     name: 'Björkstads Universitet',
-    prompt: `${LOGO_STYLE} A university crest: classic academic navy-and-gold shield with a subtle book or laurel motif, traditional and restrained.`,
+    prompt: `${LOGO_STYLE} A university: an open book or a laurel-wreath shield motif, classic academic navy and gold, traditional and restrained.`,
   },
   {
     handle: 'bjorkstad',
     name: 'Björkstads kommun',
-    prompt: `${LOGO_STYLE} A municipal seal for a small fictional Nordic town: simple heraldic shield, muted blue-green, civic and unpretentious.`,
+    prompt: `${LOGO_STYLE} A municipal seal for a small fictional Nordic coastal town: a simple heraldic shield with a wave or pine-tree motif, muted blue-green, civic and unpretentious.`,
   },
 ];

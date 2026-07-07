@@ -507,8 +507,8 @@ button {
 .kv-avatar {
   position: relative;
   flex: 0 0 auto;
-  width: 2.6rem;
-  height: 2.6rem;
+  width: 3.4rem;
+  height: 3.4rem;
   border-radius: 50%;
   display: grid;
   place-items: center;
@@ -525,16 +525,16 @@ button {
   object-fit: cover;
 }
 
-.kv-avatar-sm { width: 2rem; height: 2rem; }
+.kv-avatar-sm { width: 2.6rem; height: 2.6rem; }
 
 .kv-avatar-initial {
   color: #fff;
   font-weight: 800;
-  font-size: 1rem;
+  font-size: 1.25rem;
   text-shadow: 0 1px 2px rgba(0, 0, 0, 0.28);
 }
 
-.kv-avatar-sm .kv-avatar-initial { font-size: 0.8rem; }
+.kv-avatar-sm .kv-avatar-initial { font-size: 1rem; }
 
 .kv-names { flex: 1 1 auto; min-width: 0; }
 
