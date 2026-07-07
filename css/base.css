@@ -505,6 +505,7 @@ button {
 .kv-head { display: flex; gap: 0.65rem; align-items: flex-start; }
 
 .kv-avatar {
+  position: relative;
   flex: 0 0 auto;
   width: 2.6rem;
   height: 2.6rem;
@@ -512,6 +513,16 @@ button {
   display: grid;
   place-items: center;
   border: 1px solid rgba(17, 17, 17, 0.08);
+  overflow: hidden;
+}
+
+/* Riktigt genererat porträtt/logotyp — täcker gradienten när filen laddar. */
+.kv-avatar-img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 
 .kv-avatar-sm { width: 2rem; height: 2rem; }
@@ -668,6 +679,13 @@ button {
   background: linear-gradient(transparent, rgba(0, 0, 0, 0.55));
 }
 
+/* Riktig genererad bild ersätter scanline/gradient-mockupen bakom spelknapp/
+   längd — samma overlay-lager, bara en äkta bakgrund under. */
+.kv-media-video.has-image {
+  background-size: cover;
+  background-position: center;
+}
+
 .kv-media-dur {
   position: absolute;
   right: 0.55rem;
@@ -699,6 +717,22 @@ button {
 }
 
 .kv-audio .kv-play svg { fill: var(--paper); width: 0.85rem; height: 0.85rem; }
+.kv-audio .kv-play { cursor: pointer; }
+
+/* Vågformens staplar pulserar medan Web Speech faktiskt läser upp citatet. */
+.kv-audio.playing .kv-wave span {
+  animation: kv-wave-pulse 0.9s ease-in-out infinite;
+  animation-delay: calc(var(--i, 0) * 0.05s);
+}
+
+@keyframes kv-wave-pulse {
+  0%, 100% { transform: scaleY(0.55); }
+  50% { transform: scaleY(1); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .kv-audio.playing .kv-wave span { animation: none; }
+}
 
 .kv-wave {
   flex: 1 1 auto;
@@ -734,6 +768,25 @@ button {
     linear-gradient(135deg, var(--yellow), var(--red));
 }
 
+/* Riktig genererad meme-bakgrund: samma stämplade text, men på ett äkta
+   foto — mörk overlay håller texten läsbar ovanpå bilden. */
+.kv-media-meme.has-image {
+  background-size: cover;
+  background-position: center;
+}
+
+.kv-media-meme.has-image::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: rgba(17, 17, 17, 0.32);
+}
+
+.kv-media-meme.has-image .kv-meme-text {
+  position: relative;
+  z-index: 1;
+}
+
 .kv-meme-text {
   margin: 0;
   text-align: center;
@@ -760,6 +813,11 @@ button {
 
 .kv-media-image .kv-media-scene { position: static; width: 100%; }
 
+.kv-media-image.has-image {
+  background-size: cover;
+  background-position: center;
+}
+
 /* Fabricerat dokument/skärmdump: ljust "pappersark" med maskerade rader */
 .kv-media-doc {
   position: relative;
@@ -784,6 +842,18 @@ button {
 }
 
 .kv-doc-line:first-child { background: var(--ink); height: 0.6rem; width: 55%; }
+
+/* Riktig genererad skärmdump ersätter hela pappers-mockupen — den fabricerade
+   bilden ÄR skärmdumpen, ingen anledning att visa den maskerade radmockupen
+   ovanpå. */
+.kv-media-doc.has-image {
+  padding: 0;
+  aspect-ratio: 4 / 3;
+  background-size: cover;
+  background-position: center;
+}
+
+.kv-media-doc.has-image .kv-doc-sheet { display: none; }
 
 /* Valkort */
 .choice-prompt { margin: 0 0 0.75rem; font-weight: 700; }

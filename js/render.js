@@ -97,6 +97,10 @@ function initials(author) {
   return first.toUpperCase();
 }
 
+// Riktiga porträtt/logotyper (assets/portraits|logos/<handle>.png) täcker
+// den färgade initial-cirkeln när en fil faktiskt finns — annars förblir
+// gradienten + initialen den enda avataren, precis som innan dessa bilder
+// genererades. Handle kan bära "@"; filnamnen gör det inte.
 function kvAvatar(handle, author, small) {
   const h = hashStr(handle);
   const a = h % 360;
@@ -105,6 +109,17 @@ function kvAvatar(handle, author, small) {
   avatar.style.background =
     `conic-gradient(from ${h % 360}deg, hsl(${a} 68% 56%), hsl(${b} 70% 60%), hsl(${a} 68% 56%))`;
   avatar.append(el('span', 'kv-avatar-initial', initials(author)));
+
+  const key = handle.replace(/^[@#]/, '');
+  const img = el('img', 'kv-avatar-img');
+  img.alt = '';
+  img.src = `assets/portraits/${key}.png`;
+  img.addEventListener('error', () => {
+    if (img.dataset.stage === 'logo') { img.remove(); return; }
+    img.dataset.stage = 'logo';
+    img.src = `assets/logos/${key}.png`;
+  });
+  avatar.append(img);
   return avatar;
 }
 
@@ -173,7 +188,38 @@ function parseMedia(item) {
     caption = caption.replace(bracket[0], '').replace(/\s{2,}/g, ' ').trim();
   }
 
-  return { type, duration, scene, caption };
+  return { type, duration, scene, caption, tool };
+}
+
+// Härleder samma handle som tools/assets/manifest.mjs använder för sina
+// media-bilder, direkt ur scenariots tool-sträng — så en ny genererad bild
+// dyker upp automatiskt utan att koden behöver ändras.
+function mediaHandle(tool) {
+  let m;
+  if ((m = tool.match(/--scen=([\w-]+)/))) return `img_${m[1]}`;
+  if ((m = tool.match(/--tema=([\w-]+)/))) return `meme_${m[1]}`;
+  if (/^dokumentsmedjan/.test(tool)) {
+    const typ = tool.match(/--typ=([\w-]+)/);
+    const amne = tool.match(/--amne=([\w-]+)/);
+    if (typ) return `doc_${typ[1]}${amne ? '_' + amne[1] : ''}`;
+  }
+  if ((m = tool.match(/--projekt=([\w-]+)/))) return `vid_${m[1]}`;
+  if (/^ansiktsvav/.test(tool)) return 'vid_ansiktsvav';
+  return null;
+}
+
+// Sätter en genererad bakgrundsbild på medieramen om filen faktiskt finns.
+// Vid 404 (bilden saknas) rörs ingenting — den befintliga CSS-mockupen
+// (gradient/streck/dokument-ark) fortsätter gälla som fallback.
+function tryMediaImage(frame, tool) {
+  const handle = tool && mediaHandle(tool);
+  if (!handle) return;
+  const img = new Image();
+  img.onload = () => {
+    frame.style.backgroundImage = `url(assets/media/${handle}.png)`;
+    frame.classList.add('has-image');
+  };
+  img.src = `assets/media/${handle}.png`;
 }
 
 function fauxPlay() {
@@ -201,20 +247,48 @@ function renderMedia(media, seed) {
     frame.append(mediaTag('AI-genererad video'), fauxPlay());
     if (media.scene) frame.append(el('p', 'kv-media-scene', media.scene));
     if (media.duration) frame.append(el('span', 'kv-media-dur', media.duration));
+    tryMediaImage(frame, media.tool);
     wrap.append(frame);
   } else if (media.type === 'audio') {
     const player = el('div', 'kv-audio');
-    player.setAttribute('role', 'img');
-    player.setAttribute('aria-label', 'AI-genererat ljudklipp');
-    player.append(fauxPlay());
+    player.setAttribute('role', 'group');
+    player.setAttribute('aria-label', 'AI-genererat ljudklipp, spela upp med talsyntes');
+    const play = fauxPlay();
+    play.setAttribute('role', 'button');
+    play.tabIndex = 0;
+    player.append(play);
     const wave = el('div', 'kv-wave');
     for (let i = 0; i < 28; i++) {
       const bar = el('span');
       const hgt = 20 + ((seed >> (i % 16)) ^ (i * 2654435761)) % 80;
       bar.style.height = `${Math.abs(hgt) % 85 + 15}%`;
+      bar.style.setProperty('--i', String(i));
       wave.append(bar);
     }
     player.append(wave, el('span', 'kv-audio-dur', media.duration || '0:30'));
+
+    // Riktig uppläsning av citatet via webbläsarens Web Speech API — gratis,
+    // körs helt lokalt hos spelaren, ingen modell eller nyckel behövs. Äkta
+    // röstklon av en specifik person kräver en separat tjänst (ElevenLabs
+    // e.d.) och är medvetet inte det som simuleras här.
+    const toggleSpeak = () => {
+      if (!('speechSynthesis' in window)) return;
+      if (window.speechSynthesis.speaking) {
+        window.speechSynthesis.cancel();
+        player.classList.remove('playing');
+        return;
+      }
+      const utter = new SpeechSynthesisUtterance(media.caption);
+      utter.lang = 'sv-SE';
+      utter.onend = () => player.classList.remove('playing');
+      utter.onerror = () => player.classList.remove('playing');
+      window.speechSynthesis.speak(utter);
+      player.classList.add('playing');
+    };
+    play.addEventListener('click', toggleSpeak);
+    play.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); toggleSpeak(); }
+    });
     wrap.append(player);
   } else if (media.type === 'meme') {
     const frame = el('div', 'kv-media-meme');
@@ -222,6 +296,7 @@ function renderMedia(media, seed) {
     frame.setAttribute('aria-label', media.scene ? `Meme: ${media.scene}` : 'AI-genererad meme');
     frame.append(mediaTag('Meme'));
     if (media.scene) frame.append(el('p', 'kv-meme-text', media.scene.toUpperCase()));
+    tryMediaImage(frame, media.tool);
     wrap.append(frame);
   } else if (media.type === 'document') {
     const frame = el('div', 'kv-media-doc');
@@ -235,6 +310,7 @@ function renderMedia(media, seed) {
       sheet.append(ln);
     }
     frame.append(sheet);
+    tryMediaImage(frame, media.tool);
     wrap.append(frame);
   } else {
     const frame = el('div', 'kv-media-image');
@@ -242,6 +318,7 @@ function renderMedia(media, seed) {
     frame.setAttribute('aria-label', media.scene ? `Bild: ${media.scene}` : 'AI-genererad bild');
     frame.append(mediaTag('AI-genererad bild'));
     if (media.scene) frame.append(el('p', 'kv-media-scene', media.scene));
+    tryMediaImage(frame, media.tool);
     wrap.append(frame);
   }
   return wrap;

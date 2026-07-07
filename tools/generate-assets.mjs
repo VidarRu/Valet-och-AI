@@ -22,7 +22,7 @@
 import { mkdir, writeFile, access } from 'node:fs/promises';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { portraits, logos } from './assets/manifest.mjs';
+import { portraits, logos, media } from './assets/manifest.mjs';
 
 const ROOT = path.dirname(path.dirname(fileURLToPath(import.meta.url)));
 const DEFAULT_MODEL = 'google/gemini-2.5-flash-image-preview';
@@ -44,7 +44,7 @@ async function exists(p) {
 }
 
 async function generateOne({ handle, name, prompt }, kind) {
-  const dir = path.join(ROOT, 'assets', kind === 'portrait' ? 'portraits' : 'logos');
+  const dir = path.join(ROOT, 'assets', kind === 'portrait' ? 'portraits' : kind === 'logo' ? 'logos' : 'media');
   const file = path.join(dir, `${handle}.png`);
 
   if (!FORCE && await exists(file)) {
@@ -100,6 +100,7 @@ async function main() {
   const jobs = [
     ...portraits.map((p) => [p, 'portrait']),
     ...logos.map((l) => [l, 'logo']),
+    ...media.map((m) => [m, 'media']),
   ].filter(([entry]) => !ONLY || entry.handle === ONLY);
 
   if (jobs.length === 0) {

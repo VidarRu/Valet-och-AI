@@ -85,6 +85,75 @@ export const portraits = [
   },
 ];
 
+// Bakgrundsbilder till de fabricerade medieblocken i flödet (bildsmed/
+// memesmed/dokumentsmedjan/djupbild/ansiktsvav). `handle` matchar exakt den
+// identifierare som render.js härleder ur scenariots `tool`-sträng
+// (--scen=/--tema=/--typ=+--amne=/--projekt=/ansiktsvav-prefixet), så en ny
+// bild dyker upp automatiskt så fort filen finns — ingen extra koppling
+// behövs i koden.
+const IMAGE_STYLE =
+  'Documentary-style synthetic photograph used as AI-generated disinformation ' +
+  'bait — engineered to look emotionally manipulative but read as a plausible ' +
+  'real photo. Muted cinematic color grading, shallow depth of field, no text, ' +
+  'no watermark, no real identifiable people. Fictional Nordic town of Nordmark.';
+
+const MEME_STYLE =
+  'Background photo for a mocking political meme image. High-contrast, ' +
+  'slightly oversaturated flash-photo look, single clear focal object, no ' +
+  'baked-in text (text is overlaid separately), no watermark. Fictional ' +
+  'Nordic context.';
+
+const DOC_STYLE =
+  'Fabricated screenshot of a leaked email thread in a plain, generic email ' +
+  'client interface. Muted realistic UI chrome, sender/subject fields ' +
+  'visible but body text kept illegibly small/blurred, one attachment icon. ' +
+  'No real logos, no real people, no watermark. Fictional Nordic context.';
+
+const VIDEO_STYLE =
+  'Single still frame from a fabricated documentary-style video. Ominous ' +
+  'muted color grading, subtle scanline/interlace texture, cinematic ' +
+  'widescreen composition, no on-screen text, no real identifiable people. ' +
+  'Fictional Nordic context.';
+
+const DEEPFAKE_STYLE =
+  'Single still frame suggesting a corrupted, glitching deepfake video: a ' +
+  'blurred, anonymized human silhouette mid-speech with subtle digital scan-' +
+  'line artifacts banding across the face, dark moody background. No ' +
+  'legible text, no real identifiable person. Fictional Nordic context.';
+
+export const media = [
+  {
+    handle: 'img_eget-kvarter',
+    name: 'BildSmed – eget kvarter (emotion, val a)',
+    prompt: `${IMAGE_STYLE} Scene: a dusk residential street in visible decay, shuttered/empty shopfronts, one flickering broken streetlamp, wet pavement reflecting cold light, nobody in frame.`,
+  },
+  {
+    handle: 'img_ode-hallplats',
+    name: 'BildSmed – öde hållplats (emotion, val b)',
+    prompt: `${IMAGE_STYLE} Scene: an abandoned bus stop at night, a single distant lonely silhouette waiting under a weak light, empty street beyond, cold blue tones.`,
+  },
+  {
+    handle: 'meme_naivt-hopp',
+    name: 'MemeSmed – tom plånbok (trolling, val b)',
+    prompt: `${MEME_STYLE} Scene: a single worn, empty leather wallet lying open on a plain table, harsh flash-photo lighting, slightly mocking/deflating visual tone.`,
+  },
+  {
+    handle: 'doc_epost_finansiering',
+    name: 'Dokumentsmedjan – läckt mejltråd (discredit, val a)',
+    prompt: `${DOC_STYLE} Highlighted subject line implies hidden funding of a fact-checking outlet.`,
+  },
+  {
+    handle: 'vid_ovissa-rosten',
+    name: 'DjupBild Studio – dokumentärstillbild (conspiracy, val a)',
+    prompt: `${VIDEO_STYLE} Scene: a dim interview-style room with a single empty chair lit by a harsh spotlight, heavy shadows, an ominous documentary-title feel.`,
+  },
+  {
+    handle: 'vid_ansiktsvav',
+    name: 'AnsiktsVäv – deepfake-stillbild (impersonation, val a)',
+    prompt: DEEPFAKE_STYLE,
+  },
+];
+
 export const logos = [
   {
     handle: 'nordmark_nytt',
