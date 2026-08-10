@@ -10,7 +10,7 @@ export default {
     name: 'Valdemar Fuskners valkampanj',
     description: 'Staben kring Valdemar Fuskner, en populistisk utmanare som klättrar snabbt i mätningarna.',
     goal: 'Neutralisera en faktagranskning som visar att Fuskners stora vallöfte bygger på falska siffror.',
-    fee: '95 000 kr, samt en plats i "kommunikationsteamet" om han vinner.',
+    fee: '95 000 kr.',
   },
   target: {
     name: 'Nadia Holm, faktagranskare på Faktakollen',
