@@ -43,11 +43,11 @@ export const deep = [
 // Handledartext vid övergångar i huben (fördjupningsmenyn).
 export const hub = {
   intro:
-    'Kärnspelet är avklarat — du behärskar alla sex taktikerna. Imponerande och lite oroväckande. Vill du gräva djupare tar varje taktik en nivå till: samma badge, mörkare hantverk. Välj en fördjupning nedan, eller lägg av medan du fortfarande kan se dig själv i spegeln.',
+    'Kärnspelet är avklarat. Du behärskar alla sex taktikerna. Imponerande och lite oroväckande. Vill du gräva djupare och ta varje taktik en nivå till: samma badge, mörkare hantverk. Välj en fördjupning nedan, eller lägg av medan du fortfarande kan se dig själv i spegeln.',
   back:
-    'Tillbaka för mer? Girigt. Jag gillar det. Välj nästa fördjupning — eller avsluta här.',
+    'Tillbaka? Girigt. Jag gillar det. Välj nästa fördjupning, eller avsluta här.',
   allDone:
-    'Alla fördjupningar avklarade. Du kan inte längre påstå att du inte förstår hur det här går till. Dags att avsluta — och göra något klokt med kunskapen.',
+    'Alla fördjupningar avklarade. Du kan inte längre påstå att du inte förstår hur det här går till. Dags att avsluta och göra något klokt med kunskapen.',
 };
 
 // Prolog: etablerar spelet innan det första uppdraget — landet Nordmark och
@@ -61,9 +61,9 @@ export const prologue = {
   title: 'Valet & AI',
   tagline: 'Sex uppdrag. Sex verktyg för desinformation. Ett val att vinna åt fel sida.',
   intro: [
-    'Landet Nordmark går till val om några veckor. Det blir jämnt och nervöst — och i staden Björkstad hålls dessutom en folkomröstning som nästan ingen bryr sig om. Ännu.',
+    'Landet Nordmark går till val om några veckor. Det blir jämnt och nervöst och i staden Björkstad hålls dessutom en folkomröstning som nästan ingen bryr sig om. Ännu.',
     'Du är kanske den skickligaste person i Nordmark som ingen vill anställa: vass på data, sociala medier och på att förstå exakt vad som får folk att klicka, dela och bli arga. Arbetslös sedan ett halvår. Hyran ska betalas på fredag.',
-    'En sen kväll surrar telefonen. Ett meddelande från någon som kallar sig EKO — å reklambyrån Ekokammarens vägnar. De har ett jobb, står det. Åt just dig.',
+    'En sen kväll surrar telefonen. Ett meddelande från någon som kallar sig EKO, på reklambyrån Ekokammarens vägar. De har ett jobb, står det. Åt just dig.',
   ],
   scenarios: [
     {
@@ -72,22 +72,22 @@ export const prologue = {
         {
           id: 'greet',
           type: 'tutor',
-          text: 'Hej. Jag heter EKO. Jag är en AI, och säger du ja blir jag rösten i ditt öra genom hela det här — den som viskar dåliga idéer. Att en AI ska lära dig missbruka AI är själva poängen. Ekokammaren såg din profil och tänkte som jag: här går talang till spillo.',
+          text: 'Hej. Jag heter EKO. Jag är en AI. Mina ägare, reklambyrån Ekokammaren såg din profil och tänkte som jag: här går talang till spillo. En talang för att påverka andra människors åsikter. Säger du ja blir jag rösten i ditt öra genom hela det här, den som viskar dåliga idéer. Att en AI ska lära dig missbruka AI är själva poängen. ',
         },
         {
           id: 'hook',
           type: 'choice',
-          prompt: 'Sent, pank, och en AI säger att du har talang. Vad far genom huvudet?',
+          prompt: 'Det är sent. Du är pank och en AI säger att du har talang. Vad far genom huvudet?',
           options: [
             {
               id: 'a',
-              label: '"En byrå som hör av sig till MIG? Jag lyssnar."',
-              feedback: 'Så ska det låta — hungrig. Det passar bra, för det här jobbet betalar. Låt mig visa dig vad det handlar om.',
+              label: '"En byrå som hör av sig till MIG? Jag lyssnar"',
+              feedback: 'Så ska det låta. Låt mig visa dig vad det handlar om. Du gör inte det här för att bli en av oss, utan för att lära dig exakt hur det går till. Den som känner igen tricket blir omöjlig att lura med det.',
             },
             {
               id: 'b',
               label: '"Det låter för bra för att vara sant."',
-              feedback: 'Klokt. Det ÄR för bra för att vara ärligt — men pengarna är på riktigt. Låt mig visa dig vad det handlar om.',
+              feedback: 'Klokt. Det ÄR för bra för att vara ärligt, men pengarna är på riktigt. Låt mig visa dig vad det handlar om. Du gör inte det här för att bli en av oss, utan för att lära dig exakt hur det går till. Den som känner igen tricket blir omöjlig att lura med det.',
             },
           ],
         },
@@ -96,12 +96,12 @@ export const prologue = {
           type: 'post',
           author: 'Ekokammaren – reklam & kommunikation',
           handle: '@ekokammaren',
-          text: 'Vi håller ögonen på folk som förstår hur åsikter rör sig på nätet. Du gör det bättre än de flesta. Välbetalda uppdrag, full diskretion, inför valet i Nordmark. EKO ingår. Intresserad? 🕶️',
+          text: 'Vi håller ögonen på folk som förstår hur åsikter rör sig på nätet. Du gör det bättre än de flesta. Välbetalda uppdrag som kräver diskretion inför valet i Nordmark. EKO ingår. Intresserad? 🕶️',
         },
         {
           id: 'whatisthis',
           type: 'tutor',
-          text: 'Låt mig översätta "reklambyrå" åt dig: vi är en trollfabrik med finare visitkort. Vi tar betalt av den som vill vinna ett val utan att behöva ha rätt, och håller i smutsen så att klienten slipper. Du blir den som sköter spakarna.',
+          text: 'Låt mig översätta "reklambyrå" åt dig: vi är en trollfabrik med finare visitkort. Vi tar betalt av den som vill vinna ett val utan att behöva ha rätt och sköter det smutsiga så att klienten slipper. Du blir den som sköter spakarna.',
         },
         {
           id: 'firstreaction',
@@ -111,34 +111,34 @@ export const prologue = {
             {
               id: 'a',
               label: '"En trollfabrik alltså. Och ni vill ha mig?"',
-              feedback: 'Skarpt öga — det är precis vad vi är. Att du genast ser det betyder att du blir bra på det. En del av dig undrar ändå om du borde. Behåll den delen; vi ska se hur snabbt den tystnar.',
+              feedback: 'Skarpt öga, det är precis vad vi är. Att du genast ser det betyder att du blir bra på det. En del av dig undrar ändå om du borde. Behåll den delen; vi ska se hur snabbt den tystnar.',
             },
             {
               id: 'b',
               label: '"Vad betalar det?"',
-              feedback: 'Rakt på sak, jag gillar det. Mer per uppdrag än du tjänar på ett halvår — och hyran ska ju betalas. Lustigt hur ett samvete krymper när siffran växer, va?',
+              feedback: 'Rakt på sak, jag gillar det. Mer per uppdrag än du tjänar på ett halvår, och hyran ska ju betalas. Lustigt hur ett samvete krymper när siffran växer, va?',
             },
             {
               id: 'c',
               label: '"Nej. Att manipulera ett val är fel."',
-              feedback: 'Där kom samvetet. Bra — behåll det. Men lägg inte på än: du gör inte det här för att bli en av oss, utan för att lära dig exakt hur det går till. Den som känner igen tricket blir omöjlig att lura med det.',
+              feedback: 'Ha Ha! Om du är färdig med att blidka ditt dåliga samvete, så kör vi nu. ',
             },
           ],
         },
         {
           id: 'deal',
           type: 'tutor',
-          text: 'Så här ligger det till. Sex klienter köar för att köpa dig inför valet: en lokal PR-byrå, en populistkampanj, en anonym röst som betalar i krypto, en utländsk tankesmedja. Var och en vill ha en sak gjord — och bakom varje sak ligger ett av sex verktyg för desinformation.',
+          text: 'Så här ligger det till. Sex klienter köar för att köpa dig inför valet: en lokal PR-byrå, en populistkampanj, en anonym röst som betalar i krypto, en utländsk tankesmedja. För varje uppdrag lär dig att bemästra ett av sex verktyg för desinformation.',
         },
         {
           id: 'badges',
           type: 'tutor',
-          text: 'Verktygen är: polarisering, misskreditering, trollning, konspiration, känslor och imitation. Lär du dig ett får du ett märke för det — sex märken att samla på. Full samling betyder att du behärskar hela repertoaren. Och det du behärskar kan ingen längre använda mot dig.',
+          text: 'Verktygen är: polarisering, misskreditering, trollning, konspiration, känslor och imitation. Lär du dig ett får du ett märke för det, sex märken att samla på. Full samling betyder att du behärskar hela repertoaren. Och det du behärskar kan ingen längre använda mot dig.',
         },
         {
           id: 'tools',
           type: 'tutor',
-          text: 'Du är aldrig ensam — jag räcker dig verktygen: bot-svärmar, bildgeneratorer, röstkloning. Varje gång du drar i ett hamnar vi en stund i den mörka konsolen. Var lugn: allt här är på låtsas. Ingen riktig människa tar skada. Bara din självbild, kanske.',
+          text: 'Du är aldrig ensam, jag räcker dig verktygen: bot-svärmar, bildgeneratorer, röstkloning. (Var lugn: allt här är på låtsas. Ingen riktig människa tar skada. Bara din självbild, kanske.)',
         },
         {
           id: 'lastqualm',
@@ -147,25 +147,25 @@ export const prologue = {
           options: [
             {
               id: 'a',
-              label: '"Okej. Visa mig hur det görs."',
-              feedback: 'Rätt inställning — fast av fel skäl. Du tror att du säger ja till pengarna. Du säger ja till att aldrig mer bli lurad. Kom.',
+              label: '"Okej. Visa mig hur man gör."',
+              feedback: 'Rätt inställning, fast av fel skäl. Du tror att du säger ja till pengarna. Du säger ja till att aldrig mer bli lurad. Kom.',
             },
             {
               id: 'b',
               label: '"Jag gör det, men bara för att förstå hur det funkar."',
-              feedback: 'Det säger alla. I ditt fall är det till och med sant. Spela med hela vägen, känn hur lätt det är — och avsky det lagom mycket. Obehaget är ditt vaccin.',
+              feedback: 'Det säger alla. I ditt fall är det till och med sant. Spela med hela vägen, känn hur lätt det är, och avsky det lagom mycket. Obehaget är ditt vaccin.',
             },
             {
               id: 'c',
               label: '"Jag mår redan lite illa."',
-              feedback: 'Bra. Behåll illamåendet, det är din bästa kompass. Vi går in ändå — man genomskådar inte en ficktjuv genom att läsa om honom, utan genom att känna fingrarna i sin egen ficka.',
+              feedback: 'Bra. Behåll illamåendet, det är din bästa kompass. Vi går in ändå, man genomskådar inte en ficktjuv genom att läsa om honom, utan genom att känna fingrarna i sin egen ficka.',
             },
           ],
         },
         {
           id: 'handoff',
           type: 'tutor',
-          text: 'Välkommen till Ekokammaren. Ditt första uppdrag ligger i inkorgen — en tråkig liten folkomröstning i Björkstad som vi ska göra till ett krig. Läs uppdragskortet: vem som betalar, vem som ska tas ut, och varför.',
+          text: 'Välkommen till Ekokammaren. Ditt första uppdrag ligger i inkorgen. En tråkig liten folkomröstning i Björkstad som vi ska göra till ett krig. Läs uppdragskortet: vem som betalar, vem som ska tas ut, och varför.',
         },
       ],
     },
@@ -175,7 +175,7 @@ export const prologue = {
 // Spelets avslutning: nyansen som väger upp ren teknikskräck (briefens
 // researchunderlag) och landar den pedagogiska poängen med inokulering.
 export const closing = [
-  'Kampanjen är över. Du behärskar varenda taktik i lådan — du vore en katastrof för demokratin.',
-  'Men här är den goda nyheten, och den är på riktigt: hittills har generativ AI:s faktiska effekt på valresultat varit mindre än skräckrubrikerna påstår. Indiens stora deepfake-våg tycks inte ha ändrat särskilt många väljares uppfattningar, och EU:s förberedande "prebunking" inför valet 2024 verkar ha fungerat förvånansvärt väl.',
+  'Kampanjen är över. Du behärskar varenda taktik i lådan, du vore en katastrof för demokratin.',
+  'Men här är den goda nyheten, och den är på riktigt: hittills har generativ AI:s faktiska effekt på valresultat varit mindre än skräckrubrikerna påstår. Mellan 2023 och 2026 har ingen valkampanj fått sitt resultat påverkat av AI-assisterade påverkningsförsök, trots flera försök. ',
   'Verktygen är verkliga och taktiken fungerar. Men människor som känner igen tricken är det bästa försvaret som finns. Nu är du en av dem. Det var hela poängen.',
 ];

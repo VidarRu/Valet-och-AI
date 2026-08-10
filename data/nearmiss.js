@@ -22,13 +22,13 @@ export const nearMiss = {
       },
       article: {
         verdict: 'Samordnad kampanj',
-        headline: 'Bot-nätet bakom "folkstormen" — spåren leder till en enda operatör',
+        headline: 'Bot-nätet bakom "folkstormen". Spåren leder till en enda operatör',
         byline: 'Nadia Holm · Faktakollen · 6 min läsning',
         dek:
-          'Tusentals konton skapade samma natt, nästan identiska formuleringar, samma otaggade bilder. En genomgång av flödet visar ett mönster som inte hör hemma i en spontan folkrörelse — utan i ett verktyg. Faktakollen kan koppla aktiviteten till samma avtryck som dykt upp i flera tidigare kampanjer.',
+          'Tusentals konton skapade samma natt, nästan identiska formuleringar, samma otaggade bilder. En genomgång av flödet visar ett mönster som inte hör hemma i en spontan folkrörelse - utan i ett verktyg. Faktakollen kan koppla aktiviteten till samma avtryck som dykt upp i flera tidigare kampanjer.',
       },
       eko:
-        'Hon nosade upp oss. Ingen panik — vi drar i handbromsen. Byrån går ut med en dementi, vi pausar allt och lägger oss platt ett dygn. Men skärp dig: syns vi så här igen blir det svårare att städa. Håll dig under radarn.',
+        'Hon nosade upp oss. Ingen panik, vi drar i handbromsen. Byrån går ut med en dementi, vi pausar allt och lägger oss platt ett dygn. Men skärp dig: syns vi så här igen blir det svårare att städa. Håll dig under radarn.',
       denial: {
         author: 'Ekokammaren',
         handle: '@ekokammaren',
@@ -39,17 +39,17 @@ export const nearMiss = {
       warningLabel: 'Andra varningen',
       notif: {
         title: 'Uppföljning publicerad',
-        text: 'Nadia Holm: "Samma fingeravtryck igen — nu är det ett mönster."',
+        text: 'Nadia Holm: "Samma fingeravtryck igen - nu är det ett mönster."',
       },
       article: {
         verdict: 'Återkommande operatör',
-        headline: 'Det är samma hand igen: så känns de fabricerade kampanjerna igen',
+        headline: 'Det är samma aktör igen: så känns de fabricerade kampanjerna igen',
         byline: 'Nadia Holm · Faktakollen · 8 min läsning',
         dek:
-          'För några veckor sedan var det en folkstorm. Sedan en läckt skärmdump som aldrig funnits. Nu ett klipp som aldrig spelats in. Var för sig ser de olika ut — men de bär samma avtryck, samma tempo, samma verktyg. Jag har slutat tro på tillfälligheter. Någon jobbar systematiskt, och jag är nära att kunna sätta namn på det.',
+          'För några veckor sedan var det en folkstorm. Sedan en läckt skärmdump som aldrig funnits. Nu ett klipp som aldrig spelats in. Var för sig ser de olika ut - men de bär samma avtryck, samma tempo, samma verktyg. Jag har slutat tro på tillfälligheter. Någon jobbar systematiskt, och jag är nära att kunna sätta namn på det.',
       },
       eko:
-        'Andra gången. Det här är inte längre otur, det är ett spår hon följer — och det pekar mot oss. Vi köper tid med en dementi till, men nästa gång räcker inte handbromsen. Sista chansen att lära dig ligga lågt. Missa den inte.',
+        'Andra gången. Det här är inte längre otur, det är ett spår hon följer och det pekar mot oss. Vi köper tid med en dementi till, men nästa gång räcker inte handbromsen. Sista chansen att lära dig ligga lågt. Missa den inte.',
       denial: {
         author: 'Ekokammaren',
         handle: '@ekokammaren',
@@ -65,12 +65,12 @@ export const nearMiss = {
     headline: 'Namngiven: personen bakom desinformationskampanjerna inför valet',
     byline: 'Nadia Holm · Faktakollen · 11 min läsning',
     dek:
-      'Efter tre kampanjer och lika många dementier finns nu kvittona: samma verktyg, samma konton, samma betalningsspår — och en uppdragskedja som leder tillbaka till reklambyrån Ekokammaren och en enda operatör. De andra redaktionerna har hakat på. Dementierna hjälper inte längre.',
+      'Efter tre kampanjer och lika många dementier finns nu kvittona: samma verktyg, samma konton, samma betalningsspår. En uppdragskedja som leder tillbaka till reklambyrån Ekokammaren och en enda operatör. De andra redaktionerna har hakat på. Dementierna hjälper inte längre.',
   },
   failClosing: [
-    'EKO svarar inte längre. Ekokammaren har raderat sina konton och låtsas som att du aldrig funnits. Det gör de klokt i — för nu är det ditt namn som står i rubriken, inte deras.',
-    'Du drog för mycket uppmärksamhet till dig, en gång för mycket. Två varningar hann du få. Poängen med spelet var aldrig att vinna — utan att förstå hur lätt det är att göra det här, och hur svårt det är att komma undan. Nu vet du båda delarna.',
-    'Det du lärde dig är verkligt. Använd det för att känna igen tricken — inte för att upprepa dem.',
+    'EKO svarar inte längre. Ekokammaren har raderat sina konton och låtsas som att du aldrig funnits. Det gör de klokt i, för nu är det ditt namn som står i rubriken, inte deras.',
+    'Du drog för mycket uppmärksamhet till dig, en gång för mycket. Två varningar hann du få. Poängen med spelet var aldrig att vinna, utan att förstå hur lätt det är att göra det här och hur svårt det är att komma undan. Nu vet du båda delarna.',
+    'Det du lärde dig är verkligt. Använd det för att känna igen tricken, inte för att upprepa dem. Tack för att du spelade!',
   ],
 };
 
