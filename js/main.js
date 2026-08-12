@@ -39,3 +39,32 @@ engine.subscribe((state) => {
 });
 
 showStart(document.getElementById('start-overlay'), () => engine.start());
+
+// Mellanslag = klicka den enda "fortsätt"-knapp som är aktuell just nu
+// (Fortsätt/Spela igen/Starta spelet/terminalens "Tillbaka till flödet"/
+// nära-ögat- och debrief-kortens inbyggda knapp). Gäller aldrig knappar där
+// spelaren faktiskt ska VÄLJA mellan flera alternativ (valkort, huben).
+function findSpaceButton() {
+  const startOverlay = document.getElementById('start-overlay');
+  if (startOverlay && !startOverlay.hidden) return startOverlay.querySelector('.hero-button');
+
+  const endOverlay = document.getElementById('end-overlay');
+  if (endOverlay && !endOverlay.hidden) return endOverlay.querySelector('.hero-button');
+
+  const terminalOverlay = document.getElementById('terminal-overlay');
+  if (terminalOverlay && !terminalOverlay.hidden) return terminalOverlay.querySelector('.terminal-done');
+
+  const last = document.getElementById('feed').lastElementChild;
+  if (!last) return null;
+  if (last.classList.contains('continue-button')) return last;
+  if (last.classList.contains('hub-panel')) return null; // flera val — ingen autoklick
+  return last.querySelector('.continue-button');
+}
+
+document.addEventListener('keydown', (event) => {
+  if (event.code !== 'Space') return;
+  const button = findSpaceButton();
+  if (!button || button.disabled) return;
+  event.preventDefault();
+  button.click();
+});

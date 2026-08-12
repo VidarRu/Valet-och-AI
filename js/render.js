@@ -328,12 +328,12 @@ function renderPost(item) {
     + (item.generated ? ' post-generated' : '')
     + (isReply ? ' post-reply' : ''));
 
-  // Toppspår: Kvittra-vattenmärke på vanliga inlägg, "AI-genererat"-chip på de
+  // Toppspår: Kvittra-vattenmärke på vanliga inlägg, "AI-bot"-chip på de
   // fabricerade. Svar (trådade) får inget — nästlingen talar för sig själv.
   if (!isReply) {
     const top = el('div', 'kv-top');
     if (item.generated) {
-      top.append(el('span', 'kv-genchip', 'AI-genererat'));
+      top.append(el('span', 'kv-genchip', 'AI-bot'));
     } else {
       top.append(kvWordmark());
     }
@@ -767,30 +767,62 @@ function renderHub(state, engine) {
   return panel;
 }
 
+// Flödesposter vars UTSEENDE beror på sådant som ändras EFTER att de redan
+// renderats (ett vals chosenId sätts; isLast slutar gälla när fler poster
+// tillkommer eller fasen byts). De är de enda som någonsin behöver ritas om
+// i efterhand — allt annat (särskilt bilder i post-kort) ska aldrig röras
+// igen efter sin första rendering, annars blinkar avatarer/loggor om vid
+// varje klick.
+const RERENDER_KINDS = new Set(['choice', 'debrief', 'nearmiss']);
+
 export function createRenderer({ statusbar, feed, engine }) {
-  // Bara nytillkomna flödesposter får entré-animation, inte hela flödet
-  // vid varje omritning.
+  // Bara nytillkomna flödesposter får entré-animation, och bara nya poster
+  // skapar överhuvudtaget nya DOM-noder — redan renderade kort/bilder rörs
+  // inte om (se RERENDER_KINDS-undantaget nedan).
   let renderedCount = 0;
+  const renderedNodes = [];
+  let trailingControl = null; // "Fortsätt"-knapp eller hub-panelen, byts ut varje ritning
 
   function render(state) {
     renderStatusbar(statusbar, state);
-    feed.replaceChildren();
 
-    state.feed.forEach((item, i) => {
-      const node = renderFeedItem(item, engine, i === state.feed.length - 1, state);
-      if (i >= renderedCount) node.classList.add('enter');
+    // Det senast fullt renderade kortet kan ha ändrat utseende sedan sist
+    // (val besvarat, eller inte längre sista kortet) — byt bara ut den ENA
+    // noden, rör inget annat.
+    if (renderedCount > 0) {
+      const idx = renderedCount - 1;
+      const item = state.feed[idx];
+      if (item && RERENDER_KINDS.has(item.kind)) {
+        const isLast = idx === state.feed.length - 1;
+        const fresh = renderFeedItem(item, engine, isLast, state);
+        feed.replaceChild(fresh, renderedNodes[idx]);
+        renderedNodes[idx] = fresh;
+      }
+    }
+
+    if (trailingControl) {
+      trailingControl.remove();
+      trailingControl = null;
+    }
+
+    for (let i = renderedCount; i < state.feed.length; i++) {
+      const node = renderFeedItem(state.feed[i], engine, i === state.feed.length - 1, state);
+      node.classList.add('enter');
       feed.append(node);
-    });
+      renderedNodes[i] = node;
+    }
     renderedCount = state.feed.length;
 
     if (state.phase === 'playing' && !state.pendingChoice) {
       const button = el('button', 'continue-button', 'Fortsätt');
       button.addEventListener('click', () => engine.advance());
       feed.append(button);
+      trailingControl = button;
     }
 
     if (state.phase === 'hub') {
-      feed.append(renderHub(state, engine));
+      trailingControl = renderHub(state, engine);
+      feed.append(trailingControl);
     }
 
     feed.lastElementChild?.scrollIntoView({ block: 'end', behavior: 'smooth' });
