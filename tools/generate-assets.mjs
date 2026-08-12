@@ -26,7 +26,7 @@ import { fileURLToPath } from 'node:url';
 import { portraits, logos, media, screens } from './assets/manifest.mjs';
 
 const ROOT = path.dirname(path.dirname(fileURLToPath(import.meta.url)));
-const DEFAULT_MODEL = 'google/gemini-2.5-flash-image-preview';
+const DEFAULT_MODEL = 'google/gemini-2.5-flash-image';
 
 const args = process.argv.slice(2);
 const flag = (name) => args.includes(`--${name}`);
