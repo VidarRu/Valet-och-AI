@@ -1,6 +1,7 @@
 // Manifest för AI-genererat bildmaterial: porträtt för alla namngivna
-// personer OCH för de medvetet anonyma/engångskontona (som får en anonymiserad
-// stil, se ANON_STYLE) + logotyper för institutioner som förekommer i spelet.
+// personer OCH för de medvetet anonyma/engångskontona (som får en helt
+// vanlig porträttbild, precis som alla andra — se motiveringen nedan vid
+// portraits-listan) + logotyper för institutioner som förekommer i spelet.
 //
 // Alla porträtt/loggor delar en gemensam ren vektorillustrationsteknik
 // (VECTOR_STYLE) — inte fotorealism. De fabricerade "bevis"-bilderna i
@@ -27,20 +28,6 @@ const PORTRAIT_STYLE =
   'person is entirely fictional, from the fictional Nordic country of ' +
   'Nordmark — do not depict any real, identifiable public figure. ' +
   'No text, no watermark, no logos in frame.';
-
-// Konton som i handlingen ÄR anonyma eller bara dyker upp en gång som
-// "folkmassa" (t.ex. "Anonym Källa", "inte_en_bot_lol", "Anonym förälder",
-// krypto-uppdragsgivaren). De får också en egen bild numera, men avsiktligt
-// i en ANONYMISERAD variant av vektorstilen — en skuggad/bakgrundsbelyst
-// silhuett eller ansikte gömt bakom skärmglöd/huva — så bilden fortfarande
-// signalerar "dold avsändare" i stället för ett vanligt synligt ansikte.
-const ANON_STYLE =
-  `${VECTOR_STYLE} A bust-style illustration, square crop, subject ` +
-  'centered, shoulders up, simple flat-color background — but the ' +
-  'subject\'s identity is deliberately hidden: a backlit silhouette, a ' +
-  'hood, or a face lit only by a device screen\'s glow, no visible facial ' +
-  'features. Entirely fictional, fictional Nordic country of Nordmark, ' +
-  'no real identifiable person. No text, no watermark, no logos in frame.';
 
 const LOGO_STYLE =
   `${VECTOR_STYLE} A minimal pictorial logo mark for a fictional ` +
@@ -111,97 +98,100 @@ export const portraits = [
   },
 
   // Nedanstående är medvetet anonyma/engångskonton (rörelser, läckor,
-  // troll- och memekonton) — se ANON_STYLE ovan för varför de får en
-  // anonymiserad snarare än ett vanligt synligt ansikte.
+  // troll- och memekonton) i HANDLINGEN, men bilden ska INTE se annorlunda
+  // ut än de namngivna kontonens — samma vanliga PORTRAIT_STYLE. Poängen är
+  // att kontot ska kunna passera som en äkta persons kontobild; en uppenbart
+  // "skum figur i mörkret"-look avslöjar tricket i förtid i stället för att
+  // vara en trovärdig, förrädisk fasad.
   {
     handle: 'sanning_nu',
     name: 'Sanning Nu',
-    prompt: `${ANON_STYLE} Subject: a conspiracy-movement account — a figure seen only as a dark silhouette lit from behind by a wall of glowing phone/laptop screens.`,
+    prompt: `${PORTRAIT_STYLE} Subject: a conspiracy-movement account holder in his 40s, intense and utterly convinced expression, plain home-office backdrop with an out-of-focus corkboard.`,
   },
   {
     handle: 'vaken_bstad',
     name: 'Vaken i Björkstad',
-    prompt: `${ANON_STYLE} Subject: a local "awakening" movement account — a hooded silhouette standing at night against a faint skyline of the town Björkstad.`,
+    prompt: `${PORTRAIT_STYLE} Subject: a local "awakening" movement organizer in her 30s, earnest and animated expression, casual outdoor jacket, plain backdrop.`,
   },
   {
     handle: 'maria_vaken',
     name: 'Maria (ny här)',
-    prompt: `${ANON_STYLE} Subject: an ordinary one-off crowd voice — an indistinct figure lit only by the cold glow of a phone screen held up in front of the face.`,
+    prompt: `${PORTRAIT_STYLE} Subject: an eager newcomer to the movement in her mid-20s, bright and slightly naive expression, casual sweater, plain backdrop.`,
   },
   {
     handle: 'vem_betalar',
     name: 'Granskaren Granskas',
-    prompt: `${ANON_STYLE} Subject: a smear account targeting a journalist — a shadowed figure holding a magnifying glass turned outward, accusatory.`,
+    prompt: `${PORTRAIT_STYLE} Subject: a stern, skeptical account holder in his 50s, arched-eyebrow expression, plain shirt, neutral backdrop — the confident smear-artist look.`,
   },
   {
     handle: 'insyn_nu',
     name: 'Insyn Nu',
-    prompt: `${ANON_STYLE} Subject: a faux-transparency movement account — a hooded silhouette clutching a stack of blurred document pages.`,
+    prompt: `${PORTRAIT_STYLE} Subject: a self-styled transparency activist in his 30s, serious and composed expression, blazer over a t-shirt, plain backdrop.`,
   },
   {
     handle: 'tryggt_kvarter',
     name: 'Ditt Kvarter 2027?',
-    prompt: `${ANON_STYLE} Subject: a fear-mongering neighborhood-decline account — a shadowed figure standing in front of the silhouette of a decaying building.`,
+    prompt: `${PORTRAIT_STYLE} Subject: a worried homeowner in his late 40s, furrowed concerned expression, plain jacket, ordinary home backdrop.`,
   },
   {
     handle: 'trygghet_nu',
     name: 'Trygghetsalliansen',
-    prompt: `${ANON_STYLE} Subject: a populist party movement account — a faceless silhouette in front of a stylized podium and flag shape, deliberately anonymous branding rather than a real leader's face.`,
+    prompt: `${PORTRAIT_STYLE} Subject: a confident party-loyalist account holder in his 40s, a small lapel pin, stern determined expression, plain backdrop.`,
   },
   {
     handle: 'bstad_sorjer',
     name: 'Björkstad Sörjer',
-    prompt: `${ANON_STYLE} Subject: a grief-exploitation account — a shadowed mourning figure lit only by a single candle held below the chin.`,
+    prompt: `${PORTRAIT_STYLE} Subject: a somber community member in her 60s, gentle downcast expression, dark cardigan, plain backdrop.`,
   },
   {
     handle: 'lackt_nu',
     name: 'Läckt Klipp',
-    prompt: `${ANON_STYLE} Subject: a leak/impersonation account — a glitching silhouette partly dissolved into scanline static.`,
+    prompt: `${PORTRAIT_STYLE} Subject: a smug self-styled leaker in his early 30s, a knowing half-smile, casual jacket, plain backdrop.`,
   },
   {
     handle: 'kallan_vet',
     name: 'Anonym Källa',
-    prompt: `${ANON_STYLE} Subject: the archetypal anonymous tipster — a trench-coat silhouette with the face fully obscured in shadow.`,
+    prompt: `${PORTRAIT_STYLE} Subject: a nondescript, forgettable-looking account holder in his 40s, neutral flat expression, plain collared shirt, plain grey backdrop — deliberately unremarkable rather than sinister.`,
   },
   {
     handle: 'teknik_kollen',
     name: 'Oberoende Granskning',
-    prompt: `${ANON_STYLE} Subject: a fake "independent review" account — a shadowed figure behind a laptop, only the glow of the screen visible on an otherwise hidden face.`,
+    prompt: `${PORTRAIT_STYLE} Subject: a tech-savvy self-styled reviewer in his late 20s, glasses, casual shirt, confident neutral expression, plain backdrop.`,
   },
   {
     handle: 'nejnu_bjorkstad',
     name: 'Rörelsen NejNu',
-    prompt: `${ANON_STYLE} Subject: a polarization protest-movement account — a backlit silhouette holding up a blank protest placard, face unreadable against the light.`,
+    prompt: `${PORTRAIT_STYLE} Subject: an energetic protest-movement organizer in her 30s, determined expression, casual jacket, plain backdrop.`,
   },
   {
     handle: 'klara_bstad',
     name: 'Klara i Björkstad',
-    prompt: `${ANON_STYLE} Subject: an ordinary one-off crowd voter — a backlit silhouette under a streetlight, face in shadow.`,
+    prompt: `${PORTRAIT_STYLE} Subject: an ordinary young voter in her mid-20s, friendly relaxed expression, casual top, plain backdrop.`,
   },
   {
     handle: 'foraldrar_bstad',
     name: 'Föräldrar i Björkstad',
-    prompt: `${ANON_STYLE} Subject: a parent-group movement account — a shadowed parent-shaped silhouette, face turned just out of the light.`,
+    prompt: `${PORTRAIT_STYLE} Subject: an ordinary parent in her late 30s running a local parent-group account, warm approachable expression, casual cardigan, plain backdrop.`,
   },
   {
     handle: 'bstad_forfarad',
     name: 'Anonym förälder',
-    prompt: `${ANON_STYLE} Subject: an anonymous worried parent — a silhouette with one hand half-raised, partly covering an already-shadowed face.`,
+    prompt: `${PORTRAIT_STYLE} Subject: a worried parent in her early 40s, anxious sincere expression, plain cardigan, ordinary home backdrop.`,
   },
   {
     handle: 'framtiden_haha',
     name: 'inte_en_bot_lol',
-    prompt: `${ANON_STYLE} Subject: an obvious troll/bot account — not a person at all but a crude, glitchy grinning mask-like shape built from flat geometric fragments, deliberately artificial and slightly unsettling.`,
+    prompt: `${PORTRAIT_STYLE} Subject: a casually dressed young man in his early 20s with an exaggerated grin, hoodie, plain backdrop — an ordinary-looking account photo, deliberately unremarkable.`,
   },
   {
     handle: 'bstad_memes',
     name: 'BjörkstadsMemes',
-    prompt: `${ANON_STYLE} Subject: a meme-factory account — a stylized flat-vector fox mask mascot standing in for a person, no human face shown.`,
+    prompt: `${PORTRAIT_STYLE} Subject: a young meme-page runner in his early 20s, playful smirk, hoodie, plain backdrop.`,
   },
   {
     handle: 'bstad_anon_44',
     name: 'inte din vän',
-    prompt: `${ANON_STYLE} Subject: an anonymous troll account — a hooded silhouette with a phone screen's cold glow reflected across an otherwise unseen face.`,
+    prompt: `${PORTRAIT_STYLE} Subject: a young man in his mid-20s with a slightly smug, dismissive expression, casual jacket, plain backdrop.`,
   },
 ];
 

@@ -1221,7 +1221,7 @@ button {
   inset: 0;
   z-index: 100;
   display: flex;
-  align-items: flex-end;
+  align-items: center;
   justify-content: center;
   background-size: cover;
   background-position: center;
@@ -1231,26 +1231,30 @@ button {
 
 #start-overlay[hidden], #end-overlay[hidden] { display: none; }
 
+/* Jämn mörk slöja över hela bilden plus en starkare vinjett mitt i skärmen
+   (där texten sitter) så rubriken läser bra oavsett var i bilden den hamnar. */
 .hero-overlay::before {
   content: "";
   position: absolute;
   inset: 0;
-  background: linear-gradient(180deg, rgba(17, 17, 17, 0) 35%, rgba(17, 17, 17, 0.86) 78%, rgba(17, 17, 17, 0.97) 100%);
+  background:
+    radial-gradient(55% 45% at 50% 50%, rgba(17, 17, 17, 0.78) 0%, rgba(17, 17, 17, 0.55) 55%, rgba(17, 17, 17, 0.3) 80%, rgba(17, 17, 17, 0.15) 100%),
+    rgba(17, 17, 17, 0.25);
 }
 
 .hero-box {
   position: relative;
   z-index: 1;
   width: 100%;
-  max-width: 34rem;
-  padding: 1.5rem 1.5rem 2.5rem;
+  max-width: 36rem;
+  padding: 1.5rem 1.75rem;
   text-align: center;
   color: var(--paper);
 }
 
 .hero-kicker {
-  margin: 0 0 0.4rem;
-  font-size: 0.72rem;
+  margin: 0 0 0.5rem;
+  font-size: 0.85rem;
   font-weight: 700;
   letter-spacing: 0.16em;
   text-transform: uppercase;
@@ -1259,7 +1263,7 @@ button {
 
 .hero-title {
   margin: 0;
-  font-size: 2.6rem;
+  font-size: 3.6rem;
   font-weight: 900;
   line-height: 1.05;
   letter-spacing: -0.02em;
@@ -1267,16 +1271,17 @@ button {
 }
 
 .hero-tagline {
-  margin: 0.6rem 0 0;
-  font-size: 1.05rem;
+  margin: 0.8rem 0 0;
+  font-size: 1.35rem;
   color: #e9e7df;
 }
 
-.hero-button { margin-top: 1.4rem; }
+.hero-button { margin-top: 1.8rem; }
 
 @media (max-width: 480px) {
-  .hero-title { font-size: 2rem; }
-  .hero-box { padding: 1.1rem 1.1rem 1.8rem; }
+  .hero-title { font-size: 2.6rem; }
+  .hero-tagline { font-size: 1.1rem; }
+  .hero-box { padding: 1.1rem 1.1rem; }
 }
 
 /* ---------- Terminal-overlay (mörkt läge) ---------- */
