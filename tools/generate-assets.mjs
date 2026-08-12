@@ -1,6 +1,7 @@
 #!/usr/bin/env node
-// Genererar porträtt (assets/portraits/) och institutionslogotyper
-// (assets/logos/) via en bildmodell på OpenRouter, enligt manifestet i
+// Genererar porträtt (assets/portraits/), institutionslogotyper
+// (assets/logos/) och start-/slutrutans hero-illustrationer
+// (assets/screens/) via en bildmodell på OpenRouter, enligt manifestet i
 // tools/assets/manifest.mjs.
 //
 // Körs LOKALT hos dig, aldrig i något delat verktyg — nyckeln ska bara
@@ -22,7 +23,7 @@
 import { mkdir, writeFile, access } from 'node:fs/promises';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { portraits, logos, media } from './assets/manifest.mjs';
+import { portraits, logos, media, screens } from './assets/manifest.mjs';
 
 const ROOT = path.dirname(path.dirname(fileURLToPath(import.meta.url)));
 const DEFAULT_MODEL = 'google/gemini-2.5-flash-image-preview';
@@ -44,7 +45,7 @@ async function exists(p) {
 }
 
 async function generateOne({ handle, name, prompt }, kind) {
-  const dir = path.join(ROOT, 'assets', kind === 'portrait' ? 'portraits' : kind === 'logo' ? 'logos' : 'media');
+  const dir = path.join(ROOT, 'assets', kind === 'portrait' ? 'portraits' : kind === 'logo' ? 'logos' : kind === 'screen' ? 'screens' : 'media');
   const file = path.join(dir, `${handle}.png`);
 
   if (!FORCE && await exists(file)) {
@@ -101,6 +102,7 @@ async function main() {
     ...portraits.map((p) => [p, 'portrait']),
     ...logos.map((l) => [l, 'logo']),
     ...media.map((m) => [m, 'media']),
+    ...screens.map((s) => [s, 'screen']),
   ].filter(([entry]) => !ONLY || entry.handle === ONLY);
 
   if (jobs.length === 0) {

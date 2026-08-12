@@ -32,14 +32,9 @@ const BADGE_ABBR = {
   conspiracy: 'Ko', emotion: 'Kä', impersonation: 'I',
 };
 
-// Synlighetens riskzon (visuellt streck i mätaren) samt klassificering av en
-// synlighetsförändring till en etikett i strategivalen.
+// Synlighetens riskzon: visuellt streck i mätaren + tröskel för "(riskzon)"-
+// texten i synlighetsrutan efter ett val.
 const VISIBILITY_RISK = 80;
-function visibilityTier(delta) {
-  if (delta < 0) return { cls: 'down', arrow: '▼', word: 'sänker' };
-  if (delta >= 12) return { cls: 'up-hi', arrow: '▲', word: 'kraftigt' };
-  return { cls: 'up-lo', arrow: '▲', word: 'något' };
-}
 
 // ---------------------------------------------------------------------------
 // Kvittra — den fiktiva mikrobloggplattform som inläggen "bor" på. Inläggen
@@ -101,11 +96,13 @@ function initials(author) {
 // den färgade initial-cirkeln när en fil faktiskt finns — annars förblir
 // gradienten + initialen den enda avataren, precis som innan dessa bilder
 // genererades. Handle kan bära "@"; filnamnen gör det inte.
-function kvAvatar(handle, author, small) {
+// size: 'lg' (stora toppnivå-inlägg) | 'sm' (trådade svar) | undefined (bas).
+function kvAvatar(handle, author, size) {
   const h = hashStr(handle);
   const a = h % 360;
   const b = (h >> 4) % 360;
-  const avatar = el('div', 'kv-avatar' + (small ? ' kv-avatar-sm' : ''));
+  const sizeClass = size === 'sm' ? ' kv-avatar-sm' : size === 'lg' ? ' kv-avatar-lg' : '';
+  const avatar = el('div', 'kv-avatar' + sizeClass);
   avatar.style.background =
     `conic-gradient(from ${h % 360}deg, hsl(${a} 68% 56%), hsl(${b} 70% 60%), hsl(${a} 68% 56%))`;
   avatar.append(el('span', 'kv-avatar-initial', initials(author)));
@@ -343,8 +340,9 @@ function renderPost(item) {
     card.append(top);
   }
 
-  const head = el('div', 'kv-head');
-  head.append(kvAvatar(item.handle, item.author, isReply));
+  const media = item.generated ? parseMedia(item) : null;
+  const bodyText = media ? media.caption : item.text;
+
   const names = el('div', 'kv-names');
   const row1 = el('div', 'kv-row1');
   row1.append(el('span', 'kv-name', item.author));
@@ -353,16 +351,9 @@ function renderPost(item) {
   row1.append(el('span', 'kv-dot', '·'));
   row1.append(el('span', 'kv-time', relativeTime(hashStr(item.handle + item.text), isReply)));
   names.append(row1);
-  head.append(names);
-  card.append(head);
-
-  const media = item.generated ? parseMedia(item) : null;
-  const bodyText = media ? media.caption : item.text;
-  if (media) card.append(renderMedia(media, hashStr(item.text)));
 
   const body = el('p', 'kv-text');
   styledText(body, bodyText);
-  card.append(body);
 
   const bar = el('div', 'kv-bar');
   const counts = engagement(item.text, kind === 'context' ? 'context' : kind);
@@ -371,7 +362,27 @@ function renderPost(item) {
     stat.append(statIcon(ICONS[key]), el('span', null, formatCount(value)));
     bar.append(stat);
   }
-  card.append(bar);
+
+  if (isReply) {
+    // Trådade svar: oförändrad, kompakt layout med liten cirkulär avatar —
+    // den stora vänsterspalten nedan är bara för toppnivå-inlägg.
+    const head = el('div', 'kv-head');
+    head.append(kvAvatar(item.handle, item.author, 'sm'), names);
+    card.append(head);
+    if (media) card.append(renderMedia(media, hashStr(item.text)));
+    card.append(body, bar);
+  } else {
+    // Toppnivå-inlägg: stor avatar i en vänsterspalt, lika hög som resten
+    // av kortets innehåll, med namn/text/media/statistik i en högerspalt.
+    const row = el('div', 'kv-row');
+    row.append(kvAvatar(item.handle, item.author, 'lg'));
+    const content = el('div', 'kv-content');
+    content.append(names);
+    if (media) content.append(renderMedia(media, hashStr(item.text)));
+    content.append(body, bar);
+    row.append(content);
+    card.append(row);
+  }
   return card;
 }
 
@@ -467,27 +478,6 @@ function tutorBubble(text, extraClass) {
   return bubble;
 }
 
-// Förhandsvisning under ett strategival: hur mycket synlighet det drar till sig
-// och en eventuell bonus (aldrig i exakta kronor). Returnerar null om valet
-// saknar mätbara effekter (t.ex. rena dialogrepliker).
-function choicePreview(effects) {
-  if (!effects || (!Number.isInteger(effects.visibility) && !effects.bonus)) return null;
-  const foot = el('div', 'co-foot');
-  if (Number.isInteger(effects.visibility) && effects.visibility !== 0) {
-    const t = visibilityTier(effects.visibility);
-    const chip = el('span', `vis-chip ${t.cls}`);
-    chip.append(el('span', 'arrow', t.arrow), document.createTextNode(` Synlighet: ${t.word}`));
-    foot.append(chip);
-  }
-  if (effects.bonus) {
-    foot.append(el('span', 'cap-chip' + (effects.bonus === 'stor' ? ' big' : ''),
-      `◆ Bonus: ${effects.bonus}`));
-  } else {
-    foot.append(el('span', 'vis-chip flat', 'Ingen bonus'));
-  }
-  return foot;
-}
-
 // Rutan som avslöjar hur synligheten faktiskt ändrades av det senaste valet.
 function visibilityReveal(delta, value) {
   const down = delta < 0;
@@ -505,6 +495,22 @@ function visibilityReveal(delta, value) {
   fill.style.width = `${value}%`;
   meter.append(fill);
   box.append(body, meter);
+  return box;
+}
+
+// Bonusruta: avslöjar EFTER valet att det gav en bonus — aldrig i exakta
+// kronor här (samma princip som BONUS_FRACTION i engine.js), bara
+// "liten"/"stor". Den ackumulerade summan i kronor visas först i
+// uppdragets debriefkort.
+function bonusReveal(tier) {
+  const box = el('div', 'reveal bonus' + (tier === 'stor' ? ' big' : ''));
+  box.append(el('div', 'reveal-ico', '◆'));
+  const body = el('div', 'reveal-body');
+  body.append(
+    el('p', 'reveal-title', 'Bonus'),
+    el('p', 'reveal-line reveal-delta', tier === 'stor' ? 'Stor bonus intjänad' : 'Liten bonus intjänad'),
+  );
+  box.append(body);
   return box;
 }
 
@@ -640,8 +646,6 @@ function renderFeedItem(item, engine, isLast, state) {
       for (const option of item.options) {
         const button = el('button', 'choice-option');
         button.append(el('span', 'co-label', option.label));
-        const foot = choicePreview(option.effects);
-        if (foot) button.append(foot);
         if (item.chosenId != null) {
           button.disabled = true;
           if (option.id === item.chosenId) button.classList.add('chosen');
@@ -654,6 +658,8 @@ function renderFeedItem(item, engine, isLast, state) {
     }
     case 'visibility':
       return visibilityReveal(item.delta, item.value);
+    case 'bonus':
+      return bonusReveal(item.tier);
     case 'nearmiss':
       return renderNearMiss(item, engine, isLast, state);
     case 'debrief': {
@@ -665,6 +671,11 @@ function renderFeedItem(item, engine, isLast, state) {
         const pay = el('p', 'debrief-reward');
         pay.append(el('strong', null, 'Arvode utbetalt: '), document.createTextNode(formatKr(item.reward)));
         card.append(pay);
+      }
+      if (item.bonus > 0) {
+        const bonusRow = el('p', 'debrief-reward debrief-bonus');
+        bonusRow.append(el('strong', null, 'Bonus intjänad: '), document.createTextNode(formatKr(item.bonus)));
+        card.append(bonusRow);
       }
       card.append(
         el('h2', 'card-title', 'Sammanfattning'),

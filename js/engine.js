@@ -55,6 +55,7 @@ export function createEngine({ core, deep = [], closing = [], hub = {}, prologue
     stepIndex: 0,
     capital: 0,        // intjänade pengar (arvoden + bonusar), en high-score
     visibility: 0,     // uppmärksamhet du dragit till dig (0–100)
+    moduleBonus: 0,    // bonus intjänad i det pågående uppdraget, för debriefen
     warnings: 0,       // antal "nära ögat"-scener som triggats
     badges: [],
     // Status för fördjupningarna (för hub-menyn).
@@ -91,13 +92,16 @@ export function createEngine({ core, deep = [], closing = [], hub = {}, prologue
   }
 
   // Tillämpar ett vals effekter och returnerar den FAKTISKA synlighets-
-  // förändringen (efter klippning mot 0–100) så flödet kan visa en delta-ruta.
+  // förändringen (efter klippning mot 0–100) samt bonusbeloppet i kronor
+  // (0 om valet inte gav bonus), så flödet kan visa delta-rutor.
   function applyEffects(effects) {
     let visibilityDelta = 0;
+    let bonusAmount = 0;
     if (effects) {
       if (typeof effects.bonus === 'string' && BONUS_FRACTION[effects.bonus] != null) {
         const reward = state.current?.reward ?? 0;
-        state.capital += Math.round(reward * BONUS_FRACTION[effects.bonus]);
+        bonusAmount = Math.round(reward * BONUS_FRACTION[effects.bonus]);
+        state.capital += bonusAmount;
       }
       if (Number.isInteger(effects.visibility)) {
         const before = state.visibility;
@@ -106,7 +110,7 @@ export function createEngine({ core, deep = [], closing = [], hub = {}, prologue
         visibilityDelta = state.visibility - before;
       }
     }
-    return { visibilityDelta };
+    return { visibilityDelta, bonusAmount };
   }
 
   // Flyttar pekaren till nästa steg. target: stegId | 'end' | undefined.
@@ -152,6 +156,7 @@ export function createEngine({ core, deep = [], closing = [], hub = {}, prologue
       badge: module.badge,
       deep: state.stage === 'deep',
       reward: module.reward ?? null,
+      bonus: state.moduleBonus,
       summary: module.debrief.summary,
       realWorld: module.debrief.realWorld,
     });
@@ -177,6 +182,7 @@ export function createEngine({ core, deep = [], closing = [], hub = {}, prologue
 
   function pushMissionCard() {
     const module = state.current;
+    state.moduleBonus = 0;
     state.feed.push({
       kind: 'mission',
       stage: state.stage,
@@ -216,7 +222,7 @@ export function createEngine({ core, deep = [], closing = [], hub = {}, prologue
 
     feedItem.chosenId = optionId;
     state.pendingChoice = null;
-    const { visibilityDelta } = applyEffects(option.effects);
+    const { visibilityDelta, bonusAmount } = applyEffects(option.effects);
 
     // Feedbacklager 1: handledarens direktkommentar, alltid.
     state.feed.push({ kind: 'feedback', text: option.feedback });
@@ -224,6 +230,13 @@ export function createEngine({ core, deep = [], closing = [], hub = {}, prologue
     // Synlighetsruta: avslöjar hur uppmärksamheten ändrades av just detta val.
     if (visibilityDelta !== 0) {
       state.feed.push({ kind: 'visibility', delta: visibilityDelta, value: state.visibility });
+    }
+
+    // Bonusruta: avslöjar (utan exakta kronor) att valet gav en bonus.
+    // Den ackumulerade kronsumman för uppdraget syns först i debriefen.
+    if (bonusAmount > 0) {
+      state.moduleBonus += bonusAmount;
+      state.feed.push({ kind: 'bonus', tier: option.effects.bonus });
     }
 
     if (option.terminal) {

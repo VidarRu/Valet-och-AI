@@ -1,31 +1,57 @@
-// Manifest för AI-genererat bildmaterial: porträtt för namngivna, återkommande
-// personer + logotyper för institutioner som förekommer i spelet.
+// Manifest för AI-genererat bildmaterial: porträtt för alla namngivna
+// personer OCH för de medvetet anonyma/engångskontona (som får en anonymiserad
+// stil, se ANON_STYLE) + logotyper för institutioner som förekommer i spelet.
 //
-// AVSIKTLIGT UTESLUTNA: alla konton som i handlingen ÄR anonyma eller bara
-// dyker upp en gång som "folkmassa" (t.ex. "Anonym Källa", "inte_en_bot_lol",
-// "Anonym förälder", krypto-uppdragsgivaren). De ska förbli den illustrerade
-// ikonen i renderaren — att ge dem ett riktigt ansikte motverkar poängen med
-// att de är dolda avsändare. Se MEMORY.md / render.js för den logiken.
+// Alla porträtt/loggor delar en gemensam ren vektorillustrationsteknik
+// (VECTOR_STYLE) — inte fotorealism. De fabricerade "bevis"-bilderna i
+// `media` nedan är MEDVETET UNDANTAGNA från den här stilen: de ska kunna
+// passera som äkta foton/skärmdumpar/deepfakes, vilket är hela poängen med
+// dem, så de behåller sin dokumentära/fotorealistiska stil.
 //
 // Varje post genererar EN bild. `handle` styr utdatafilnamnet
-// (assets/portraits/<handle>.png eller assets/logos/<handle>.png).
+// (assets/portraits/<handle>.png, assets/logos/<handle>.png eller
+// assets/screens/<handle>.png).
+
+const VECTOR_STYLE =
+  'Flat vector illustration in the style of modern gradient-mesh poster ' +
+  'art: bold clean silhouette shapes with crisp vector edges, a smooth ' +
+  'color gradient confined WITHIN each flat shape (never a gradient that ' +
+  'bleeds across a shape boundary), layered depth built from color-value ' +
+  'shifts rather than fine detail, minimal linework, no photographic ' +
+  'texture, no photorealism, no 3D rendering. Saturated, cohesive, ' +
+  'poster-quality color palette.';
 
 const PORTRAIT_STYLE =
-  'Editorial social-media profile photo, shot like an ordinary phone or ' +
-  'webcam portrait rather than a polished studio ad. Natural, slightly ' +
-  'imperfect lighting, neutral muted background, realistic but not ' +
-  'hyperreal or airbrushed — should read as a real person\'s account photo, ' +
-  'not a red-carpet headshot. Square crop, subject centered, shoulders up. ' +
-  'The person is entirely fictional, from the fictional Nordic country of ' +
+  `${VECTOR_STYLE} A bust-style character illustration, square crop, ` +
+  'subject centered, shoulders up, simple flat-color background. The ' +
+  'person is entirely fictional, from the fictional Nordic country of ' +
   'Nordmark — do not depict any real, identifiable public figure. ' +
   'No text, no watermark, no logos in frame.';
 
+// Konton som i handlingen ÄR anonyma eller bara dyker upp en gång som
+// "folkmassa" (t.ex. "Anonym Källa", "inte_en_bot_lol", "Anonym förälder",
+// krypto-uppdragsgivaren). De får också en egen bild numera, men avsiktligt
+// i en ANONYMISERAD variant av vektorstilen — en skuggad/bakgrundsbelyst
+// silhuett eller ansikte gömt bakom skärmglöd/huva — så bilden fortfarande
+// signalerar "dold avsändare" i stället för ett vanligt synligt ansikte.
+const ANON_STYLE =
+  `${VECTOR_STYLE} A bust-style illustration, square crop, subject ` +
+  'centered, shoulders up, simple flat-color background — but the ' +
+  'subject\'s identity is deliberately hidden: a backlit silhouette, a ' +
+  'hood, or a face lit only by a device screen\'s glow, no visible facial ' +
+  'features. Entirely fictional, fictional Nordic country of Nordmark, ' +
+  'no real identifiable person. No text, no watermark, no logos in frame.';
+
 const LOGO_STYLE =
-  'Minimal flat vector logotype/emblem, designed to read clearly at a tiny ' +
-  'circular avatar size (2.5rem). Two or three colors max, no photographic ' +
-  'or 3D elements, no gradients besides a subtle flat one, plenty of ' +
-  'negative space. Fictional institution in the fictional Nordic country ' +
-  'of Nordmark. No watermark.';
+  `${VECTOR_STYLE} A minimal pictorial logo mark for a fictional ` +
+  'institution in the fictional Nordic country of Nordmark, designed to ' +
+  'read clearly at a tiny avatar size (2.5rem). The mark is a single ' +
+  'self-contained icon/symbol that fills the entire square frame edge to ' +
+  'edge (full bleed, no empty margin around it) — it is NOT a badge, ' +
+  'seal, coin, or medallion: do not draw any circular ring, border, or ' +
+  'frame around the mark, and do not draw any letters, words, initials, ' +
+  'or wordmark anywhere in the image. Two or three flat colors max, no ' +
+  'photographic or 3D elements. No watermark.';
 
 export const portraits = [
   {
@@ -82,6 +108,100 @@ export const portraits = [
     handle: 'bjorn_undrar',
     name: 'Björn, 58',
     prompt: `${PORTRAIT_STYLE} Subject: a man in his late 50s, worried and weathered expression, flannel shirt, plain indoor backdrop — an economically anxious everyman.`,
+  },
+
+  // Nedanstående är medvetet anonyma/engångskonton (rörelser, läckor,
+  // troll- och memekonton) — se ANON_STYLE ovan för varför de får en
+  // anonymiserad snarare än ett vanligt synligt ansikte.
+  {
+    handle: 'sanning_nu',
+    name: 'Sanning Nu',
+    prompt: `${ANON_STYLE} Subject: a conspiracy-movement account — a figure seen only as a dark silhouette lit from behind by a wall of glowing phone/laptop screens.`,
+  },
+  {
+    handle: 'vaken_bstad',
+    name: 'Vaken i Björkstad',
+    prompt: `${ANON_STYLE} Subject: a local "awakening" movement account — a hooded silhouette standing at night against a faint skyline of the town Björkstad.`,
+  },
+  {
+    handle: 'maria_vaken',
+    name: 'Maria (ny här)',
+    prompt: `${ANON_STYLE} Subject: an ordinary one-off crowd voice — an indistinct figure lit only by the cold glow of a phone screen held up in front of the face.`,
+  },
+  {
+    handle: 'vem_betalar',
+    name: 'Granskaren Granskas',
+    prompt: `${ANON_STYLE} Subject: a smear account targeting a journalist — a shadowed figure holding a magnifying glass turned outward, accusatory.`,
+  },
+  {
+    handle: 'insyn_nu',
+    name: 'Insyn Nu',
+    prompt: `${ANON_STYLE} Subject: a faux-transparency movement account — a hooded silhouette clutching a stack of blurred document pages.`,
+  },
+  {
+    handle: 'tryggt_kvarter',
+    name: 'Ditt Kvarter 2027?',
+    prompt: `${ANON_STYLE} Subject: a fear-mongering neighborhood-decline account — a shadowed figure standing in front of the silhouette of a decaying building.`,
+  },
+  {
+    handle: 'trygghet_nu',
+    name: 'Trygghetsalliansen',
+    prompt: `${ANON_STYLE} Subject: a populist party movement account — a faceless silhouette in front of a stylized podium and flag shape, deliberately anonymous branding rather than a real leader's face.`,
+  },
+  {
+    handle: 'bstad_sorjer',
+    name: 'Björkstad Sörjer',
+    prompt: `${ANON_STYLE} Subject: a grief-exploitation account — a shadowed mourning figure lit only by a single candle held below the chin.`,
+  },
+  {
+    handle: 'lackt_nu',
+    name: 'Läckt Klipp',
+    prompt: `${ANON_STYLE} Subject: a leak/impersonation account — a glitching silhouette partly dissolved into scanline static.`,
+  },
+  {
+    handle: 'kallan_vet',
+    name: 'Anonym Källa',
+    prompt: `${ANON_STYLE} Subject: the archetypal anonymous tipster — a trench-coat silhouette with the face fully obscured in shadow.`,
+  },
+  {
+    handle: 'teknik_kollen',
+    name: 'Oberoende Granskning',
+    prompt: `${ANON_STYLE} Subject: a fake "independent review" account — a shadowed figure behind a laptop, only the glow of the screen visible on an otherwise hidden face.`,
+  },
+  {
+    handle: 'nejnu_bjorkstad',
+    name: 'Rörelsen NejNu',
+    prompt: `${ANON_STYLE} Subject: a polarization protest-movement account — a backlit silhouette holding up a blank protest placard, face unreadable against the light.`,
+  },
+  {
+    handle: 'klara_bstad',
+    name: 'Klara i Björkstad',
+    prompt: `${ANON_STYLE} Subject: an ordinary one-off crowd voter — a backlit silhouette under a streetlight, face in shadow.`,
+  },
+  {
+    handle: 'foraldrar_bstad',
+    name: 'Föräldrar i Björkstad',
+    prompt: `${ANON_STYLE} Subject: a parent-group movement account — a shadowed parent-shaped silhouette, face turned just out of the light.`,
+  },
+  {
+    handle: 'bstad_forfarad',
+    name: 'Anonym förälder',
+    prompt: `${ANON_STYLE} Subject: an anonymous worried parent — a silhouette with one hand half-raised, partly covering an already-shadowed face.`,
+  },
+  {
+    handle: 'framtiden_haha',
+    name: 'inte_en_bot_lol',
+    prompt: `${ANON_STYLE} Subject: an obvious troll/bot account — not a person at all but a crude, glitchy grinning mask-like shape built from flat geometric fragments, deliberately artificial and slightly unsettling.`,
+  },
+  {
+    handle: 'bstad_memes',
+    name: 'BjörkstadsMemes',
+    prompt: `${ANON_STYLE} Subject: a meme-factory account — a stylized flat-vector fox mask mascot standing in for a person, no human face shown.`,
+  },
+  {
+    handle: 'bstad_anon_44',
+    name: 'inte din vän',
+    prompt: `${ANON_STYLE} Subject: an anonymous troll account — a hooded silhouette with a phone screen's cold glow reflected across an otherwise unseen face.`,
   },
 ];
 
@@ -158,31 +278,72 @@ export const logos = [
   {
     handle: 'nordmark_nytt',
     name: 'Nordmarks Nyheter',
-    prompt: `${LOGO_STYLE} A serious national news outlet: bold condensed sans-serif wordmark, deep navy blue, small newspaper-masthead feel.`,
+    prompt: `${LOGO_STYLE} A serious national news outlet: a bold compass-star/broadcast-signal icon in deep navy blue with a single light-blue accent — no lettering.`,
   },
   {
     handle: 'faktakollen',
     name: 'Faktakollen',
-    prompt: `${LOGO_STYLE} A fact-checking outlet: the word "Fakta" in a plain weight next to "kollen" in a heavier weight, single blue accent, clean and trustworthy, two-tone mark.`,
+    prompt: `${LOGO_STYLE} A fact-checking outlet: a bold checkmark fused with a magnifying-glass shape, single blue accent on white — no lettering.`,
   },
   {
     handle: 'valmyndigheten',
     name: 'Valmyndigheten',
-    prompt: `${LOGO_STYLE} A formal government election-authority emblem: restrained circular seal, muted blue and gold, bureaucratic and dignified, no photographic elements.`,
+    prompt: `${LOGO_STYLE} A formal government election authority: a bold ballot/checkmark-in-a-box icon, muted blue and gold, bureaucratic and dignified — no lettering, no seal ring.`,
   },
   {
     handle: 'ekokammaren',
     name: 'Ekokammaren – reklam & kommunikation',
-    prompt: `${LOGO_STYLE} A sleek advertising/PR agency: dark charcoal with a single cold accent color, modern minimal wordmark plus a small geometric mark, feels expensive and a little cold.`,
+    prompt: `${LOGO_STYLE} A sleek advertising/PR agency: a sharp geometric echo/soundwave-chevron icon, dark charcoal with a single cold accent color — feels expensive and a little cold, no lettering.`,
   },
   {
     handle: 'bstad_uni',
     name: 'Björkstads Universitet',
-    prompt: `${LOGO_STYLE} A university crest: classic academic navy-and-gold shield with a subtle book or laurel motif, traditional and restrained.`,
+    prompt: `${LOGO_STYLE} A university: a bold open-book or torch icon in academic navy and gold, traditional and restrained — no lettering, no crest ring.`,
   },
   {
     handle: 'bjorkstad',
     name: 'Björkstads kommun',
-    prompt: `${LOGO_STYLE} A municipal seal for a small fictional Nordic town: simple heraldic shield, muted blue-green, civic and unpretentious.`,
+    prompt: `${LOGO_STYLE} A municipal mark for a small fictional Nordic town: a simple bold pine-tree-and-wave icon, muted blue-green, civic and unpretentious — no lettering, no seal ring.`,
+  },
+];
+
+// Breda "hero"-illustrationer för spelets blockerande start-/slutruta
+// (assets/screens/<handle>.png). Bara två bilder — komponeras för ett
+// brett skärmformat (t.ex. 16:9), ingen text i själva bilden: rubriken
+// renderas som riktig HTML ovanpå i js/main.js.
+export const screens = [
+  {
+    handle: 'start',
+    name: 'Startruta',
+    prompt: `${VECTOR_STYLE} A wide, cinematic poster-collage composition (16:9), ` +
+      'no text or lettering anywhere in the image. Set against a dusk skyline ' +
+      'of a small fictional Nordic town (Björkstad) with a large election-poster ' +
+      'moon or spotlight glow behind the group. A loose collage of six distinct ' +
+      'silhouetted/stylized figures arranged across the width: (1) a populist ' +
+      'candidate mid-speech at a podium with a raised fist, confident and ' +
+      'commanding; (2) a warm, hopeful centrist candidate in a blazer, arms ' +
+      'open; (3) a calm investigative fact-checker holding a magnifying glass ' +
+      'and a folder of documents; (4) a friendly-looking but faintly uncanny ' +
+      'AI/robot mentor figure with a single glowing eye-light, warm yellow ' +
+      'accent color; (5) a sleek, cold advertising-agency silhouette (a sharp ' +
+      'suited shape in front of a small office-tower skyline fragment); ' +
+      '(6) a completely shadowed, faceless silhouette off to one side, hands ' +
+      'in pockets, representing an anonymous hidden backer. All fictional, no ' +
+      'real identifiable public figures. Bold flat color-block silhouettes, ' +
+      'saturated poster palette, layered depth via color-value shifts, no ' +
+      'photorealism.',
+  },
+  {
+    handle: 'end',
+    name: 'Slutruta',
+    prompt: `${VECTOR_STYLE} A wide, cinematic composition (16:9), no text or ` +
+      'lettering anywhere in the image. A quiet dawn over the same small ' +
+      'fictional Nordic town (Björkstad) skyline the morning after an ' +
+      'election night — empty streets, a few last glowing windows, scattered ' +
+      'torn election posters on lampposts, soft cold morning light breaking ' +
+      'through a muted, ambiguous sky (neither triumphant nor bleak, so the ' +
+      'same image reads for either a won or an exposed campaign). Bold flat ' +
+      'color-block silhouettes, layered depth via color-value shifts, ' +
+      'saturated but calm poster palette, no photorealism, no people in frame.',
   },
 ];
