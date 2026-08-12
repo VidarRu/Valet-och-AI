@@ -5,6 +5,9 @@ import { createEngine } from './engine.js';
 import { createRenderer } from './render.js';
 import { createTerminal } from './terminal.js';
 import { showStart, showEnd } from './hero.js';
+import { preloadAssets } from './preload.js';
+
+preloadAssets({ core, deep, prologue, nearMiss });
 
 const engine = createEngine({ core, deep, hub, closing, prologue, nearMiss });
 
