@@ -504,6 +504,12 @@ button {
 
 .kv-head { display: flex; gap: 0.65rem; align-items: flex-start; }
 
+/* Stor vänsterspalt för toppnivå-inlägg: avataren blir lika hög som resten
+   av kortets innehåll i stället för en liten ikon i rubrikraden. */
+.kv-row { display: flex; align-items: stretch; gap: 0.9rem; }
+
+.kv-content { flex: 1 1 auto; min-width: 0; display: flex; flex-direction: column; }
+
 .kv-avatar {
   position: relative;
   flex: 0 0 auto;
@@ -527,6 +533,12 @@ button {
 
 .kv-avatar-sm { width: 2rem; height: 2rem; }
 
+.kv-avatar-lg {
+  width: 6.5rem;
+  height: auto;
+  border-radius: 0.85rem;
+}
+
 .kv-avatar-initial {
   color: #fff;
   font-weight: 800;
@@ -535,6 +547,7 @@ button {
 }
 
 .kv-avatar-sm .kv-avatar-initial { font-size: 0.8rem; }
+.kv-avatar-lg .kv-avatar-initial { font-size: 2.4rem; }
 
 .kv-names { flex: 1 1 auto; min-width: 0; }
 
@@ -616,6 +629,9 @@ button {
   .post-reply { margin-left: 1.3rem; }
   .post-reply::before { left: -0.95rem; width: 0.8rem; }
   .kv-bar { gap: 1.1rem; }
+  .kv-row { gap: 0.6rem; }
+  .kv-avatar-lg { width: 4.5rem; }
+  .kv-avatar-lg .kv-avatar-initial { font-size: 1.6rem; }
 }
 
 /* ---------- Medieblock i inlägg (video/röst/meme/bild/dokument) ---------- */
@@ -892,37 +908,7 @@ button {
   background: #EBF3FC;
 }
 
-/* Förhandsvisning av valets konsekvenser (synlighet + bonus) */
 .co-label { display: block; }
-
-.co-foot {
-  display: flex;
-  align-items: center;
-  gap: 0.4rem;
-  flex-wrap: wrap;
-  margin-top: 0.5rem;
-}
-
-.vis-chip,
-.cap-chip {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.3rem;
-  font-size: 0.72rem;
-  font-weight: 700;
-  letter-spacing: 0.01em;
-  padding: 0.1rem 0.5rem;
-  border-radius: 999px;
-  border: 1.5px solid;
-}
-
-.vis-chip .arrow { font-size: 0.8rem; line-height: 1; }
-.vis-chip.up-hi { color: #a4241f; border-color: #a4241f; background: #fbe7e5; }
-.vis-chip.up-lo { color: #9a6a12; border-color: #d69a3a; background: #fbf1dd; }
-.vis-chip.flat  { color: #4c4a44; border-color: var(--gray); background: #f2f0ea; }
-.vis-chip.down  { color: #1f6f49; border-color: #2FA36B; background: #e4f3ea; }
-.cap-chip { color: #235c93; border-color: var(--blue); background: #e7f0fb; }
-.cap-chip.big { color: #1f5a37; border-color: #2FA36B; background: #e4f3ea; }
 
 /* Synlighetsruta: avslöjar hur synligheten ändrades av valet */
 .reveal {
@@ -937,6 +923,8 @@ button {
 }
 
 .reveal.down { border-left-color: #2FA36B; }
+.reveal.bonus { border-left-color: var(--blue); }
+.reveal.bonus.big { border-left-color: #2FA36B; }
 
 .reveal-ico {
   flex: none;
@@ -948,6 +936,8 @@ button {
 }
 
 .reveal.down .reveal-ico { color: #2FA36B; }
+.reveal.bonus .reveal-ico { color: var(--blue); }
+.reveal.bonus.big .reveal-ico { color: #2FA36B; }
 .reveal-body { flex: 1; min-width: 0; }
 
 .reveal-title {
@@ -1214,12 +1204,79 @@ button {
 .gameover-tag-failed { background: var(--red); color: var(--paper); border-color: var(--red); }
 .card-gameover .fc-article { margin-bottom: 1rem; }
 
-/* Arvode-rad i debriefen */
+/* Arvode-/bonusrad i debriefen */
+.debrief-reward.debrief-bonus { color: #235c93; }
+
 .debrief-reward {
   margin: 0 0 0.4rem;
   font-size: 0.92rem;
   color: #1f6f49;
   font-variant-numeric: tabular-nums;
+}
+
+/* ---------- Start-/slutruta (hero-overlay) ---------- */
+
+.hero-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  background-size: cover;
+  background-position: center;
+  background-color: var(--ink);
+  animation: overlay-in 0.25s ease both;
+}
+
+#start-overlay[hidden], #end-overlay[hidden] { display: none; }
+
+.hero-overlay::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(17, 17, 17, 0) 35%, rgba(17, 17, 17, 0.86) 78%, rgba(17, 17, 17, 0.97) 100%);
+}
+
+.hero-box {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  max-width: 34rem;
+  padding: 1.5rem 1.5rem 2.5rem;
+  text-align: center;
+  color: var(--paper);
+}
+
+.hero-kicker {
+  margin: 0 0 0.4rem;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--gray);
+}
+
+.hero-title {
+  margin: 0;
+  font-size: 2.6rem;
+  font-weight: 900;
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+  color: var(--yellow);
+}
+
+.hero-tagline {
+  margin: 0.6rem 0 0;
+  font-size: 1.05rem;
+  color: #e9e7df;
+}
+
+.hero-button { margin-top: 1.4rem; }
+
+@media (max-width: 480px) {
+  .hero-title { font-size: 2rem; }
+  .hero-box { padding: 1.1rem 1.1rem 1.8rem; }
 }
 
 /* ---------- Terminal-overlay (mörkt läge) ---------- */

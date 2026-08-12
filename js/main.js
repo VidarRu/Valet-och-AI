@@ -4,6 +4,7 @@ import { core, deep, hub, closing, prologue, nearMiss } from '../data/index.js';
 import { createEngine } from './engine.js';
 import { createRenderer } from './render.js';
 import { createTerminal } from './terminal.js';
+import { showStart, showEnd } from './hero.js';
 
 const engine = createEngine({ core, deep, hub, closing, prologue, nearMiss });
 
@@ -19,6 +20,7 @@ const terminal = createTerminal({
 });
 
 let terminalVisible = false;
+let endShown = false;
 engine.subscribe((state) => {
   renderer.render(state);
   if (state.phase === 'terminal' && !terminalVisible) {
@@ -27,6 +29,13 @@ engine.subscribe((state) => {
   } else if (state.phase !== 'terminal' && terminalVisible) {
     terminalVisible = false;
   }
+  if (state.phase === 'finished' && !endShown) {
+    endShown = true;
+    const last = state.feed[state.feed.length - 1];
+    showEnd(document.getElementById('end-overlay'), {
+      failed: !!(last && last.kind === 'game-over' && last.failed),
+    });
+  }
 });
 
-engine.start();
+showStart(document.getElementById('start-overlay'), () => engine.start());

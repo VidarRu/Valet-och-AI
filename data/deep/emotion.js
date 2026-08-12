@@ -8,7 +8,7 @@ export default {
   badge: 'emotion',
   title: 'Innan fakta hinner fram',
   client: {
-    name: 'William Fuskner och Trygghetsalliansen',
+    name: 'Valdemar Fuskner och Trygghetsalliansen',
     description: 'Din rädsleklient är tillbaka, och den här gången har något verkligt och hemskt precis hänt.',
     goal: 'En allvarlig olycka vid det nya hamnbygget skedde för en timme sedan. Utnyttja sorgen och förvirringen innan orsaken är utredd.',
     fee: '200 000 kr. "Fönstret är öppet i kanske sex timmar", står det i uppdraget. "Sen kommer fakta."',
