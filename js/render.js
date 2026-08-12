@@ -191,7 +191,7 @@ function parseMedia(item) {
 // Härleder samma handle som tools/assets/manifest.mjs använder för sina
 // media-bilder, direkt ur scenariots tool-sträng — så en ny genererad bild
 // dyker upp automatiskt utan att koden behöver ändras.
-function mediaHandle(tool) {
+export function mediaHandle(tool) {
   let m;
   if ((m = tool.match(/--scen=([\w-]+)/))) return `img_${m[1]}`;
   if ((m = tool.match(/--tema=([\w-]+)/))) return `meme_${m[1]}`;
